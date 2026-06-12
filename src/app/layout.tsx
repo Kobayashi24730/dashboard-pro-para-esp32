@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+'use client';
+import { useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/backend/components/Headers";
@@ -13,16 +14,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Dashboard Pro ESP32",
-  description: "Dashboard profissional para ESP32",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [openMenu, setOpenMenu] = useState(false);
   return (
     <html
       lang="pt-BR"
@@ -31,10 +29,10 @@ export default function RootLayout({
       <body className="h-screen w-screen bg-slate-950 text-white overflow-hidden antialiased">
         <div className="flex h-full">
           {/* Sidebar */}
-          <Sidebar />
+          <Sidebar openMenu={openMenu} setOpenMenu={setOpenMenu}/>
           
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col ml-64">
+          <div className={`flex-1 flex flex-col h-full transition-all duration-300 ease-in-out ${openMenu ? "ml-54" : "ml-20"}`}>
             {/* Header Grid */}
             <header className="grid grid-cols-12 gap-4 p-8 border-b border-gray-800 bg-gradient-to-r from-slate-900 to-slate-800 sticky top-0 z-40 shadow-lg">
               <div className="col-span-8 flex items-center">

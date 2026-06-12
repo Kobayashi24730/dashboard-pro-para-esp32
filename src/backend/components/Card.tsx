@@ -16,7 +16,15 @@ const data = [
     { name: "nov", valor: 950 },
     { name: "dez", valor: 900 },
 ];
-export default function Card(color: any){
+
+interface DateProps {
+    themeColor: string;
+    title: string;
+    velues: { name: string, value: number }[];
+    bestValue: number;
+}
+
+export default function Card({themeColor, title, velues, bestValue}: DateProps){
     return (
         <div className="relative w-full max-w-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-900 text-white shadow-xl flex flex-col justify-between pt-6">
             <div className="px-6 flex justify-between items-start mb-2 z-10">

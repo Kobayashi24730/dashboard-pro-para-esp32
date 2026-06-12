@@ -20,31 +20,23 @@ const OptionsHeaders: HeadersProps[] = [
     { title: "Logout", url: "/logout" },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+    openMenu: boolean;
+    setOpenMenu: (open: boolean) => void;
+}
+
+export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
-    const [openMenu, isOpenMenu] = useState<true | false>(false);
 
     function toggleSubMenu(title: string) {
         setActiveMenu(activeMenu === title ? null : title);
     }
 
     return (
-        <aside className={`bg-gradient-to-b from-slate-900 via-gray-900 to-slate-950 text-white h-screen flex flex-col justify-between p-6 fixed left-0 top-0 border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out ${
-            openMenu ? "w-64" : "w-20 items-center"
-        }`}>
-
-            {/* BOTÃO TIPO CUPOM / TOOGLE (ABRIR E FECHAR) */}
-            <button
-                onClick={() => isOpenMenu(!openMenu)}
-                className={`w-10 h-10 mb-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/50 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 text-lg active:scale-95 ${
-                    !openMenu ? "mt-2" : "self-end"
-                }`}
-                title={openMenu ? "Fechar menu" : "Abrir menu"}
-            >
-                {openMenu ? "◀" : "☰"}
+        <aside className={`bg-gradient-to-b from-slate-900 via-gray-900 to-slate-950 text-white h-screen flex flex-col justify-between p-6 fixed left-0 top-0 border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out $ openMenu ? "w-64" : "w-20 items-center"}`}>
+            <button onClick={() => setOpenMenu(!openMenu)} className={`w-10 h-10 mb-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/50 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 text-lg active:scale-95 ${!openMenu ? "mt-2" : "self-end"}`}
+                    title={openMenu ? "Fechar Menu" : "Abrir Menu"}> {openMenu ? "◀" : "☰"}
             </button>
-
-            {/* CONTEÚDO PRINCIPAL (RENDERIZA APENAS SE ESTIVER ABERTO) */}
             {openMenu ? (
                 <div className="flex-1 flex flex-col justify-between w-full animate-in fade-in duration-300">
 
