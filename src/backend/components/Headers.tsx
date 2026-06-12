@@ -22,92 +22,114 @@ const OptionsHeaders: HeadersProps[] = [
 
 export default function Sidebar() {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [openMenu, isOpenMenu] = useState<true | false>(false);
 
     function toggleSubMenu(title: string) {
         setActiveMenu(activeMenu === title ? null : title);
     }
 
     return (
-        <aside className="bg-gradient-to-b from-slate-900 via-gray-900 to-slate-950 text-white w-64 h-screen flex flex-col justify-between p-6 fixed left-0 top-0 border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out">
-            {/* Logo Section */}
-            <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-3 border-b border-slate-700/50 pb-6 hover:border-indigo-500/30 transition-colors duration-200">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <span className="text-white font-bold text-lg">📊</span>
-                    </div>
-                    <div className="flex flex-col">
-                        <h1 className="text-xl font-bold tracking-wider text-white">Dashboard</h1>
-                        <p className="text-xs text-slate-400">Pro ESP32</p>
-                    </div>
-                </div>
+        <aside className={`bg-gradient-to-b from-slate-900 via-gray-900 to-slate-950 text-white h-screen flex flex-col justify-between p-6 fixed left-0 top-0 border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out ${
+            openMenu ? "w-64" : "w-20 items-center"
+        }`}>
 
-                {/* Navigation */}
-                <nav className="flex flex-col gap-2">
-                    {OptionsHeaders.map((header) => {
-                        const hasSubItems = header.subItems && header.subItems.length > 0;
-                        const isOpen = activeMenu === header.title;
+            {/* BOTÃO TIPO CUPOM / TOOGLE (ABRIR E FECHAR) */}
+            <button
+                onClick={() => isOpenMenu(!openMenu)}
+                className={`w-10 h-10 mb-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/50 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 text-lg active:scale-95 ${
+                    !openMenu ? "mt-2" : "self-end"
+                }`}
+                title={openMenu ? "Fechar menu" : "Abrir menu"}
+            >
+                {openMenu ? "◀" : "☰"}
+            </button>
 
-                        return (
-                            <div key={header.url} className="w-full">
-                                <button
-                                    onClick={() => hasSubItems ? toggleSubMenu(header.title) : console.log(`Navegar para: ${header.url}`)}
-                                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex justify-between items-center font-medium group relative overflow-hidden ${
-                                        isOpen 
-                                            ? "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/20" 
-                                            : "bg-slate-800/50 hover:bg-slate-700/70 text-slate-100 hover:text-white"
-                                    }`}
-                                >
-                                    {/* Animated background on hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all duration-300" />
-                                    
-                                    <span className="relative z-10 flex items-center gap-2">
-                                        {/* Icon placeholder */}
-                                        <span className="w-1 h-1 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                        {header.title}
-                                    </span>
-                                    
-                                    {hasSubItems && (
-                                        <span className={`text-xs transition-transform duration-300 relative z-10 ${isOpen ? "rotate-180" : ""}`}>
-                                            ▼
-                                        </span>
-                                    )}
-                                </button>
+            {/* CONTEÚDO PRINCIPAL (RENDERIZA APENAS SE ESTIVER ABERTO) */}
+            {openMenu ? (
+                <div className="flex-1 flex flex-col justify-between w-full animate-in fade-in duration-300">
 
-                                {/* Submenu */}
-                                {hasSubItems && isOpen && (
-                                    <div className="bg-slate-800/30 mt-2 ml-4 border-l-2 border-indigo-500/50 flex flex-col gap-1 pl-4 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                                        {header.subItems?.map((sub) => (
-                                            <button
-                                                key={sub.url}
-                                                className="w-full text-left px-3 py-2 text-sm text-slate-300 hover:text-indigo-300 hover:bg-slate-700/50 rounded transition-all duration-200 font-medium group relative"
-                                            >
-                                                <span className="relative z-10 flex items-center gap-2">
-                                                    <span className="w-1 h-1 rounded-full bg-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                                    {sub.title}
-                                                </span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
+                    <div className="flex flex-col gap-6">
+                        {/* Header do App */}
+                        <div className="flex items-center gap-3 border-b border-slate-700/50 pb-6 hover:border-indigo-500/30 transition-colors duration-200">
+                            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <span className="text-white font-bold text-lg">📊</span>
                             </div>
-                        );
-                    })}
-                </nav>
-            </div>
+                            <div className="flex flex-col">
+                                <h1 className="text-xl font-bold tracking-wider text-white">Dashboard</h1>
+                                <p className="text-xs text-slate-400">Pro ESP32</p>
+                            </div>
+                        </div>
 
-            {/* Footer Section */}
-            <div className="flex flex-col gap-4 border-t border-slate-700/50 pt-6">
-                {/* Status Indicator */}
-                <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-xs text-slate-400">Sistema Online</span>
+                        {/* Navigation */}
+                        <nav className="flex flex-col gap-2">
+                            {OptionsHeaders.map((header) => {
+                                const hasSubItems = header.subItems && header.subItems.length > 0;
+                                const isOpen = activeMenu === header.title;
+
+                                return (
+                                    <div key={header.url} className="w-full">
+                                        <button
+                                            onClick={() => hasSubItems ? toggleSubMenu(header.title) : console.log(`Navegar para: ${header.url}`)}
+                                            className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex justify-between items-center font-medium group relative overflow-hidden ${
+                                                isOpen
+                                                    ? "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                                                    : "bg-slate-800/50 hover:bg-slate-700/70 text-slate-100 hover:text-white"
+                                            }`}
+                                        >
+                                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all duration-300" />
+
+                                            <span className="relative z-10 flex items-center gap-2">
+                                            <span className="w-1 h-1 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                                {header.title}
+                                        </span>
+
+                                            {hasSubItems && (
+                                                <span className={`text-xs transition-transform duration-300 relative z-10 ${isOpen ? "rotate-180" : ""}`}>
+                                                ▼
+                                            </span>
+                                            )}
+                                        </button>
+
+                                        {/* Submenu */}
+                                        {hasSubItems && isOpen && (
+                                            <div className="bg-slate-800/30 mt-2 ml-4 border-l-2 border-indigo-500/50 flex flex-col gap-1 pl-4 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                {header.subItems?.map((sub) => (
+                                                    <button
+                                                        key={sub.url}
+                                                        className="w-full text-left px-3 py-2 text-sm text-slate-300 hover:text-indigo-300 hover:bg-slate-700/50 rounded transition-all duration-200 font-medium group relative"
+                                                    >
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        <span className="w-1 h-1 rounded-full bg-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                                        {sub.title}
+                                                    </span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </nav>
+                    </div>
+
+                    {/* Footer Section */}
+                    <div className="flex flex-col gap-4 border-t border-slate-700/50 pt-6">
+                        <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                            <span className="text-xs text-slate-400">Sistema Online</span>
+                        </div>
+                        <div className="text-xs text-slate-500 text-center font-medium">
+                            v1.0.0
+                        </div>
+                    </div>
+
                 </div>
-                
-                {/* Version */}
-                <div className="text-xs text-slate-500 text-center font-medium">
-                    v1.0.0
+            ) : (
+                /* MINI FOOTER / ÍCONE QUANDO FECHADO */
+                <div className="flex flex-col items-center gap-4 border-t border-slate-700/50 pt-6 w-full animate-in fade-in duration-300">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" title="Sistema Online" />
                 </div>
-            </div>
+            )}
         </aside>
     );
 }
