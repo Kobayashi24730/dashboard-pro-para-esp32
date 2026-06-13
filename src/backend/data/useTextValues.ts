@@ -3,4 +3,4 @@ export interface TextFormatValues {
     sensor: string;
     estado: boolean;
 }
-export const data: TextFormatValues[] = await fetch("http://localhost:3000/api/data/movimento").then( res => res.json() );
+export const data: TextFormatValues[] = await fetch("/api/data/movimento").then( res => res.json() );
