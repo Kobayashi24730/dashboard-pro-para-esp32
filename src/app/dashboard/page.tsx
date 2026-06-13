@@ -7,7 +7,7 @@ export default function page() {
             <div>
                 <h1>Dashboard</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl">
-                    <Card themeColor="indigo" title="Receita Operational" velues={data} bestValue={1000}/>
+                    <Card themeColor="indigo" title="Receita Operational" values={data} bestValue={1000}/>
                 </div>
             </div>
         </section>
