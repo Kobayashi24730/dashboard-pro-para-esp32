@@ -15,10 +15,10 @@ export default function Card({themeColor, title, values, bestValue}: DateProps){
             <div className="px-6 flex justify-between items-start mb-2 z-10">
                 <div>
                     <p className="text-sm font-medium text-blue-100 opacity-90">{title}</p>
-                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values?.device_id}</h2>
+                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values[0]?.device_id}</h2>
                     <div className="mt-4">
-                        <p className="text-xs text-blue-200 opacity-80">resultado: {values?.estado}</p>
-                        <p className="text-lg font-bold text-white mt-0.5">{values?.sensor}</p>
+                        <p className="text-xs text-blue-200 opacity-80">resultado: {values[0]?.estado}</p>
+                        <p className="text-lg font-bold text-white mt-0.5">{values[0]?.sensor}</p>
                     </div>
                 </div>
 
