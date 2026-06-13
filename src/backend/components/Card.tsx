@@ -20,7 +20,7 @@ const data = [
 interface DateProps {
     themeColor: string;
     title: string;
-    velues: { name: string, value: number }[];
+    velues: {  name: string, pir: number, vibracao: number, status: string }[];
     bestValue: number;
 }
 
