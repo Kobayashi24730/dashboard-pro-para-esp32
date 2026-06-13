@@ -3,4 +3,4 @@ export interface TextFormatValues {
     sensor: string;
     estado: boolean;
 }
-export const data: TextFormatValues[] = await fetch("/api/data/movimento").then( res => res.json() );
+export const data: TextFormatValues[] = await fetch("https://dashboard-pro-para-esp32.onrender.com/api/data/movimento").then( res => res.json() );
