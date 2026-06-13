@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
+let ultimoEstado = {
+    device_id: "ESP32_PIR_01",
+    sensor: "PIR",
+    estado: false
+}
 export async function POST(request: NextRequest){
-    const data = await request.json();
-    console.log(data);
-    return NextResponse.json({ success: true, message: "Movimento registrado" });
+    ultimoEstado = await request.json();
+    return NextResponse.json({ success: true });
 }
 
-{/* export async function GET() {
-    return NextResponse.json({ success: true, message: "API funcionando" });
+export async function GET() {
+    return NextResponse.json([ultimoEstado]);
 }
-*/}
