@@ -10,6 +10,11 @@ interface DateProps {
 }
 
 export default function Card({themeColor, title, values, bestValue}: DateProps){
+    const chartData = values.map((value, index) => ({
+        name: `${index + 1}`,
+        valor: value.estado ? 1 : 0,
+    }));
+
     return (
         <div className="relative w-full max-w-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-900 text-white shadow-xl flex flex-col justify-between pt-6">
             <div className="px-6 flex justify-between items-start mb-2 z-10">
@@ -28,7 +33,7 @@ export default function Card({themeColor, title, values, bestValue}: DateProps){
             </div>
             <div className="w-full h-36 mt-4 relative">
                 <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                    <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                         <defs>
                             <linearGradient id="colorValor" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#ffffff" stopOpacity={0.3} />
