@@ -1,5 +1,6 @@
 import Card from "@/backend/components/Card";
 import { data } from "@/backend/data/useTextValues";
+
 export default function page() {
     return (
         <section className="space-y-6 ">

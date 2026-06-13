@@ -2,25 +2,10 @@
 import { AreaChart, Area, XAxis, ResponsiveContainer } from "recharts";
 import { TrendingUp } from "lucide-react";
 
-const data = [
-    { name: "jan", value: 300 },
-    { name: "fev", value: 500 },
-    { name: "mar", valor: 550 },
-    { name: "abr", valor: 620 },
-    { name: "mai", valor: 580 },
-    { name: "jun", valor: 640 },
-    { name: "jul", valor: 680 },
-    { name: "ago", valor: 730 },
-    { name: "set", valor: 790 },
-    { name: "out", valor: 850 },
-    { name: "nov", valor: 950 },
-    { name: "dez", valor: 900 },
-];
-
 interface DateProps {
     themeColor: string;
     title: string;
-    velues: {  name: string, pir: number, vibracao: number, status: string }[];
+    velues: {  device_id: string; sensor: string; estado: boolean; }[];
     bestValue: number;
 }
 
@@ -29,11 +14,11 @@ export default function Card({themeColor, title, velues, bestValue}: DateProps){
         <div className="relative w-full max-w-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-900 text-white shadow-xl flex flex-col justify-between pt-6">
             <div className="px-6 flex justify-between items-start mb-2 z-10">
                 <div>
-                    <p className="text-sm font-medium text-blue-100 opacity-90">Receita Operational</p>
-                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">R$ 1.000,00</h2>
+                    <p className="text-sm font-medium text-blue-100 opacity-90">{title}</p>
+                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values?.device_id}</h2>
                     <div className="mt-4">
-                        <p className="text-xs text-blue-200 opacity-80">Melhor resultado: R$ 1.000,00</p>
-                        <p className="text-lg font-bold text-white mt-0.5">20%</p>
+                        <p className="text-xs text-blue-200 opacity-80">resultado: {values?.estado}</p>
+                        <p className="text-lg font-bold text-white mt-0.5">{values?.sensor}</p>
                     </div>
                 </div>
 
