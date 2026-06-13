@@ -4,6 +4,14 @@ import path from "path";
 
 const pathDB = path.join(process.cwd(), 'backend', 'identifier.sqlite');
 const db = new Database(pathDB);
+db.exec(`
+CREATE TABLE IF NOT EXISTS sensor_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    device_id TEXT NOT NULL,
+    sensor TEXT NOT NULL,
+    estado INTEGER NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+`);
 
 let ultimoEstado = {
     device_id: "ESP32_PIR_01",
