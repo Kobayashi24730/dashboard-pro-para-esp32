@@ -9,8 +9,8 @@ async function getValues() {
     return response.json();
 }
 
-export default function page() {
-    const data = getValues();
+export default async  function page() {
+    const data = await getValues();
     return (
         <section className="space-y-6 ">
             <div>
