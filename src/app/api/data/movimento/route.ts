@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Database from "better-sqlite3";
 import path from "path";
 
-const pathDB = path.join(process.cwd(), 'backend', 'indentifier.sqlite');
+const pathDB = path.join(process.cwd(), 'backend', 'identifier.sqlite');
 const db = new Database(pathDB);
 
 let ultimoEstado = {
