@@ -5,7 +5,7 @@ export interface TextFormatValues {
     status: string;
 }
 
-export const date: TextFormatValues[] = [
+export const data: TextFormatValues[] = [
     { name: "10:00", pir: 0, vibracao: 45, status: "Normal" },
     { name: "10:05", pir: 1, vibracao: 680, status: "Movimento e Vibração" },
     { name: "10:10", pir: 1, vibracao: 912, status: "Alerta Crítico" },
