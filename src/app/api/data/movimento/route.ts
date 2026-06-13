@@ -18,7 +18,6 @@ export async function POST(request: NextRequest){
 }
 
 export async function GET() {
-    const rows = await new Promise((resolve, reject) =>  {
-        db.prepare(`SELECT * FROM sensor_data ORDER BY created_at DESC LIMIT 50`).all();
+    const rows = db.prepare(`SELECT * FROM sensor_data ORDER BY created_at DESC LIMIT 50`).all();
     return NextResponse.json(rows);
 }
