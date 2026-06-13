@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS sensor_data (
     device_id TEXT NOT NULL,
     sensor TEXT NOT NULL,
     estado INTEGER NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP)
 `);
 
 let ultimoEstado = {
