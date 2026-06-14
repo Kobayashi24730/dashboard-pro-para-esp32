@@ -10,18 +10,21 @@ CREATE TABLE IF NOT EXISTS sensor_data (
     device_id TEXT NOT NULL,
     sensor TEXT NOT NULL,
     estado INTEGER NOT NULL,
+    valor REAL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP)
 `);
 
 let ultimoEstado = {
     device_id: "ESP32_PIR_01",
     sensor: "PIR",
-    estado: false
+    estado: false,
+    valor: null
 }
 
 export async function POST(request: NextRequest){
     ultimoEstado = await request.json();
     db.prepare(`INSERT INTO sensor_data (device_id, sensor, estado) VALUES (?, ?, ?)`).run([ultimoEstado.device_id, ultimoEstado.sensor, ultimoEstado.estado ? 1 : 0]);
+    console.log("Chegando ->: ", ultimoEstado);
     return NextResponse.json({ success: true });
 }
 
