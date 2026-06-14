@@ -3,27 +3,37 @@ import { AreaChart, Area, XAxis, ResponsiveContainer } from "recharts";
 import { TrendingUp } from "lucide-react";
 
 interface DateProps {
-    themeColor: string;
+    themeColor: 'verde' | 'roxo' | 'azul' | 'vermelho';
     title: string;
     values: {  device_id: string; sensor: string; estado: boolean; }[];
     bestValue: number;
 }
+const themes = {
+    verde: "bg-gradient-to-br from-green-500 to-green-900",
+    roxo: "bg-gradient-to-br from-purple-500 to-purple-900",
+    azul: "bg-gradient-to-br from-blue-500 to-blue-900",
+    vermelho: "bg-gradient-to-br from-red-500 to-red-900"
+}
 
 export default function Card({themeColor, title, values, bestValue}: DateProps){
+    console.log(values);
+    let themeIndex = themes[themeColor] || themes.azul;
     const chartData = values.map((value, index) => ({
         name: `${index + 1}`,
-        valor: value.estado ? 1 : 0,
+        valor: value.valor != null ? Number(value.valor) : Number(value.estado),
     }));
 
     return (
-        <div className="relative w-full max-w-sm rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-900 text-white shadow-xl flex flex-col justify-between pt-6">
+        <div className={`relative w-full max-w-sm rounded-2xl overflow-hidden text-white shadow-xl flex flex-col justify-between pt-6 ${themeIndex}`}>
             <div className="px-6 flex justify-between items-start mb-2 z-10">
                 <div>
                     <p className="text-sm font-medium text-blue-100 opacity-90">{title}</p>
-                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values[0]?.device_id}</h2>
+                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values[0]?.name || "Sem Dispositivo"}</h2>
                     <div className="mt-4">
-                        <p className="text-xs text-blue-200 opacity-80">resultado: {values[0]?.estado}</p>
-                        <p className="text-lg font-bold text-white mt-0.5">{values[0]?.sensor}</p>
+                        <p className="text-xs text-blue-200 opacity-80">
+                            Resultado: {values[0]?.valor ? "1 (Detectado)" : "0 (Normal)"}
+                        </p>
+                        <p className="text-lg font-bold text-white mt-0.5">{values[0]?.name || "Desconhecido"}</p>
                     </div>
                 </div>
 
@@ -31,6 +41,7 @@ export default function Card({themeColor, title, values, bestValue}: DateProps){
                     <TrendingUp className="text-white" />
                 </div>
             </div>
+
             <div className="w-full h-36 mt-4 relative">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>

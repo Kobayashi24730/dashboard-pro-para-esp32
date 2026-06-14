@@ -44,7 +44,7 @@ export default function RootLayout({
                   <svg className="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1h7.586a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM5 16a2 2 0 11-4 0 2 2 0 014 0zm8 0a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
-                  <span className="font-semibold text-white">Carrinho</span>
+                  <span className="font-semibold text-white">Notificações</span>
                   <span className="ml-2 px-2 py-1 bg-indigo-500 text-white text-xs font-bold rounded-full">0</span>
                 </div>
                 {/* User Profile */}
