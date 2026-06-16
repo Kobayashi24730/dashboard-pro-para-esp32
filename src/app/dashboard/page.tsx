@@ -1,13 +1,6 @@
 import Card from "@/backend/components/Card";
-//import { data } from "@/backend/data/useTextValues";
-
-async function getValues() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/data/movimento`,
-        {
-            cache: "no-store"
-        });
-    return response.json();
-}
+import getValues from "@/backend/data/useTextValues";
+import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
 
 export default async  function page() {
     const data: any[] = await getValues();
@@ -24,24 +17,28 @@ export default async  function page() {
         }));
     }
 
-
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-            {data_sound.length > 0 &&
-                <Card themeColor="verde" title="Receita Operational" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
-            }
-            {data_pir.length > 0 &&
-                <Card themeColor="roxo" title="Receita Operational" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
-            }
-            {data_humid.length > 0 &&
-                <Card themeColor="azul" title="Receita Operational" values={formataDadosGraficos(data_humid)} bestValue={1000}/>
-            }
-            {data_temp.length > 0 &&
-                <Card themeColor="vermelho" title="Receita Operational" values={formataDadosGraficos(data_temp)} bestValue={1000}/>
-            }
-            {data_ultra.length > 0 &&
-                <Card themeColor="verde" title="Receita Operational" values={formataDadosGraficos(data_ultra)} bestValue={1000}/>
-            }
+        <section className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 p-6">
+                {data_sound.length > 0 &&
+                    <Card themeColor="verde" title="Receita Operational" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
+                }
+                {data_pir.length > 0 &&
+                    <Card themeColor="roxo" title="Receita Operational" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
+                }
+                {data_humid.length > 0 &&
+                    <Card themeColor="azul" title="Receita Operational" values={formataDadosGraficos(data_humid)} bestValue={1000}/>
+                }
+                {data_temp.length > 0 &&
+                    <Card themeColor="vermelho" title="Receita Operational" values={formataDadosGraficos(data_temp)} bestValue={1000}/>
+                }
+                {data_ultra.length > 0 &&
+                    <Card themeColor="verde" title="Receita Operational" values={formataDadosGraficos(data_ultra)} bestValue={1000}/>
+                }
+            </div>
+            <div className="p-6">
+                <MonitoramentoPIR/>
+            </div>
         </section>
     )
 }

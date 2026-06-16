@@ -27,8 +27,8 @@ export default function Card({themeColor, title, values, bestValue}: DateProps){
         <div className={`relative w-full max-w-sm rounded-2xl overflow-hidden text-white shadow-xl flex flex-col justify-between pt-6 ${themeIndex}`}>
             <div className="px-6 flex justify-between items-start mb-2 z-10">
                 <div>
-                    <p className="text-sm font-medium text-blue-100 opacity-90">{title}</p>
-                    <h2 className="text-3xl font-extrabold tracking-tight mt-1">{values[0]?.name || "Sem Dispositivo"}</h2>
+                    <p className="text-0xl font-medium text-blue-100 opacity-90">{title}</p>
+                    <h2 className="text-1xl font-extrabold tracking-tight mt-1">{values[0]?.name || "Sem Dispositivo"}</h2>
                     <div className="mt-4">
                         <p className="text-xs text-blue-200 opacity-80">
                             Resultado: {values[0]?.valor ? "1 (Detectado)" : "0 (Normal)"}

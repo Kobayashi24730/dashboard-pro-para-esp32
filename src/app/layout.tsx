@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/backend/components/Headers";
+import Notifications from "@/backend/components/notifications";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [openMenu, setOpenMenu] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState<true | false>(false);
   return (
     <html
       lang="pt-BR"
@@ -40,7 +42,7 @@ export default function RootLayout({
               </div>
               <div className="col-span-4 flex items-center justify-end gap-4">
                 {/* Cart Badge */}
-                <div className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer">
+                <div onClick={() => setNotificationsOpen(true)} className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer">
                   <svg className="w-5 h-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1h7.586a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM5 16a2 2 0 11-4 0 2 2 0 014 0zm8 0a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
@@ -59,6 +61,7 @@ export default function RootLayout({
 
             {/* Main Content */}
             <main className="flex-1 overflow-y-auto p-8">
+              <Notifications notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} />
               {children}
             </main>
           </div>

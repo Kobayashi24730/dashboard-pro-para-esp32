@@ -1,0 +1,130 @@
+[
+  {
+    "id": 16,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-14 22:05:57"
+  },
+  {
+    "id": 15,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-14 22:05:47"
+  },
+  {
+    "id": 14,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 0,
+    "created_at": "2026-06-14 22:05:37"
+  },
+  {
+    "id": 13,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 937,
+    "created_at": "2026-06-14 22:05:26"
+  },
+  {
+    "id": 12,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-14 22:05:14"
+  },
+  {
+    "id": 11,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 1012,
+    "created_at": "2026-06-14 22:04:22"
+  },
+  {
+    "id": 10,
+    "device_id": "ESP32_PIR_01",
+    "sensor": "PIR",
+    "estado": 1,
+    "valor": "null",
+    "created_at": "2026-06-14 22:04:12"
+  },
+  {
+    "id": 9,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-14 22:04:03"
+  },
+  {
+    "id": 8,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-14 22:03:53"
+  },
+  {
+    "id": 7,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 0,
+    "created_at": "2026-06-14 22:03:43"
+  },
+  {
+    "id": 6,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 999,
+    "created_at": "2026-06-14 22:03:32"
+  },
+  {
+    "id": 5,
+    "device_id": "ESP32_PIR_01",
+    "sensor": "PIR",
+    "estado": 1,
+    "valor": "null",
+    "created_at": "2026-06-14 22:03:22"
+  },
+  {
+    "id": 4,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-14 22:03:12"
+  },
+  {
+    "id": 3,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-14 22:03:01"
+  },
+  {
+    "id": 2,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 0,
+    "created_at": "2026-06-14 22:02:52"
+  },
+  {
+    "id": 1,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 1010,
+    "created_at": "2026-06-14 22:02:36"
+  }
+]
