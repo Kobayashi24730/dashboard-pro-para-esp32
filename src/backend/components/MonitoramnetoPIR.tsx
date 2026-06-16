@@ -4,8 +4,8 @@
 
 export default function MonitoramentoPIR(){
     return (
-        <div className="border border-gray-800 rounded-lg p-6 overflow-hidden">
-            <table>
+        <div className=" border border-gray-800 rounded-lg p-6 w-2/3 overflow-hidden">
+            <table className="w-full">
                 <thead className="bg-gray-800 text-white ">
                     <tr className="">
                         <th>titulo</th>

@@ -47,7 +47,7 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                 <span className="text-white font-bold text-lg">📊</span>
                             </div>
                             <div className="flex flex-col">
-                                <h1 className="text-xl font-bold tracking-wider text-white">Dashboard</h1>
+                                <Link className="text-xl font-bold tracking-wider text-white" href="/dashboard">Dashboard</Link>
                                 <p className="text-xs text-slate-400">Pro ESP32</p>
                             </div>
                         </div>
@@ -70,10 +70,10 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                         >
                                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all duration-300" />
 
-                                            <span className="relative z-10 flex items-center gap-2">
-                                            <span className="w-1 h-1 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                                {header.title}
-                                        </span>
+                                            <Link className="relative z-10 flex items-center gap-2" href={header.url}>
+                                                <span className="w-1 h-1 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                                    {header.title}
+                                            </Link>
 
                                             {hasSubItems && (
                                                 <span className={`text-xs transition-transform duration-300 relative z-10 ${isOpen ? "rotate-180" : ""}`}>
@@ -90,10 +90,10 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                                         key={sub.url}
                                                         className="w-full text-left px-3 py-2 text-sm text-slate-300 hover:text-indigo-300 hover:bg-slate-700/50 rounded transition-all duration-200 font-medium group relative"
                                                     >
-                                                    <span className="relative z-10 flex items-center gap-2">
-                                                        <span className="w-1 h-1 rounded-full bg-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                                        {sub.title}
-                                                    </span>
+                                                        <Link className="relative z-10 flex items-center gap-2" href={sub.url}>
+                                                            <span className="w-1 h-1 rounded-full bg-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                                            {sub.title}
+                                                        </Link>
                                                     </button>
                                                 ))}
                                             </div>
