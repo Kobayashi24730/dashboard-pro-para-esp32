@@ -1,8 +1,8 @@
-export default function logout() {
+export default function profile() {
     return(
         <section>
             <div>
-                <h1>Logout</h1>
+                <h1>Perfil</h1>
             </div>
         </section>
     );

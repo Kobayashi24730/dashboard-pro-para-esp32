@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/backend/components/Headers";
 import Notifications from "@/backend/components/notifications";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,7 @@ export default function RootLayout({
                   <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-sm">U</span>
                   </div>
-                  <span className="text-sm font-medium text-white">Usuário</span>
+                  <Link href="/account/login" className="text-sm font-medium text-white">Usuário</Link>
                 </div>
               </div>
             </header>
