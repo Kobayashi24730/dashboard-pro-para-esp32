@@ -47,6 +47,7 @@ export default function DashboardPage() {
                 <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
                 <p className="text-slate-400 text-lg">Bem-vindo ao seu painel de controle. Monitore seus dispositivos em tempo real.</p>
             </div>
+<<<<<<< HEAD
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -80,6 +81,10 @@ export default function DashboardPage() {
                         </div>
                     );
                 })}
+=======
+            <div className="p-6">
+                <MonitoramentoPIR values={data_pir}/>
+>>>>>>> nova-main
             </div>
 
             {/* Charts Section */}
