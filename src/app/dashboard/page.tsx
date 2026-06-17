@@ -37,7 +37,7 @@ export default async  function page() {
                 }
             </div>
             <div className="p-6">
-                <MonitoramentoPIR/>
+                <MonitoramentoPIR values={data_pir}/>
             </div>
         </section>
     )
