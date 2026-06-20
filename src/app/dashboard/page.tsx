@@ -21,7 +21,6 @@ export default function DashboardPage() {
     useEffect(() => {
         async function Values() {
             const data = await getValues();
-
             const dataEstaVazio = !data ||
                 (Array.isArray(data) && data.length === 0) ||
                 (typeof data === 'object' && Object.keys(data).length === 0);
@@ -44,22 +43,23 @@ export default function DashboardPage() {
         );
     }
 
-    const data_pir = Array.isArray(apiData)
-        ? apiData.filter((item) => item.device_id === "ESP32_PIR_01")
-        : apiData?.data_pir || [];
-
-    const data_metrics = Array.isArray(apiData)
-        ? apiData.filter((item) => item.device_id === metrics.map(m => m.device_id))
-        : apiData?.data_metrics || [];
-    console.log("Metrics ",data_metrics);
-
     const iconMap = {
         dispositivos: Activity,
         energia: Zap,
         sinal: Wifi,
         temperatura: Thermometer,
     };
-
+    const data_pir = Array.isArray(apiData)
+        ? apiData.filter((item) => item.device_id === "ESP32_PIR_01")
+        : apiData?.data_pir || [];
+    const data_metrics = Array.isArray(apiData)
+        ? apiData.filter((item) => metrics.some(m => m.device_id === item.device_id))
+        : apiData?.data_metrics || [];
+    const data_activities = Array.isArray(apiData) ? [...apiData].sort((a: any, b: any) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) : [];
+    const uptime = data_metrics.find((item) => item.device_id === "ESP32_UPTIME_01");
+    const storage = data_metrics.find((item) => item.device_id === "ESP32_memori_01");
+    let total: number = apiData.length;
     return (
         <div className="space-y-8 p-6 bg-slate-950 min-h-screen">
             <div className="mb-8">
@@ -113,7 +113,7 @@ export default function DashboardPage() {
                             <Card
                                 themeColor="indigo"
                                 title="Receita Operacional"
-                                values={apiData?.charts?.receita || [{ name: "Sistema", valor: 0, estado: false }]}
+                                values={data_metrics.filter((item) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sistema", valor: 0, estado: false }]}
                                 bestValue={1000}
                             />
                         </div>
@@ -125,76 +125,77 @@ export default function DashboardPage() {
                             <Card
                                 themeColor="vermelho"
                                 title="Consumo de Energia"
-                                values={apiData?.charts?.energia || [{ name: "Energia", valor: 0, estado: false }]}
+                                values={data_metrics.filter((item) => item.device_id === "ESP32_memori_01") || [{ name: "Energia", valor: 0, estado: false }]}
                                 bestValue={1000}
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* Additional Metrics */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card
                         themeColor="azul"
                         title="Taxa de Uptime"
-                        values={data_metrics?.uptime || [{ name: "Uptime", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item) => item.device_id === "ESP32_UPTIME_01") || [{ name: "Uptime", valor: 0, estado: true }]}
                         variant="metric"
                     />
                     <Card
                         themeColor="roxo"
                         title="Requisições/min"
-                        values={apiData?.metrics?.requisicoes || [{ name: "Req", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item) => item.device_id === "ESP32_TepResposta_01") || [{ name: "Req", valor: 0, estado: true }]}
                         variant="metric"
                     />
                     <Card
                         themeColor="verde"
                         title="Taxa de Sucesso"
-                        values={apiData?.metrics?.sucesso || [{ name: "Sucesso", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sucesso", valor: 0, estado: true }]}
                         variant="metric"
                     />
                 </div>
             </div>
 
-            {/* Recent Activity */}
             <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl border border-slate-800 backdrop-blur-xl p-6 shadow-lg">
                 <h2 className="text-xl font-bold text-white mb-4">Atividade Recente</h2>
-                <div className="space-y-3">
-                    {(apiData?.activities || []).map((activity: any, index: number) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-slate-950/40 rounded-lg border border-slate-800/60 hover:bg-slate-900 transition-colors">
+                <div className="space-y-3 max-h-[400px] overflow-y-auto overflow-x-hidden">
+                    {data_activities.map((activity: any) => (
+                        <div key={activity.id} className="flex items-center justify-between p-3 bg-slate-950/40 rounded-lg border border-slate-800/60 hover:bg-slate-900 transition-colors">
                             <div className="flex items-center gap-3 flex-1">
-                                <div className={`w-2 h-2 rounded-full ${
-                                    activity.status === 'success' ? 'bg-green-500' :
-                                        activity.status === 'warning' ? 'bg-yellow-500' :
-                                            'bg-blue-500'
-                                }`} />
+                                <div
+                                    className={`w-2 h-2 rounded-full ${
+                                        activity.estado == 1
+                                            ? "bg-green-500"
+                                            : "bg-red-500"
+                                    }`}
+                                />
                                 <div>
-                                    <p className="text-white font-medium">{activity.device}</p>
-                                    <p className="text-slate-400 text-sm">{activity.action}</p>
+                                    <p className="text-white font-medium">{activity.sensor}</p>
+                                    <p className="text-slate-400 text-sm">Valor: {activity.valor}</p>
                                 </div>
                             </div>
-                            <span className="text-slate-400 text-sm">{activity.time}</span>
+                            <span className="text-slate-400 text-sm">
+                                {new Date(activity.created_at).toLocaleString()}
+                            </span>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Quick Stats Footer */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-gradient-to-br from-indigo-950/40 to-indigo-900/20 rounded-xl border border-indigo-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Tempo de Resposta Médio</p>
-                    <h3 className="text-3xl font-bold text-white">{apiData?.stats?.responseTime || "0ms"}</h3>
+                    <h3 className="text-3xl font-bold text-white">{uptime?.valor ?? 0} ms</h3>
                     <p className="text-green-400 text-xs mt-2">↓ 12% vs semana anterior</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-950/40 to-purple-900/20 rounded-xl border border-purple-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Total de Eventos</p>
-                    <h3 className="text-3xl font-bold text-white">{apiData?.stats?.totalEvents || "0"}</h3>
+                    <h3 className="text-3xl font-bold text-white">{total ?? 0}</h3>
                     <p className="text-green-400 text-xs mt-2">↑ 8% vs semana anterior</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-cyan-950/40 to-cyan-900/20 rounded-xl border border-cyan-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Armazenamento Usado</p>
-                    <h3 className="text-3xl font-bold text-white">{apiData?.stats?.storageUsed || "0 GB"}</h3>
+                    <h3 className="text-3xl font-bold text-white">{storage?.valor ?? 0}GB</h3>
                     <p className="text-yellow-400 text-xs mt-2">Capacidade atual</p>
                 </div>
             </div>
