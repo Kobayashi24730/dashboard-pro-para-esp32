@@ -10,7 +10,7 @@ export default function DashboardPage() {
     useEffect(() => {
         async function Values() {
             const data = await getValues();
-            if (!data || (Array.isArray(data)) && data.length > 0 || typeof data === 'object' && Object.keys(data).length > 0){
+            if (!data || (Array.isArray(data) && data.length === 0) || typeof data === 'object' && Object.keys(data).length > 0){
                 console.warn('⚠️ API retornou dados vazios. Mantendo dados locais de simulação.');
             }
             setApiData(data);
