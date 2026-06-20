@@ -5,27 +5,36 @@ export interface TextFormatValues {
     sensor: string;
     estado: boolean;
 }
-
-async function getValues() {
+export async function getValues() {
     try {
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || '';
-        const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-        const response = await fetch(`${cleanBaseUrl}/api/data/movimento`, {
-            method: "GET",
-            cache: "no-store",
-            headers: {
-                "Content-Type": "application/json"
+        const baseUrl =
+            process.env.NEXT_PUBLIC_APP_URL ||
+            "https://dashboard-pro-para-esp32.onrender.com";
+
+        const response = await fetch(
+            `${baseUrl}/api/data/movimento`,
+            {
+                cache: "no-store"
             }
-        });
+        );
 
-        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
-        const data = await response.json();
-        console.log(data);
-        return data;
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-    } catch (err) {
-        console.error("❌ Falha na sincronização. Aplicando dados locais (dados.json):", err);
-        return json;
+        return await response.json();
+
+    } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+
+        return [
+            {
+                device_id: "TESTE",
+                sensor: "PIR",
+                estado: false,
+                valor: 0
+            }
+        ];
     }
 }
 

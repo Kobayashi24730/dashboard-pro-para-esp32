@@ -1,25 +1,48 @@
 'use client';
+
 import Card from "@/backend/components/Card";
 import { Activity, Zap, Wifi, Thermometer } from "lucide-react";
 import getValues from "@/backend/data/useTextValues";
 import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
-import {useEffect, useState} from "react";
+import jsonLocal from "@/backend/data/dados.json"; // Importando os dados locais como garantia
+import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
     const [apiData, setApiData] = useState<any>(null);
+
     useEffect(() => {
         async function Values() {
             const data = await getValues();
-            if (!data || (Array.isArray(data) && data.length === 0) || typeof data === 'object' && Object.keys(data).length > 0){
-                console.warn('⚠️ API retornou dados vazios. Mantendo dados locais de simulação.');
+
+            // Validação precisa se o retorno está vazio ou inválido
+            const dataEstaVazio = !data ||
+                (Array.isArray(data) && data.length === 0) ||
+                (typeof data === 'object' && Object.keys(data).length === 0);
+
+            if (dataEstaVazio) {
+                console.warn('⚠️ API retornou dados vazios ou falhou. Injetando simulação local.');
+                setApiData(jsonLocal); // Usa o JSON local para alimentar toda a tela
+            } else {
+                setApiData(data); // Usa os dados reais e estruturados vindos do Render
             }
-            setApiData(data);
         }
         Values();
     }, []);
+
+    // 1. Barreira de segurança contra propriedades lidas de 'null' antes do useEffect finalizar
+    if (!apiData) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-medium">
+                <p className="animate-pulse">Conectando ao servidor e sincronizando dados...</p>
+            </div>
+        );
+    }
+
+    // 2. Filtro seguro para o componente PIR
     const data_pir = Array.isArray(apiData)
         ? apiData.filter((item) => item.device_id === "ESP32_PIR_01")
         : apiData?.data_pir || [];
+
     const iconMap = {
         dispositivos: Activity,
         energia: Zap,
@@ -29,13 +52,15 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-8 p-6 bg-slate-950 min-h-screen">
+            {/* Header Section */}
             <div className="mb-8">
                 <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
                 <p className="text-slate-400 text-lg">Bem-vindo ao seu painel de controle. Monitore seus dispositivos em tempo real.</p>
             </div>
 
+            {/* KPI Cards Grid (Corrigido de device_id para kpis) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {(apiData?.device_id || []).map((kpi: any, index: number) => {
+                {(apiData?.kpis || []).map((kpi: any, index: number) => {
                     const Icon = iconMap[kpi.iconKey as keyof typeof iconMap] || Activity;
 
                     return (
@@ -51,7 +76,7 @@ export default function DashboardPage() {
                                         <Icon className="w-6 h-6 text-white" />
                                     </div>
                                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                                        kpi.change.includes('+') || !kpi.change.includes('-')
+                                        kpi.change?.includes('+') || !kpi.change?.includes('-')
                                             ? 'bg-green-500/20 text-green-300'
                                             : 'bg-red-500/20 text-red-300'
                                     }`}>
@@ -67,10 +92,12 @@ export default function DashboardPage() {
                 })}
             </div>
 
+            {/* Monitoramento PIR Container */}
             <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4">
-                <MonitoramentoPIR values={data_pir || { status: "Nenhum movimento detectado" }}/>
+                <MonitoramentoPIR values={data_pir} />
             </div>
 
+            {/* Gráficos e Métricas Detalhadas */}
             <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Métricas Detalhadas</h2>
 
@@ -146,7 +173,7 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Quick Stats */}
+            {/* Quick Stats Footer */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-gradient-to-br from-indigo-950/40 to-indigo-900/20 rounded-xl border border-indigo-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Tempo de Resposta Médio</p>
