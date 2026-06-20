@@ -3,11 +3,23 @@ import Card from "@/backend/components/Card";
 import { Activity, Zap, Wifi, Thermometer } from "lucide-react";
 import getValues from "@/backend/data/useTextValues";
 import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
-
-const apiData: any[] = await getValues();
+import {useEffect, useState} from "react";
 
 export default function DashboardPage() {
-    const data_pir = apiData.filter((item) => item.device_id === "ESP32_PIR_01");
+    const [apiData, setApiData] = useState<any>(null);
+    useEffect(() => {
+        async function Values() {
+            const data = await getValues();
+            if (!data || (Array.isArray(data)) && data.length > 0 || typeof data === 'object' && Object.keys(data).length > 0){
+                console.warn('⚠️ API retornou dados vazios. Mantendo dados locais de simulação.');
+            }
+            setApiData(data);
+        }
+        Values();
+    }, []);
+    const data_pir = Array.isArray(apiData)
+        ? apiData.filter((item) => item.device_id === "ESP32_PIR_01")
+        : apiData?.data_pir || [];
     const iconMap = {
         dispositivos: Activity,
         energia: Zap,
@@ -23,7 +35,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {(apiData.device_id || []).map((kpi: any, index: number) => {
+                {(apiData?.device_id || []).map((kpi: any, index: number) => {
                     const Icon = iconMap[kpi.iconKey as keyof typeof iconMap] || Activity;
 
                     return (
