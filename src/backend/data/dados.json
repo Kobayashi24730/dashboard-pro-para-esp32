@@ -1,6 +1,6 @@
 [
   {
-    "id": 16,
+    "id": 52,
     "device_id": "ESP32_HUMID_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -8,7 +8,7 @@
     "created_at": "2026-06-14 22:05:57"
   },
   {
-    "id": 15,
+    "id": 51,
     "device_id": "ESP32_TEMP_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -16,7 +16,7 @@
     "created_at": "2026-06-14 22:05:47"
   },
   {
-    "id": 14,
+    "id": 50,
     "device_id": "ESP32_ULTRA_01",
     "sensor": "ULTRASONIC",
     "estado": 1,
@@ -24,7 +24,7 @@
     "created_at": "2026-06-14 22:05:37"
   },
   {
-    "id": 13,
+    "id": 49,
     "device_id": "ESP32_SOUND_01",
     "sensor": "SOUND",
     "estado": 1,
@@ -32,7 +32,7 @@
     "created_at": "2026-06-14 22:05:26"
   },
   {
-    "id": 12,
+    "id": 48,
     "device_id": "ESP32_HUMID_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -40,7 +40,7 @@
     "created_at": "2026-06-14 22:05:14"
   },
   {
-    "id": 11,
+    "id": 47,
     "device_id": "ESP32_SOUND_01",
     "sensor": "SOUND",
     "estado": 1,
@@ -48,7 +48,7 @@
     "created_at": "2026-06-14 22:04:22"
   },
   {
-    "id": 10,
+    "id": 46,
     "device_id": "ESP32_PIR_01",
     "sensor": "PIR",
     "estado": 1,
@@ -56,7 +56,7 @@
     "created_at": "2026-06-14 22:04:12"
   },
   {
-    "id": 9,
+    "id": 45,
     "device_id": "ESP32_HUMID_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -64,7 +64,7 @@
     "created_at": "2026-06-14 22:04:03"
   },
   {
-    "id": 8,
+    "id": 44,
     "device_id": "ESP32_TEMP_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -72,7 +72,7 @@
     "created_at": "2026-06-14 22:03:53"
   },
   {
-    "id": 7,
+    "id": 43,
     "device_id": "ESP32_ULTRA_01",
     "sensor": "ULTRASONIC",
     "estado": 1,
@@ -80,7 +80,7 @@
     "created_at": "2026-06-14 22:03:43"
   },
   {
-    "id": 6,
+    "id": 42,
     "device_id": "ESP32_SOUND_01",
     "sensor": "SOUND",
     "estado": 1,
@@ -88,7 +88,7 @@
     "created_at": "2026-06-14 22:03:32"
   },
   {
-    "id": 5,
+    "id": 41,
     "device_id": "ESP32_PIR_01",
     "sensor": "PIR",
     "estado": 1,
@@ -96,7 +96,7 @@
     "created_at": "2026-06-14 22:03:22"
   },
   {
-    "id": 4,
+    "id": 40,
     "device_id": "ESP32_HUMID_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -104,7 +104,7 @@
     "created_at": "2026-06-14 22:03:12"
   },
   {
-    "id": 3,
+    "id": 39,
     "device_id": "ESP32_TEMP_01",
     "sensor": "DHT11",
     "estado": 1,
@@ -112,7 +112,7 @@
     "created_at": "2026-06-14 22:03:01"
   },
   {
-    "id": 2,
+    "id": 38,
     "device_id": "ESP32_ULTRA_01",
     "sensor": "ULTRASONIC",
     "estado": 1,
@@ -120,11 +120,299 @@
     "created_at": "2026-06-14 22:02:52"
   },
   {
-    "id": 1,
+    "id": 37,
     "device_id": "ESP32_SOUND_01",
     "sensor": "SOUND",
     "estado": 1,
     "valor": 1010,
     "created_at": "2026-06-14 22:02:36"
+  },
+  {
+    "id": 36,
+    "device_id": "ESP32_TepResposta_01",
+    "sensor": "TempResposta",
+    "estado": 1,
+    "valor": 8460,
+    "created_at": "2026-06-20 15:02:28"
+  },
+  {
+    "id": 35,
+    "device_id": "ESP32_memori_01",
+    "sensor": "memori",
+    "estado": 1,
+    "valor": 228892,
+    "created_at": "2026-06-20 15:02:16"
+  },
+  {
+    "id": 34,
+    "device_id": "ESP32_UPTIME_01",
+    "sensor": "UPTIME",
+    "estado": 1,
+    "valor": 269,
+    "created_at": "2026-06-20 15:02:06"
+  },
+  {
+    "id": 33,
+    "device_id": "ESP32_WiFi_01",
+    "sensor": "WiFi",
+    "estado": 1,
+    "valor": -85,
+    "created_at": "2026-06-20 15:01:56"
+  },
+  {
+    "id": 32,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-20 15:01:47"
+  },
+  {
+    "id": 31,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-20 15:01:37"
+  },
+  {
+    "id": 30,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 399.89,
+    "created_at": "2026-06-20 15:01:27"
+  },
+  {
+    "id": 29,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 769,
+    "created_at": "2026-06-20 15:01:17"
+  },
+  {
+    "id": 28,
+    "device_id": "ESP32_Sucesso_01",
+    "sensor": "Sucesso",
+    "estado": 1,
+    "valor": 27,
+    "created_at": "2026-06-20 15:01:08"
+  },
+  {
+    "id": 27,
+    "device_id": "ESP32_TepResposta_01",
+    "sensor": "TempResposta",
+    "estado": 1,
+    "valor": 7567,
+    "created_at": "2026-06-20 15:00:57"
+  },
+  {
+    "id": 26,
+    "device_id": "ESP32_memori_01",
+    "sensor": "memori",
+    "estado": 1,
+    "valor": 228892,
+    "created_at": "2026-06-20 15:00:48"
+  },
+  {
+    "id": 25,
+    "device_id": "ESP32_UPTIME_01",
+    "sensor": "UPTIME",
+    "estado": 1,
+    "valor": 199,
+    "created_at": "2026-06-20 15:00:38"
+  },
+  {
+    "id": 24,
+    "device_id": "ESP32_WiFi_01",
+    "sensor": "WiFi",
+    "estado": 1,
+    "valor": -85,
+    "created_at": "2026-06-20 15:00:28"
+  },
+  {
+    "id": 23,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-20 15:00:17"
+  },
+  {
+    "id": 22,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-20 15:00:07"
+  },
+  {
+    "id": 21,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 399.92,
+    "created_at": "2026-06-20 14:59:57"
+  },
+  {
+    "id": 20,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 562,
+    "created_at": "2026-06-20 14:59:48"
+  },
+  {
+    "id": 19,
+    "device_id": "ESP32_Sucesso_01",
+    "sensor": "Sucesso",
+    "estado": 1,
+    "valor": 18,
+    "created_at": "2026-06-20 14:59:37"
+  },
+  {
+    "id": 18,
+    "device_id": "ESP32_TepResposta_01",
+    "sensor": "TempResposta",
+    "estado": 1,
+    "valor": 7441,
+    "created_at": "2026-06-20 14:59:28"
+  },
+  {
+    "id": 17,
+    "device_id": "ESP32_memori_01",
+    "sensor": "memori",
+    "estado": 1,
+    "valor": 228892,
+    "created_at": "2026-06-20 14:59:18"
+  },
+  {
+    "id": 16,
+    "device_id": "ESP32_UPTIME_01",
+    "sensor": "UPTIME",
+    "estado": 1,
+    "valor": 129,
+    "created_at": "2026-06-20 14:59:09"
+  },
+  {
+    "id": 15,
+    "device_id": "ESP32_WiFi_01",
+    "sensor": "WiFi",
+    "estado": 1,
+    "valor": -87,
+    "created_at": "2026-06-20 14:58:59"
+  },
+  {
+    "id": 14,
+    "device_id": "ESP32_HUMID_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 40,
+    "created_at": "2026-06-20 14:58:47"
+  },
+  {
+    "id": 13,
+    "device_id": "ESP32_TEMP_01",
+    "sensor": "DHT11",
+    "estado": 1,
+    "valor": 24,
+    "created_at": "2026-06-20 14:58:37"
+  },
+  {
+    "id": 12,
+    "device_id": "ESP32_ULTRA_01",
+    "sensor": "ULTRASONIC",
+    "estado": 1,
+    "valor": 399.99,
+    "created_at": "2026-06-20 14:58:27"
+  },
+  {
+    "id": 11,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 281,
+    "created_at": "2026-06-20 14:58:17"
+  },
+  {
+    "id": 10,
+    "device_id": "ESP32_Sucesso_01",
+    "sensor": "Sucesso",
+    "estado": 1,
+    "valor": 9,
+    "created_at": "2026-06-20 14:58:07"
+  },
+  {
+    "id": 9,
+    "device_id": "ESP32_TepResposta_01",
+    "sensor": "TempResposta",
+    "estado": 1,
+    "valor": 7584,
+    "created_at": "2026-06-20 14:57:57"
+  },
+  {
+    "id": 8,
+    "device_id": "ESP32_memori_01",
+    "sensor": "memori",
+    "estado": 1,
+    "valor": 228852,
+    "created_at": "2026-06-20 14:57:48"
+  },
+  {
+    "id": 7,
+    "device_id": "ESP32_UPTIME_01",
+    "sensor": "UPTIME",
+    "estado": 1,
+    "valor": 59,
+    "created_at": "2026-06-20 14:57:38"
+  },
+  {
+    "id": 6,
+    "device_id": "ESP32_WiFi_01",
+    "sensor": "WiFi",
+    "estado": 1,
+    "valor": -73,
+    "created_at": "2026-06-20 14:57:28"
+  },
+  {
+    "id": 5,
+    "device_id": "ESP32_SOUND_01",
+    "sensor": "SOUND",
+    "estado": 1,
+    "valor": 136,
+    "created_at": "2026-06-20 14:57:19"
+  },
+  {
+    "id": 4,
+    "device_id": "ESP32_Sucesso_01",
+    "sensor": "Sucesso",
+    "estado": 1,
+    "valor": 3,
+    "created_at": "2026-06-20 14:57:08"
+  },
+  {
+    "id": 3,
+    "device_id": "ESP32_TepResposta_01",
+    "sensor": "TempResposta",
+    "estado": 1,
+    "valor": 8723,
+    "created_at": "2026-06-20 14:56:58"
+  },
+  {
+    "id": 2,
+    "device_id": "ESP32_memori_01",
+    "sensor": "memori",
+    "estado": 1,
+    "valor": 223864,
+    "created_at": "2026-06-20 14:56:48"
+  },
+  {
+    "id": 1,
+    "device_id": "ESP32_WiFi_01",
+    "sensor": "WiFi",
+    "estado": 1,
+    "valor": -87,
+    "created_at": "2026-06-20 14:56:01"
   }
 ]

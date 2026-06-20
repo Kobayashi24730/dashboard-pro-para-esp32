@@ -7,6 +7,14 @@ import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
 import jsonLocal from "@/backend/data/dados.json"; // Importando os dados locais como garantia
 import { useEffect, useState } from "react";
 
+const metrics: any[] = [
+    { device_id: "ESP32_WiFi_01"},
+    { device_id: "ESP32_UPTIME_01"},
+    { device_id: "ESP32_memori_01"},
+    { device_id: "ESP32_TepResposta_01"},
+    { device_id: "ESP32_Sucesso_01"},
+];
+
 export default function DashboardPage() {
     const [apiData, setApiData] = useState<any>(null);
 
@@ -14,22 +22,20 @@ export default function DashboardPage() {
         async function Values() {
             const data = await getValues();
 
-            // Validação precisa se o retorno está vazio ou inválido
             const dataEstaVazio = !data ||
                 (Array.isArray(data) && data.length === 0) ||
                 (typeof data === 'object' && Object.keys(data).length === 0);
 
             if (dataEstaVazio) {
                 console.warn('⚠️ API retornou dados vazios ou falhou. Injetando simulação local.');
-                setApiData(jsonLocal); // Usa o JSON local para alimentar toda a tela
+                setApiData(jsonLocal);
             } else {
-                setApiData(data); // Usa os dados reais e estruturados vindos do Render
+                setApiData(data);
             }
         }
         Values();
     }, []);
 
-    // 1. Barreira de segurança contra propriedades lidas de 'null' antes do useEffect finalizar
     if (!apiData) {
         return (
             <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 font-medium">
@@ -38,10 +44,14 @@ export default function DashboardPage() {
         );
     }
 
-    // 2. Filtro seguro para o componente PIR
     const data_pir = Array.isArray(apiData)
         ? apiData.filter((item) => item.device_id === "ESP32_PIR_01")
         : apiData?.data_pir || [];
+
+    const data_metrics = Array.isArray(apiData)
+        ? apiData.filter((item) => item.device_id === metrics.map(m => m.device_id))
+        : apiData?.data_metrics || [];
+    console.log("Metrics ",data_metrics);
 
     const iconMap = {
         dispositivos: Activity,
@@ -52,13 +62,11 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-8 p-6 bg-slate-950 min-h-screen">
-            {/* Header Section */}
             <div className="mb-8">
                 <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
                 <p className="text-slate-400 text-lg">Bem-vindo ao seu painel de controle. Monitore seus dispositivos em tempo real.</p>
             </div>
 
-            {/* KPI Cards Grid (Corrigido de device_id para kpis) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {(apiData?.kpis || []).map((kpi: any, index: number) => {
                     const Icon = iconMap[kpi.iconKey as keyof typeof iconMap] || Activity;
@@ -92,15 +100,12 @@ export default function DashboardPage() {
                 })}
             </div>
 
-            {/* Monitoramento PIR Container */}
             <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4">
                 <MonitoramentoPIR values={data_pir} />
             </div>
 
-            {/* Gráficos e Métricas Detalhadas */}
             <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Métricas Detalhadas</h2>
-
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold text-white">Receita Operacional</h3>
@@ -132,7 +137,7 @@ export default function DashboardPage() {
                     <Card
                         themeColor="azul"
                         title="Taxa de Uptime"
-                        values={apiData?.metrics?.uptime || [{ name: "Uptime", valor: 0, estado: true }]}
+                        values={data_metrics?.uptime || [{ name: "Uptime", valor: 0, estado: true }]}
                         variant="metric"
                     />
                     <Card

@@ -24,7 +24,6 @@ let ultimoEstado = {
 export async function POST(request: NextRequest){
     ultimoEstado = await request.json();
     db.prepare(`INSERT INTO sensor_data (device_id, sensor, estado, valor) VALUES (?, ?, ?, ?)`).run([ultimoEstado.device_id, ultimoEstado.sensor, ultimoEstado.estado ? 1 : 0, ultimoEstado.valor]);
-    console.log("Chegando ->: ", ultimoEstado);
     return NextResponse.json({ success: true });
 }
 
