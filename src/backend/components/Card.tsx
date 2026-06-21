@@ -66,7 +66,7 @@ export default function Card({
     const historicoValores = values.slice(1).map(item => item?.valor != null ? Number(item.valor) : null).filter(val => val != null);
     const totalHistorio = historicoValores.reduce((acc, curr) => acc + curr, 0);
     const mediaHistorico = historicoValores.length > 0 ? totalHistorio / historicoValores.length : null;
-    const valoresDaSemana = (item) => (item?.valor != null ? Number(item?.valor) : 0);
+    const valoresDaSemana = (item: any) => (item?.valor != null ? Number(item?.valor) : 0);
     const somaSemanaAtual = values.slice(0, 7).reduce((acc, item) => acc + valoresDaSemana(item), 0);
     const somaSemanaAnterior = values.slice(7, 14).reduce((acc, item) => acc + valoresDaSemana(item), 0);
     let pogrecaoSemanal = null;
