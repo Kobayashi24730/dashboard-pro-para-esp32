@@ -71,7 +71,7 @@ export default function Card({
     const somaSemanaAnterior = values.slice(7, 14).reduce((acc, item) => acc + valoresDaSemana(item), 0);
     let pogrecaoSemanal = null;
     if (values.length > 14){
-        if (somaSemanaAnterior){
+        if (somaSemanaAnterior === 0){
             pogrecaoSemanal = somaSemanaAtual > 0 ? 100 : null;
         } else {
             const varicao = ((somaSemanaAtual - somaSemanaAnterior) / somaSemanaAnterior) * 100;
@@ -80,7 +80,7 @@ export default function Card({
     }
     let dislayPogresao = null;
     if (mesAtual !== null && historicoValores.length > 0) {
-        if (mediaHistorico === 0){
+        if (!mediaHistorico){
             dislayPogresao = mesAtual > 0 ? 100 : 0;
         } else {
             const variacao = ((mesAtual - mediaHistorico) / mediaHistorico) * 100;
