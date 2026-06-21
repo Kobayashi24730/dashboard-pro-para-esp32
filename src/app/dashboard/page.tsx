@@ -113,7 +113,7 @@ export default function DashboardPage() {
                             <Card
                                 themeColor="indigo"
                                 title="Receita Operacional"
-                                values={data_metrics.filter((item) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sistema", valor: 0, estado: false }]}
+                                values={data_metrics.filter((item: any) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sistema", valor: 0, estado: false }]}
                                 bestValue={1000}
                             />
                         </div>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
                             <Card
                                 themeColor="vermelho"
                                 title="Consumo de Energia"
-                                values={data_metrics.filter((item) => item.device_id === "ESP32_memori_01") || [{ name: "Energia", valor: 0, estado: false }]}
+                                values={data_metrics.filter((item: any) => item.device_id === "ESP32_memori_01") || [{ name: "Energia", valor: 0, estado: false }]}
                                 bestValue={1000}
                             />
                         </div>
@@ -136,19 +136,19 @@ export default function DashboardPage() {
                     <Card
                         themeColor="azul"
                         title="Taxa de Uptime"
-                        values={data_metrics.filter((item) => item.device_id === "ESP32_UPTIME_01") || [{ name: "Uptime", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item: any) => item.device_id === "ESP32_UPTIME_01") || [{ name: "Uptime", valor: 0, estado: true }]}
                         variant="metric"
                     />
                     <Card
                         themeColor="roxo"
                         title="Requisições/min"
-                        values={data_metrics.filter((item) => item.device_id === "ESP32_TepResposta_01") || [{ name: "Req", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item: any) => item.device_id === "ESP32_TepResposta_01") || [{ name: "Req", valor: 0, estado: true }]}
                         variant="metric"
                     />
                     <Card
                         themeColor="verde"
                         title="Taxa de Sucesso"
-                        values={data_metrics.filter((item) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sucesso", valor: 0, estado: true }]}
+                        values={data_metrics.filter((item: any) => item.device_id === "ESP32_Sucesso_01") || [{ name: "Sucesso", valor: 0, estado: true }]}
                         variant="metric"
                     />
                 </div>
