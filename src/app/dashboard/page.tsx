@@ -57,8 +57,8 @@ export default function DashboardPage() {
         : apiData?.data_metrics || [];
     const data_activities = Array.isArray(apiData) ? [...apiData].sort((a: any, b: any) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) : [];
-    const uptime = data_metrics.find((item) => item.device_id === "ESP32_UPTIME_01");
-    const storage = data_metrics.find((item) => item.device_id === "ESP32_memori_01");
+    const uptime = data_metrics.find((item: any) => item.device_id === "ESP32_UPTIME_01");
+    const storage = data_metrics.find((item: any) => item.device_id === "ESP32_memori_01");
     let total: number = apiData.length;
     return (
         <div className="space-y-8 p-6 bg-slate-950 min-h-screen">
