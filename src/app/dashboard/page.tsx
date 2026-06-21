@@ -199,6 +199,7 @@ export default function DashboardPage() {
                     <p className="text-yellow-400 text-xs mt-2">Capacidade atual</p>
                 </div>
             </div>
+
         </div>
     );
 }

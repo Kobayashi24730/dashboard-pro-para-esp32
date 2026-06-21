@@ -10,7 +10,7 @@ interface CardProps {
     color?: string;
     value?: string;
     trend?: number;
-    variant?: 'revenue' | 'metric' | 'compact';
+    variant?: 'revenue' | 'metric' | 'compact' | "system";
 }
 
 const themes = {
@@ -61,6 +61,42 @@ export default function Card({
     const selectedBg = color ? bgColors[color as keyof typeof bgColors] || bgColors.azul : bgColors[themeColor];
     
     const isPositive = trend >= 0;
+    const mesAtual = values[0]?.valor != null ? Number(values[0].valor) : null;
+    const mesAnterior = values[1]?.valor != null ? Number(values[1]?.valor) : null;
+    const historicoValores = values.slice(1).map(item => item?.valor != null ? Number(item.valor) : null).filter(val => val != null);
+    const totalHistorio = historicoValores.reduce((acc, curr) => acc + curr, 0);
+    const mediaHistorico = historicoValores.length > 0 ? totalHistorio / historicoValores.length : null;
+    const valoresDaSemana = (item) => (item?.valor != null ? Number(item?.valor) : 0);
+    const somaSemanaAtual = values.slice(0, 7).reduce((acc, item) => acc + valoresDaSemana(item), 0);
+    const somaSemanaAnterior = values.slice(7, 14).reduce((acc, item) => acc + valoresDaSemana(item), 0);
+    let pogrecaoSemanal = null;
+    if (values.length > 14){
+        if (somaSemanaAnterior){
+            pogrecaoSemanal = somaSemanaAtual > 0 ? 100 : null;
+        } else {
+            const varicao = ((somaSemanaAtual - somaSemanaAnterior) / somaSemanaAnterior) * 100;
+            pogrecaoSemanal = Number(varicao.toFixed(2));
+        }
+    }
+    let dislayPogresao = null;
+    if (mesAtual !== null && historicoValores.length > 0) {
+        if (mediaHistorico === 0){
+            dislayPogresao = mesAtual > 0 ? 100 : 0;
+        } else {
+            const variacao = ((mesAtual - mediaHistorico) / mediaHistorico) * 100;
+            dislayPogresao = Number(variacao.toFixed(2));
+        }
+    }
+    let comparacaoPorcentagem = null;
+    if (mesAtual !== null && mesAnterior !== null) {
+        if (mesAnterior === 0) {
+            comparacaoPorcentagem = mesAtual > 0 ? 100 : 0;
+        } else {
+            const variacao = ((mesAtual - mesAnterior) / mesAnterior) * 100;
+            comparacaoPorcentagem = Number(variacao.toFixed(2));
+        }
+    }
+
     
     const chartData = values.length > 0 
         ? values.map((val, index) => ({
@@ -69,8 +105,8 @@ export default function Card({
         }))
         : [];
 
-    const displayValue = value || values[0]?.name || "Sem Dispositivo";
-    const displayResult = values[0]?.valor ? "1 (Detectado)" : "0 (Normal)";
+    const displayValue = value || values[0]?.valor || "Sem Dispositivo";
+    const displayResult = values[0]?.estado ? "1 (Detectado)" : "0 (Normal)";
 
     if (variant === "compact") {
         return (
@@ -82,7 +118,7 @@ export default function Card({
                     <h2 className="text-2xl font-bold tracking-tight">{displayValue}</h2>
                     <div className="mt-3 flex items-center gap-2">
                         <span className={`text-sm font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                            {isPositive ? '+' : ''}{trend}%
+                            {isPositive ? '+' : ''}{displayResult}%
                         </span>
                         {isPositive ? (
                             <ArrowUpRight className="w-4 h-4 text-green-400" />
@@ -102,7 +138,7 @@ export default function Card({
                 
                 <div className="relative z-10 flex items-start justify-between">
                     <div>
-                        <p className="text-sm font-medium text-white/80 mb-2">{title}</p>
+                        <p className="text-sm font-medium text-white/80 mb-2">{values[0]?.device_id}</p>
                         <h2 className="text-3xl font-bold tracking-tight">{displayValue}</h2>
                     </div>
                     <div className={`p-3 ${selectedBg} rounded-lg border ${selectedBorder}`}>
@@ -112,7 +148,7 @@ export default function Card({
 
                 <div className="relative z-10 mt-4 flex items-center gap-2">
                     <span className={`text-sm font-semibold ${isPositive ? 'text-green-300' : 'text-red-300'}`}>
-                        {isPositive ? '+' : ''}{trend}% vs mês anterior
+                        {isPositive ? '+' : ''}{comparacaoPorcentagem}% vs mês anterior
                     </span>
                 </div>
             </div>
@@ -131,7 +167,7 @@ export default function Card({
                     <div className="mt-4">
                         <p className="text-xs text-white/70 opacity-80">Resultado: {displayResult}</p>
                         <div className="flex items-center gap-2 mt-2">
-                            <p className="text-lg font-bold text-white">{trend}%</p>
+                            <p className="text-lg font-bold text-white">{dislayPogresao}%</p>
                             {isPositive ? (
                                 <ArrowUpRight className="w-5 h-5 text-green-400" />
                             ) : (
