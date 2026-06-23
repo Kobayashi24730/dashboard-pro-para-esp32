@@ -59,7 +59,40 @@ export default function DashboardPage() {
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) : [];
     const uptime = data_metrics.find((item: any) => item.device_id === "ESP32_UPTIME_01");
     const storage = data_metrics.find((item: any) => item.device_id === "ESP32_memori_01");
+    const uptimeHistorico = data_metrics.filter((item: any) => item.device_id === "ESP32_UPTIME_01");
+    const storageHistorico = data_metrics.filter((item: any) => item.device_id === "ESP32_memori_01");
+    const uptimeMesAtual = uptimeHistorico[0]?.valor != null ? Number(uptimeHistorico[0]?.valor) : null;
+    const uptimeMesAnterior = uptimeHistorico[1]?.valor != null ? Number(uptimeHistorico[1]?.valor) : null;
+    let porcentagemUptime = null;
+    if (uptimeMesAtual !== null && uptimeMesAnterior !== null) {
+        if (uptimeMesAnterior === 0) {
+            porcentagemUptime = uptimeMesAtual > 0 ? 100 : null;
+        } else {
+            const variacao = ((uptimeMesAtual - uptimeMesAnterior) / uptimeMesAnterior) * 100;
+            porcentagemUptime = Number(variacao.toFixed(2));
+        }
+    }
+    const storageMesAtual = storageHistorico[0]?.valor != null ? Number(storageHistorico[0]?.valor) : null;
+    const storageMesAnterior = storageHistorico[1]?.valor != null ? Number(storageHistorico[1]?.valor) : null;
+    let porcentagemStorage = null;
+    if (storageMesAtual !=  null && storageMesAnterior != null){
+        if (storageMesAnterior === 0) {
+            porcentagemStorage = storageMesAtual > 0 ? 100 : null;
+        } else {
+            const variacao = ((storageMesAtual - storageMesAnterior) / storageMesAnterior) * 100;
+            porcentagemStorage = Number(variacao.toFixed(2));
+        }
+    }
     let total: number = apiData.length;
+    function signal(data: any) {
+        if (Number(data) > 0) {
+            return "↑";
+        } else if (Number(data) < 0) {
+            return "↓";
+        } else {
+            return "";
+        }
+    }
     return (
         <div className="space-y-8 p-6 bg-slate-950 min-h-screen">
             <div className="mb-8">
@@ -184,13 +217,13 @@ export default function DashboardPage() {
                 <div className="bg-gradient-to-br from-indigo-950/40 to-indigo-900/20 rounded-xl border border-indigo-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Tempo de Resposta Médio</p>
                     <h3 className="text-3xl font-bold text-white">{uptime?.valor ?? 0} ms</h3>
-                    <p className="text-green-400 text-xs mt-2">↓ 12% vs semana anterior</p>
+                    <p className="text-green-400 text-xs mt-2">{signal(porcentagemUptime)}{porcentagemUptime}% vs semana anterior</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-950/40 to-purple-900/20 rounded-xl border border-purple-500/20 p-6 backdrop-blur-xl">
                     <p className="text-slate-400 text-sm mb-2">Total de Eventos</p>
                     <h3 className="text-3xl font-bold text-white">{total ?? 0}</h3>
-                    <p className="text-green-400 text-xs mt-2">↑ 8% vs semana anterior</p>
+                    <p className="text-green-400 text-xs mt-2">{signal(porcentagemStorage)}{porcentagemStorage}% vs semana anterior</p>
                 </div>
 
                 <div className="bg-gradient-to-br from-cyan-950/40 to-cyan-900/20 rounded-xl border border-cyan-500/20 p-6 backdrop-blur-xl">

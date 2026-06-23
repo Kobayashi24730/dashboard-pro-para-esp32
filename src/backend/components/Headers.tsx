@@ -17,7 +17,6 @@ const OptionsHeaders: HeadersProps[] = [
         ]
     },
     { title: "Help", url: "/help" },
-    { title: "Logout", url: "/logout" },
 ];
 
 interface SidebarProps {
