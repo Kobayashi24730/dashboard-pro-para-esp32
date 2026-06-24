@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import Link from "next/link";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 interface HeadersProps {
     title: string;
@@ -32,26 +33,46 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
     }
 
     return (
-        <aside className={`bg-gradient-to-b from-slate-900 via-gray-900 to-slate-950 text-white h-screen flex flex-col justify-between p-6 fixed left-0 top-0 border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out $ openMenu ? "w-64" : "w-20 items-center"}`}>
-            <button onClick={() => setOpenMenu(!openMenu)} className={`w-10 h-10 mb-4 bg-slate-800 hover:bg-slate-700 border border-slate-700/50 rounded-xl flex items-center justify-center shadow-lg transition-all duration-200 text-lg active:scale-95 ${!openMenu ? "mt-2" : "self-end"}`}
-                    title={openMenu ? "Fechar Menu" : "Abrir Menu"}> {openMenu ? "◀" : "☰"}
+        <aside className={`fixed left-0 top-0 h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white flex flex-col justify-between border-r border-slate-700/50 shadow-2xl z-50 transition-all duration-300 ease-in-out ${
+            openMenu ? "w-64" : "w-20"
+        }`}>
+            
+            {/* Toggle Button */}
+            <button 
+                onClick={() => setOpenMenu(!openMenu)} 
+                className={`w-10 h-10 m-6 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 border border-slate-700/50 hover:border-indigo-500/30 rounded-lg flex items-center justify-center shadow-lg transition-all duration-200 text-lg active:scale-95 ${
+                    !openMenu ? "mx-auto" : "self-end"
+                }`}
+                title={openMenu ? "Fechar Menu" : "Abrir Menu"}
+            >
+                {openMenu ? (
+                    <X className="w-5 h-5 text-slate-400" />
+                ) : (
+                    <Menu className="w-5 h-5 text-slate-400" />
+                )}
             </button>
-            {openMenu ? (
-                <div className="flex-1 flex flex-col justify-between w-full animate-in fade-in duration-300">
 
+            {/* Content - Visible when open */}
+            {openMenu && (
+                <div className="flex-1 flex flex-col justify-between w-full animate-in fade-in slide-in-down duration-300 overflow-y-auto px-4 pb-4">
+                    
+                    {/* Top Section */}
                     <div className="flex flex-col gap-6">
-                        {/* Header do App */}
-                        <div className="flex items-center gap-3 border-b border-slate-700/50 pb-6 hover:border-indigo-500/30 transition-colors duration-200">
-                            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        
+                        {/* App Header */}
+                        <div className="flex items-center gap-3 border-b border-slate-700/50 pb-6 hover:border-indigo-500/30 transition-colors duration-200 group">
+                            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-glow-md transition-all duration-200">
                                 <span className="text-white font-bold text-lg">📊</span>
                             </div>
                             <div className="flex flex-col">
-                                <Link className="text-xl font-bold tracking-wider text-white" href="/dashboard">Dashboard</Link>
+                                <Link className="text-lg font-bold tracking-wide text-white hover:text-indigo-400 transition-colors" href="/dashboard">
+                                    Dashboard
+                                </Link>
                                 <p className="text-xs text-slate-400">Pro ESP32</p>
                             </div>
                         </div>
 
-                        {/* Navigation */}
+                        {/* Navigation Menu */}
                         <nav className="flex flex-col gap-2">
                             {OptionsHeaders.map((header) => {
                                 const hasSubItems = header.subItems && header.subItems.length > 0;
@@ -59,25 +80,28 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
 
                                 return (
                                     <div key={header.url} className="w-full">
+                                        
+                                        {/* Main Menu Item */}
                                         <button
-                                            onClick={() => hasSubItems ? toggleSubMenu(header.title) : console.log(`Navegar para: ${header.url}`)}
+                                            onClick={() => hasSubItems ? toggleSubMenu(header.title) : null}
                                             className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex justify-between items-center font-medium group relative overflow-hidden ${
                                                 isOpen
-                                                    ? "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white shadow-lg shadow-indigo-500/20"
-                                                    : "bg-slate-800/50 hover:bg-slate-700/70 text-slate-100 hover:text-white"
+                                                    ? "bg-gradient-to-r from-indigo-600/90 to-purple-600/90 text-white shadow-lg shadow-indigo-500/30 border border-indigo-500/50"
+                                                    : "bg-slate-800/40 hover:bg-slate-700/60 text-slate-100 hover:text-white border border-transparent hover:border-indigo-500/20"
                                             }`}
                                         >
+                                            {/* Animated background */}
                                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all duration-300" />
 
-                                            <Link className="relative z-10 flex items-center gap-2" href={header.url}>
-                                                <span className="w-1 h-1 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                                    {header.title}
+                                            {/* Link */}
+                                            <Link className="relative z-10 flex items-center gap-2 flex-1" href={header.url}>
+                                                <span className="w-1.5 h-1.5 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                                <span>{header.title}</span>
                                             </Link>
 
+                                            {/* Chevron for submenu */}
                                             {hasSubItems && (
-                                                <span className={`text-xs transition-transform duration-300 relative z-10 ${isOpen ? "rotate-180" : ""}`}>
-                                                ▼
-                                            </span>
+                                                <ChevronDown className={`w-4 h-4 transition-transform duration-300 relative z-10 ${isOpen ? "rotate-180" : ""}`} />
                                             )}
                                         </button>
 
@@ -91,7 +115,7 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                                     >
                                                         <Link className="relative z-10 flex items-center gap-2" href={sub.url}>
                                                             <span className="w-1 h-1 rounded-full bg-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                                            {sub.title}
+                                                            <span>{sub.title}</span>
                                                         </Link>
                                                     </button>
                                                 ))}
@@ -103,22 +127,32 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                         </nav>
                     </div>
 
-                    {/* Footer Section */}
+                    {/* Bottom Section - System Status */}
                     <div className="flex flex-col gap-4 border-t border-slate-700/50 pt-6">
-                        <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                            <span className="text-xs text-slate-400">Sistema Online</span>
+                        
+                        {/* Status Indicator */}
+                        <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-slate-800/50 to-slate-800/30 hover:from-slate-800/70 hover:to-slate-800/50 rounded-lg transition-all duration-200 border border-slate-700/30 hover:border-green-500/30 group">
+                            <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse-soft shadow-lg shadow-green-500/50 group-hover:shadow-green-500/70 transition-shadow" />
+                            <span className="text-xs text-slate-300 font-medium">Sistema Online</span>
                         </div>
-                        <div className="text-xs text-slate-500 text-center font-medium">
+
+                        {/* Version */}
+                        <div className="text-xs text-slate-500 text-center font-medium py-2 px-3 bg-slate-800/20 rounded-lg border border-slate-700/30">
                             v1.0.0
                         </div>
                     </div>
-
                 </div>
-            ) : (
-                /* MINI FOOTER / ÍCONE QUANDO FECHADO */
-                <div className="flex flex-col items-center gap-4 border-t border-slate-700/50 pt-6 w-full animate-in fade-in duration-300">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" title="Sistema Online" />
+            )}
+
+            {/* Collapsed State - Icon Only */}
+            {!openMenu && (
+                <div className="flex flex-col items-center gap-6 border-t border-slate-700/50 pt-6 pb-6 w-full animate-in fade-in duration-300">
+                    
+                    {/* Mini Status Indicator */}
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse-soft shadow-lg shadow-green-500/50 hover:shadow-green-500/70 transition-shadow" title="Sistema Online" />
+                    
+                    {/* Mini Version */}
+                    <div className="text-xs text-slate-500 font-medium text-center">v1</div>
                 </div>
             )}
         </aside>
