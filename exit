@@ -1,0 +1,324 @@
+[33mcommit ed5757bf2f6aa82bc73a57117f17591d4c49636b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Kobayashi24730 <2.09869689e+08+Kobayashi24730@users.noreply.github.com>
+Date:   Tue Jun 23 14:23:11 2026 +0000
+
+    style: optimize tailwind configuration and improve global styles
+
+[33mcommit f34bac63a1b96a4a140e3d35052ff00847a718e7[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Tue Jun 23 11:19:37 2026 -0300
+
+    Correções  e melhoria no auth
+
+[33mcommit a58444fe719c314e4533ba4c87c00418caac7a56[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 21 13:24:07 2026 -0300
+
+    Correções nas pages
+
+[33mcommit 1d54fcc85af7b4ea3f1d50092df3fccfdacfd698[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 21 13:16:01 2026 -0300
+
+    Correções nas pages
+
+[33mcommit fd659b4d013d519b610dab0b54810d519a5301f9[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 21 13:13:46 2026 -0300
+
+    Correções das progreções do display
+
+[33mcommit 0a0504a5efcddb094a02c9dd8815110370fdfcae[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 21 13:12:01 2026 -0300
+
+    Correções das progreções do display
+
+[33mcommit 0198c677936c3d92df29589861ccc5ba9712a3c7[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 21 13:04:14 2026 -0300
+
+    Correções das progreções do display
+
+[33mcommit 1f7f92e4283ae65597225f753abe0731ae6c41b0[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 20:16:48 2026 -0300
+
+    Correções no get e no filter da data
+
+[33mcommit 26e69e5fa882ec2fa243d42bc490e67f123f00e8[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 13:07:05 2026 -0300
+
+    Correções e ajuste na page
+
+[33mcommit 6e60ca9a6c5e0fa4fb27a16b14efdfa6e58e9f23[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 12:40:31 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit bf340b0fc885f1c2132378b735c276faaf4f694c[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 12:35:21 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit 6ed064a25b2d0727c39926674fd4f95bcb8be4e6[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 12:33:42 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit 5370d37b837271f1f2260df0bf2a5477886cb14b[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 12:31:20 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit b456447dfdebbebbee481c7ca639e3c6016f7849[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 20 12:29:17 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit c81b361aaf296fa117092e2e6517ed6e1d2c3910[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 19 23:11:32 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit b2460b348aa0c4955f81c6abc8881ee7b7b68765[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 19 23:10:34 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit f3516fa3d81f1b6e858a92ded2eadddde68973c4[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 19 22:54:28 2026 -0300
+
+    Correções e ajuste na api
+
+[33mcommit cf8c2ec4e534ac276500529300392c9f4f35bbd2[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Thu Jun 18 11:05:40 2026 -0300
+
+    Correções dos cards e desenvolvimento da page settings
+
+[33mcommit 2bff2951d2a35437f3ebcfc1cb9365b60fc732d3[m
+Merge: 4f1ce74 cec7aed
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Wed Jun 17 11:20:33 2026 -0300
+
+    Finalização do front do login/registro, incio do desenvolvimento da settings
+
+[33mcommit cec7aedaaa37e4dcf06049d2fc5308bb4aeffb81[m[33m ([m[1;31morigin/nova-main[m[33m, [m[1;32mnova-main[m[33m)[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Wed Jun 17 11:14:16 2026 -0300
+
+    Finalização do front do login/registro, incio do desenvolvimento da settings
+
+[33mcommit 715c85f28bf7697ea0123f81b4ff99e73c08956d[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Tue Jun 16 22:24:36 2026 -0300
+
+    desenvolvimento da page de login/register
+
+[33mcommit 10d218143bf71e4a28e6a4ab68bb9b22463ba331[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Tue Jun 16 22:02:59 2026 -0300
+
+    Finalização da base da dashboard e inicio do desenvolvimento do login/logout
+
+[33mcommit 4f1ce740404d4faa76e6b48ff39d42cd2b4586f8[m
+Author: Kobayashi24730 <2.09869689e+08+Kobayashi24730@users.noreply.github.com>
+Date:   Tue Jun 16 14:18:07 2026 +0000
+
+    style: complete dashboard redesign with modern cards and KPIs
+
+[33mcommit 20f193a5db6de5853b57505c197952d033de3c89[m
+Author: Kobayashi24730 <2.09869689e+08+Kobayashi24730@users.noreply.github.com>
+Date:   Tue Jun 16 14:11:56 2026 +0000
+
+    feat: add professional help page with FAQ and search
+
+[33mcommit 467e7902f43a953c710eb0475a0c17a7546d4bff[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Tue Jun 16 11:09:39 2026 -0300
+
+    Correções na parte das notificações e desenvolvimento da page help
+
+[33mcommit a9b6b112595a745562b3ee30d952b448f3641c22[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Mon Jun 15 23:06:37 2026 -0300
+
+    Correções e desenvolvimento do front das notificações e do monitoramento do pir
+
+[33mcommit b7c79e2ff84b2cbba135470896ab8bb917f0e76f[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 14 20:16:39 2026 -0300
+
+    Melhorias para o desenvolvimento do websockt
+
+[33mcommit cb2027655f44acdc4e5ada4b1b28ea4fdba3efa0[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 14 12:01:07 2026 -0300
+
+    Correções na estrutura do banco para aceitar os novos parametros
+
+[33mcommit 470e59c36e5c642acd255345cab4db8c5fb9e605[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sun Jun 14 11:48:53 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit 659d8e23f7aaf9ae79f498f3420735adbb0c1d63[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:43:37 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit b7047b4664d984e567bb605c46f8f32aa2d84943[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:38:51 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit 67bc607cc85a0cf25faab7007436b38771942567[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:30:58 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit e25420479b6414cbe9ca579e43c853124d22b1e8[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:24:46 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit 9f64f67f189d84bb3931d4578aa7793b01615940[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:22:38 2026 -0300
+
+    Correções e desenvolvimento da rota do wesp32 para integração com a database
+
+[33mcommit 82a97842b46d572054e76d9a3968acfe9d37aad4[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 12:12:33 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 501bce392f50896196e63c6eb8cf1448ca7382e8[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Sat Jun 13 11:23:10 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 8983cf6f685051cd7f1b934341efe07939a078b1[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:40:52 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 030b521df1185207dd2b396b9473fa7d25c74c6c[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:29:23 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit eb998283001453c033321b03dfda8bebf048fc8a[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:28:11 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 7ccc79f36ac28e852ea3afeab3015f4f66ff572e[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:26:02 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 690e3436e658953b6843187d5a952a6e6f3e238d[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:20:39 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit f81ee7c7c4db012e4ad65b37c8f431a988c86a73[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:18:10 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 130835fbdec832616fb6a799f0198eed6e1bd6e9[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:16:24 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 2ebdb2a16f5b7708834495bfe116e9082b04def7[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 23:07:09 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit c1a7296ee9854c1d313dd4fd2c8a947903d41f7c[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 22:55:54 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit fde5062afdb7a4e9b7f9d0e1031fc44be1b2e489[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 22:45:27 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 37ed5420c51edd4522d2598c6833bb80b6270f29[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 22:43:23 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 976d49492f19b871cc77d15db97b9fadefaa5aff[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 22:40:16 2026 -0300
+
+    Correções e desenvolvimento da rota para o wesp32
+
+[33mcommit 8fbf78f5b548a76241eba22881d39cf776bd0571[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Fri Jun 12 11:16:31 2026 -0300
+
+    Finalização da sidebar e desenvolvimento do painel principal
+
+[33mcommit 522b1724f60421c109096cdac8f7c4e77013fc74[m
+Author: Kobayashi24730 <2.09869689e+08+Kobayashi24730@users.noreply.github.com>
+Date:   Fri Jun 12 01:19:18 2026 +0000
+
+    fix: layout overlap by adding margin-left to main content
+
+[33mcommit 2764efdf742b6d9f618f59ca0d61a79e241f9d22[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Thu Jun 11 22:17:02 2026 -0300
+
+    Melhoria da sidebar
+
+[33mcommit 923a9da6923b6eb15cd2c3fc9637d86104d849d2[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Thu Jun 11 22:15:12 2026 -0300
+
+    Melhoria da sidebar
+
+[33mcommit 6b3c16fe5e188439aff56dab6e176a6747595d17[m
+Author: Kobayashi24730 <2.09869689e+08+Kobayashi24730@users.noreply.github.com>
+Date:   Fri Jun 12 01:03:18 2026 +0000
+
+    style: improve header grid and sidebar tailwind css
+
+[33mcommit 49c031dbe03468dc56efa7a61cf0254046d4331a[m
+Author: Kobayashi24730 <ajenteduplo000@gmail.com>
+Date:   Thu Jun 11 21:58:01 2026 -0300
+
+    Desenvolvimento da pagina principal(dashboard)
