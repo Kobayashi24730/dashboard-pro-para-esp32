@@ -37,8 +37,8 @@ const overlayBg = {
     vermelho: "bg-red-500/10"
 };
 
-export default function Card({themeColor, title, values, bestValue}: DateProps){
-    console.log(values);
+export default function Card({themeColor, title, values, bestValue}: DateProps) {
+    //console.log(values);
     let themeIndex = themes[themeColor] || themes.azul;
     let glowEffect = glowEffects[themeColor] || glowEffects.azul;
     let borderColor = borderStyles[themeColor] || borderStyles.azul;

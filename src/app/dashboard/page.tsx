@@ -38,16 +38,15 @@ export default async function page() {
                     <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
                 </div>
 
-                {/* Cards Grid - Sensores */}
                 <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
                         <span className="w-1 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full"></span>
                         Sensores Ativos
                     </h2>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 p-1">
                         {data_sound.length > 0 && (
-                            <div className="group hover-scale fade-in">
+                            <div className="group transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg will-change-transform fade-in">
                                 <Card themeColor="verde" title="Sensor de Som" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
                             </div>
                         )}

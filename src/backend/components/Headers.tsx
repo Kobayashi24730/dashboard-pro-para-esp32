@@ -94,7 +94,7 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all duration-300" />
 
                                             {/* Link */}
-                                            <Link className="relative z-10 flex items-center gap-2 flex-1" href={header.url}>
+                                            <Link className="relative z-10 flex items-center gap-2 flex-1" href={header.url === "/account" ? "" : header.url}>
                                                 <span className="w-1.5 h-1.5 rounded-full bg-current opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                                                 <span>{header.title}</span>
                                             </Link>
