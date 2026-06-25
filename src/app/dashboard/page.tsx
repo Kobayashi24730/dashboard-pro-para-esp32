@@ -12,9 +12,13 @@ export default async function page() {
     
     const formataDadosGraficos = (dados: any[])=> {
         return dados.map((item) => ({
-            createdAt: new Date(item.createdAt || Date.now()).toLocaleTimeString("pt-BR",{ hour: '2-digit', minute: '2-digit' }),
+            device_id: item.device_id
+            sensor: item.sensor,
+            estado: item.estado,
+            valor: item.valor != null
+                ? Number(item.valor)
+                : Number(item.estado),
             name: item.device_id,
-            valor: item.valor != null ? Number(item.valor) : Number(item.estado)
         }));
     }
 
