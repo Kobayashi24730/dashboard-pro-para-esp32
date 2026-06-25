@@ -90,7 +90,7 @@ export default async function page() {
                         
                         {/* Content */}
                         <div className="relative z-10">
-                            <MonitoramentoPIR/>
+                            <MonitoramentoPIR values={data_pir}/>
                         </div>
                     </div>
                 </div>
