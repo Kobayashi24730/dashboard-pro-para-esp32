@@ -57,9 +57,7 @@ export default function Notifications({notificationsOpen, setNotificationsOpen}:
                 )}
             </div>
             <div className="border-t border-slate-800 pt-3 mt-2 flex justify-end">
-                <button className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-                    Limpar tudo
-                </button>
+                {/*<button className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors">Limpar tudo</button>*/}
             </div>
         </div>
     )
