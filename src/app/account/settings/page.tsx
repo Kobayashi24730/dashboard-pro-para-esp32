@@ -1,6 +1,6 @@
 'use client';
 import { useState } from "react";
-import { Settings, Bell, Lock, HelpCircle, Save, AlertCircle } from "lucide-react";
+import { Settings as SettingsIcon, Bell, Lock, HelpCircle, Save, AlertCircle } from "lucide-react";
 
 interface dataType {
     id: number;
@@ -101,7 +101,7 @@ export default function Settings() {
                                     : 'bg-slate-800/50 text-slate-300 hover:bg-slate-700/70 border border-slate-700/50 hover:border-indigo-500/30'
                             }`}
                         >
-                            {cat === 'geral' && <Settings className="w-4 h-4" />}
+                            {cat === 'geral' && <SettingsIcon className="w-4 h-4" />}
                             {cat === 'seguranca' && <Lock className="w-4 h-4" />}
                             {cat === 'notificacoes' && <Bell className="w-4 h-4" />}
                             {cat === 'ajuda' && <HelpCircle className="w-4 h-4" />}
@@ -110,7 +110,7 @@ export default function Settings() {
                     ))}
                 </div>
 
-                {/* Settings Content */}
+                {/* SettingsIcon Content */}
                 <div className="space-y-6">
                     {search.length > 0 ? (
                         search.map((item, index) => (

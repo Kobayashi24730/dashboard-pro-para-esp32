@@ -18,6 +18,7 @@ export default function Notifications({notificationsOpen, setNotificationsOpen}:
             try {
                 const data: any[] = await getValues();
                 const data_pir = data.filter((item) => item.device_id ==="ESP32_PIR_01");
+                console.log(data_pir);
                 setAlerta(data_pir);
             } catch (err) {
                 console.error("Erro ao carregar notificações:", err);

@@ -4,6 +4,7 @@ import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
 
 export default async function page() {
     const data: any[] = await getValues();
+    //console.log(data);
     const data_sound = data.filter((item) => item.device_id === "ESP32_SOUND_01");
     const data_pir = data.filter((item) => item.device_id === "ESP32_PIR_01");
     const data_humid = data.filter((item) => item.device_id === "ESP32_HUMID_01");
