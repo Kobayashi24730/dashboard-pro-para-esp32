@@ -76,7 +76,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                             >
                                 <Bell className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
                                 <span className="hidden md:inline font-semibold text-white text-sm">Notificações</span>
-                                <span className="absolute -top-1 -right-1 px-2 py-1 bg-gradient-to-r from-magenta-600 to-pink-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                <span className="absolute -top-1 -right-1 px-2 py-1 bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white text-xs font-bold rounded-full shadow-lg">
                                     {notificCount}
                                 </span>
                             </button>
@@ -85,7 +85,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                             <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-3 bg-slate-800/50 hover:bg-slate-700/70 border border-blue-500/30 hover:border-cyan-400/50 rounded-lg transition-all duration-200 cursor-pointer group">
                                 
                                 {/* Avatar */}
-                                <div className="w-8 h-8 bg-gradient-to-br from-magenta-500 to-pink-600 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+                                <div className="w-8 h-8 bg-gradient-to-br from-fuchsia-500 to-pink-600 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
                                     <span className="text-white font-bold text-sm">
                                         {session?.user?.email ? session.user.email.charAt(0).toUpperCase() : "U"}
                                     </span>

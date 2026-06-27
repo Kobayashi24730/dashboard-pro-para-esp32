@@ -84,11 +84,11 @@ export default function Sidebar({openMenu, setOpenMenu}: SidebarProps) {
                                         {/* Main Menu Item */}
                                         <button
                                             onClick={() => hasSubItems ? toggleSubMenu(header.title) : null}
-                                            className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex justify-between items-center font-medium group relative overflow-hidden ${
-                                                isOpen
-                                                    ? "bg-gradient-to-r from-cyan-600/40 to-blue-600/40 text-cyan-300 shadow-lg shadow-cyan-500/20 border border-cyan-500/50"
-                                                    : "bg-slate-800/30 hover:bg-slate-700/50 text-slate-200 hover:text-cyan-300 border border-transparent hover:border-cyan-500/30"
-                                            }`}
+                className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex justify-between items-center font-medium group relative overflow-hidden ${
+                                isOpen
+                                    ? "bg-gradient-to-r from-cyan-600/40 to-blue-600/40 text-cyan-300 shadow-lg shadow-cyan-500/20 border border-cyan-500/50"
+                                    : "bg-slate-800/30 hover:bg-slate-700/50 text-slate-200 hover:text-cyan-300 border border-transparent hover:border-cyan-500/30"
+                            }`}
                                         >
                                             {/* Animated background */}
                                             <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/0 to-cyan-600/0 group-hover:from-cyan-600/10 group-hover:to-cyan-600/5 transition-all duration-300" />

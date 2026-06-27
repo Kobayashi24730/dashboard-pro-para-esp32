@@ -58,7 +58,7 @@ export default async function page() {
                         )}
                         {data_pir.length > 0 && (
                             <div className="group hover-scale fade-in">
-                                <Card themeColor="magenta" title="Sensor PIR" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
+                                <Card themeColor="fuchsia" title="Sensor PIR" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
                             </div>
                         )}
                         {data_humid.length > 0 && (
@@ -82,7 +82,7 @@ export default async function page() {
                 {/* Monitoramento PIR Section */}
                 <div className="space-y-6">
                     <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                        <span className="w-1 h-8 bg-gradient-to-b from-magenta-500 to-pink-500 rounded-full"></span>
+                        <span className="w-1 h-8 bg-gradient-to-b from-fuchsia-500 to-pink-500 rounded-full"></span>
                         Monitoramento PIR
                     </h2>
                     
@@ -132,15 +132,15 @@ export default async function page() {
                         </div>
 
                         {/* Card 3 - Uptime */}
-                        <div className="group relative overflow-hidden rounded-xl border border-magenta-500/30 backdrop-blur-xl bg-gradient-to-br from-magenta-950/40 to-pink-900/30 p-6 hover:border-magenta-400/50 transition-all duration-300 hover:shadow-glow-magenta">
-                            <div className="absolute inset-0 bg-gradient-to-br from-magenta-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="group relative overflow-hidden rounded-xl border border-fuchsia-500/30 backdrop-blur-xl bg-gradient-to-br from-fuchsia-950/40 to-pink-900/30 p-6 hover:border-fuchsia-400/50 transition-all duration-300 hover:shadow-glow-fuchsia">
+                            <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
                                     <p className="text-slate-300 text-sm font-medium">Uptime</p>
                                     <span className="text-2xl">⏱️</span>
                                 </div>
                                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">99.9%</h3>
-                                <p className="text-magenta-400 text-xs font-semibold">Disponibilidade</p>
+                                <p className="text-fuchsia-400 text-xs font-semibold">Disponibilidade</p>
                             </div>
                         </div>
                     </div>

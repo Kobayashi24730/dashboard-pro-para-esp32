@@ -3,7 +3,7 @@ import { AreaChart, Area, XAxis, ResponsiveContainer } from "recharts";
 import { TrendingUp } from "lucide-react";
 
 interface DateProps {
-    themeColor: 'verde' | 'roxo' | 'azul' | 'vermelho' | 'cyan' | 'magenta';
+    themeColor: 'verde' | 'roxo' | 'azul' | 'vermelho' | 'cyan' | 'fuchsia';
     title: string;
     values: {  device_id: string; sensor: string; estado: boolean; valor?: number; name?: string }[];
     bestValue: number;
@@ -15,7 +15,7 @@ const themes = {
     azul: "bg-gradient-to-br from-blue-500 to-indigo-700",
     vermelho: "bg-gradient-to-br from-orange-500 to-red-700",
     cyan: "bg-gradient-to-br from-cyan-500 to-blue-700",
-    magenta: "bg-gradient-to-br from-magenta-500 to-pink-700"
+    fuchsia: "bg-gradient-to-br from-fuchsia-500 to-pink-700"
 };
 
 const glowEffects = {
@@ -24,7 +24,7 @@ const glowEffects = {
     azul: "shadow-lg shadow-blue-500/40",
     vermelho: "shadow-lg shadow-orange-500/40",
     cyan: "shadow-lg shadow-cyan-500/40",
-    magenta: "shadow-lg shadow-magenta-500/40"
+    fuchsia: "shadow-lg shadow-fuchsia-500/40"
 };
 
 const borderStyles = {
@@ -33,7 +33,7 @@ const borderStyles = {
     azul: "border-blue-500/40 hover:border-blue-400/60",
     vermelho: "border-orange-500/40 hover:border-orange-400/60",
     cyan: "border-cyan-500/40 hover:border-cyan-400/60",
-    magenta: "border-magenta-500/40 hover:border-magenta-400/60"
+    fuchsia: "border-fuchsia-500/40 hover:border-fuchsia-400/60"
 };
 
 const overlayBg = {
@@ -42,7 +42,7 @@ const overlayBg = {
     azul: "bg-blue-500/15",
     vermelho: "bg-orange-500/15",
     cyan: "bg-cyan-500/15",
-    magenta: "bg-magenta-500/15"
+    fuchsia: "bg-fuchsia-500/15"
 };
 
 const gradientFills = {
@@ -51,7 +51,7 @@ const gradientFills = {
     azul: "url(#colorValor-azul)",
     vermelho: "url(#colorValor-vermelho)",
     cyan: "url(#colorValor-cyan)",
-    magenta: "url(#colorValor-magenta)"
+    fuchsia: "url(#colorValor-fuchsia)"
 };
 
 export default function Card({themeColor, title, values, bestValue}: DateProps) {
@@ -60,6 +60,7 @@ export default function Card({themeColor, title, values, bestValue}: DateProps) 
     let borderColor = borderStyles[themeColor] || borderStyles.azul;
     let overlayColor = overlayBg[themeColor] || overlayBg.azul;
     let gradientFill = gradientFills[themeColor] || gradientFills.azul;
+    const gradientId = `colorValor-${themeColor}`;
     
     const chartData = values.map((value, index) => ({
         name: `${index + 1}`,
@@ -95,7 +96,7 @@ export default function Card({themeColor, title, values, bestValue}: DateProps) 
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
                         <defs>
-                            <linearGradient id={`colorValor-${themeColor}`} x1="0" y1="0" x2="0" y2="1">
+                            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#ffffff" stopOpacity={0.5} />
                                 <stop offset="95%" stopColor="#ffffff" stopOpacity={0.0} />
                             </linearGradient>

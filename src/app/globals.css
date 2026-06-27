@@ -90,7 +90,7 @@
   --color-secondary-light: #ff00ff;
   --color-secondary-dark: #cc00cc;
   --color-accent-cyan: #00d4ff;
-  --color-accent-magenta: #ff00ff;
+  --color-accent-fuchsia: #ff00ff;
   --color-accent-orange: #ff6600;
   --color-success: #00ff88;
   --color-warning: #ffaa00;
@@ -225,8 +225,8 @@
     @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent;
   }
 
-  .gradient-text-magenta {
-    @apply bg-gradient-to-r from-magenta-400 to-pink-400 bg-clip-text text-transparent;
+  .gradient-text-fuchsia {
+    @apply bg-gradient-to-r from-fuchsia-400 to-pink-400 bg-clip-text text-transparent;
   }
 
   /* Smooth transitions */
@@ -252,8 +252,8 @@
     @apply shadow-2xl shadow-cyan-500/40;
   }
 
-  .glow-magenta {
-    @apply shadow-lg shadow-magenta-500/30;
+  .glow-fuchsia {
+    @apply shadow-lg shadow-fuchsia-500/30;
   }
 
   .glow-blue {
