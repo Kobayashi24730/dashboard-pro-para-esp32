@@ -84,22 +84,25 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* ==================== CUSTOM COLORS ==================== */
-  --color-primary-light: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-secondary-light: #8b5cf6;
-  --color-secondary-dark: #7c3aed;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  /* ==================== CUSTOM COLORS - REFERENCE IMAGE PALETTE ==================== */
+  --color-primary-light: #00d4ff;
+  --color-primary-dark: #0099cc;
+  --color-secondary-light: #ff00ff;
+  --color-secondary-dark: #cc00cc;
+  --color-accent-cyan: #00d4ff;
+  --color-accent-magenta: #ff00ff;
+  --color-accent-orange: #ff6600;
+  --color-success: #00ff88;
+  --color-warning: #ffaa00;
+  --color-error: #ff3333;
+  --color-info: #0099ff;
 
   /* ==================== GLASS EFFECT ==================== */
   --glass-blur: 12px;
   --glass-opacity: 0.1;
 }
 
-/* ==================== DARK MODE ==================== */
+/* ==================== DARK MODE - REFERENCE IMAGE STYLE ==================== */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -141,7 +144,7 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-gradient-to-br from-slate-900 via-blue-900 to-slate-950 text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -204,18 +207,26 @@
 
 /* ==================== CUSTOM ANIMATIONS ==================== */
 @layer utilities {
-  /* Glassmorphism effect */
+  /* Glassmorphism effect - Updated for reference image */
   .glass {
     @apply backdrop-blur-xl bg-white/10 border border-white/20;
   }
 
   .glass-dark {
-    @apply backdrop-blur-xl bg-slate-900/40 border border-slate-700/50;
+    @apply backdrop-blur-xl bg-slate-800/30 border border-slate-600/40;
   }
 
-  /* Gradient text */
+  .glass-premium {
+    @apply backdrop-blur-2xl bg-slate-800/40 border border-slate-600/50 shadow-2xl;
+  }
+
+  /* Gradient text - Updated colors */
   .gradient-text {
-    @apply bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  .gradient-text-magenta {
+    @apply bg-gradient-to-r from-magenta-400 to-pink-400 bg-clip-text text-transparent;
   }
 
   /* Smooth transitions */
@@ -228,17 +239,25 @@
     @apply transition-transform duration-300 hover:scale-105;
   }
 
-  /* Glow effect */
+  /* Glow effect - Updated for reference colors */
   .glow {
-    @apply shadow-lg shadow-primary/50;
+    @apply shadow-lg shadow-cyan-500/30;
   }
 
   .glow-sm {
-    @apply shadow-md shadow-primary/30;
+    @apply shadow-md shadow-cyan-500/20;
   }
 
   .glow-lg {
-    @apply shadow-2xl shadow-primary/60;
+    @apply shadow-2xl shadow-cyan-500/40;
+  }
+
+  .glow-magenta {
+    @apply shadow-lg shadow-magenta-500/30;
+  }
+
+  .glow-blue {
+    @apply shadow-lg shadow-blue-500/30;
   }
 
   /* Pulse animation */
@@ -276,7 +295,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.2),
+      rgba(0, 212, 255, 0.2),
       transparent
     );
     background-size: 200% 100%;
@@ -315,18 +334,35 @@
     backdrop-filter: blur(40px);
   }
 
-  /* Border animations */
+  /* Border animations - Updated for reference colors */
   .border-animate {
     position: relative;
-    background: linear-gradient(90deg, #1e293b, #0f172a, #1e293b);
+    background: linear-gradient(90deg, #1e3a8a, #0c4a6e, #1e3a8a);
     background-size: 200% 100%;
     animation: border-shift 3s ease infinite;
   }
 
   /* Shadow animations */
   .shadow-glow {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
     animation: shadow-pulse 2s ease-in-out infinite;
+  }
+
+  .shadow-glow-md {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  }
+
+  .shadow-glow-lg {
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+  }
+
+  /* Reference image gradient backgrounds */
+  .bg-gradient-reference {
+    @apply bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900;
+  }
+
+  .bg-gradient-card {
+    @apply bg-gradient-to-br from-slate-800/50 to-slate-900/50;
   }
 }
 
@@ -418,10 +454,10 @@
 @keyframes shadow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
   }
 }
 
@@ -469,11 +505,11 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-700 rounded-full hover:bg-slate-600;
+    @apply bg-cyan-600 rounded-full hover:bg-cyan-500;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-500;
+    @apply bg-cyan-400;
   }
 }
 
