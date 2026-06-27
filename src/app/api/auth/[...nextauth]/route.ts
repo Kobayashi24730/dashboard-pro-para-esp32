@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
 export const authOptions = {
+    secret: process.env.NEXTAUTH_SECRET || "your-secret-key-change-in-production-12345",
     providers: [
         CredentialsProvider({
             name: "credentials",
@@ -19,7 +20,21 @@ export const authOptions = {
     pages: {
         signIn: "/account/login",
     },
-    session: { strategy: "jwt" as const }
+    session: { strategy: "jwt" as const },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.id as string;
+            }
+            return session;
+        },
+    }
 };
 
 const handle = NextAuth(authOptions);
