@@ -38,8 +38,8 @@ export default function Card({themeColor = 'azul', title, values = [], bestValue
 
     const maxValue = Math.max(...chartData.map(d => d.valor), bestValue);
     const currentValue = chartData.length > 0 ? chartData[chartData.length - 1].valor : 0;
-    const percentageChange = chartData.length > 1 
-        ? ((chartData[chartData.length - 1].valor - chartData[0].valor) / chartData[0].valor * 100).toFixed(1)
+    const percentageChangeValue = chartData.length > 1 
+        ? Number(((chartData[chartData.length - 1].valor - chartData[0].valor) / chartData[0].valor * 100).toFixed(1))
         : 0;
 
     return (
@@ -61,8 +61,8 @@ export default function Card({themeColor = 'azul', title, values = [], bestValue
             <div className="mb-4">
                 <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-gray-900">{currentValue.toFixed(0)}</span>
-                    <span className={`text-sm font-semibold ${percentageChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {percentageChange >= 0 ? '+' : ''}{percentageChange}%
+                <span className={`text-sm font-semibold ${percentageChangeValue >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    {percentageChangeValue >= 0 ? '+' : ''}{percentageChangeValue}%
                     </span>
                 </div>
             </div>
