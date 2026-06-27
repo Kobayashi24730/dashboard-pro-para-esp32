@@ -464,19 +464,19 @@
 /* ==================== RESPONSIVE UTILITIES ==================== */
 @layer utilities {
   /* Mobile-first responsive text sizes */
-  @screen sm {
+  @media (min-width: 640px) {
     .text-responsive {
       @apply text-lg;
     }
   }
 
-  @screen md {
+  @media (min-width: 768px) {
     .text-responsive {
       @apply text-xl;
     }
   }
 
-  @screen lg {
+  @media (min-width: 1024px) {
     .text-responsive {
       @apply text-2xl;
     }

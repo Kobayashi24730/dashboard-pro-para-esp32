@@ -1,7 +1,7 @@
 'use client';
 
 interface DateProps {
-    values: any[];
+    values?: any[];
 }
 
 function OpenView(values: string) {
@@ -12,7 +12,7 @@ function OpenView(values: string) {
         </div>
     );
 }
-export default function MonitoramentoPIR({values = []}: DateProps){
+export default function MonitoramentoPIR({values = []}: DateProps = {}){
     return (
         <div className="w-full max-w-4xl border border-slate-800 rounded-xl bg-slate-900/50 backdrop-blur-sm overflow-hidden shadow-md">
             <table className="w-full border-collapse text-left text-sm text-slate-300">
