@@ -1,158 +1,182 @@
-import Card from "@/backend/components/Card";
-import getValues from "@/backend/data/useTextValues";
-import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
+'use client';
 
-export default async function page() {
-    const data: any[] = await getValues();
-    //console.log(data);
-    const data_sound = data.filter((item) => item.device_id === "ESP32_SOUND_01");
-    const data_pir = data.filter((item) => item.device_id === "ESP32_PIR_01");
-    const data_humid = data.filter((item) => item.device_id === "ESP32_HUMID_01");
-    const data_temp = data.filter((item) => item.device_id === "ESP32_TEMP_01");
-    const data_ultra = data.filter((item) => item.device_id === "ESP32_ULTRA_01");
-    
-    const formataDadosGraficos = (dados: any[])=> {
-        return dados.map((item) => ({
-            device_id: item.device_id,
-            sensor: item.sensor,
-            estado: item.estado,
-            valor: item.valor != null
-                ? Number(item.valor)
-                : Number(item.estado),
-            name: item.device_id
+import Card from "@/backend/components/Card";
+import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
+import getValues from "@/backend/data/useTextValues";
+import { useState, useEffect } from "react";
+import { Users, Zap, Wifi, Thermometer, TrendingUp, Calendar } from "lucide-react";
+
+interface SensorData {
+    device_id: string;
+    sensor: string;
+    estado: boolean;
+    valor?: number;
+    name?: string;
+}
+
+export default function Dashboard() {
+    const [data, setData] = useState<SensorData[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const arrayData = await getValues();
+                setData(arrayData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // Filter data by sensor type
+    const data_temp = data.filter((item: any) => item.sensor === "Temperatura");
+    const data_humid = data.filter((item: any) => item.sensor === "Umidade");
+    const data_sound = data.filter((item: any) => item.sensor === "Som");
+    const data_pir = data.filter((item: any) => item.sensor === "PIR");
+
+    const formataDadosGraficos = (dados: SensorData[]) => {
+        return dados.slice(-10).map((item) => ({
+            ...item,
+            valor: item.valor || 0,
         }));
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading dashboard...</p>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <section className="w-full min-h-screen bg-gradient-to-br from-slate-950 via-blue-900 to-slate-950 p-6 md:p-8 lg:p-10">
-            {/* Container Principal */}
-            <div className="max-w-7xl mx-auto space-y-8">
-                
-                {/* Header Section */}
-                <div className="space-y-3 slide-in-down">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                                Dashboard
-                            </h1>
-                            <p className="text-slate-300 text-lg md:text-xl mt-2 font-light">
-                                Monitoramento em tempo real dos seus dispositivos ESP32
-                            </p>
-                        </div>
+        <div className="p-6 md:p-8 space-y-8">
+            {/* Header Banner */}
+            <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 rounded-xl p-8 md:p-12 text-white shadow-md">
+                <div className="flex items-start justify-between">
+                    <div>
+                        <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to Dashboard</h1>
+                        <p className="text-blue-100 text-lg">Monitor your ESP32 sensors in real-time</p>
                     </div>
-                    <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
-                </div>
-
-                {/* Sensores Grid */}
-                <div className="space-y-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                        <span className="w-1 h-8 bg-gradient-to-b from-cyan-500 to-blue-500 rounded-full"></span>
-                        Sensores Ativos
-                    </h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                        {data_sound.length > 0 && (
-                            <div className="group hover-scale fade-in">
-                                <Card themeColor="cyan" title="Sensor de Som" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
-                            </div>
-                        )}
-                        {data_pir.length > 0 && (
-                            <div className="group hover-scale fade-in">
-                                <Card themeColor="fuchsia" title="Sensor PIR" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
-                            </div>
-                        )}
-                        {data_humid.length > 0 && (
-                            <div className="group hover-scale fade-in">
-                                <Card themeColor="azul" title="Umidade" values={formataDadosGraficos(data_humid)} bestValue={1000}/>
-                            </div>
-                        )}
-                        {data_temp.length > 0 && (
-                            <div className="group hover-scale fade-in">
-                                <Card themeColor="vermelho" title="Temperatura" values={formataDadosGraficos(data_temp)} bestValue={1000}/>
-                            </div>
-                        )}
-                        {data_ultra.length > 0 && (
-                            <div className="group hover-scale fade-in">
-                                <Card themeColor="verde" title="Ultrassônico" values={formataDadosGraficos(data_ultra)} bestValue={1000}/>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Monitoramento PIR Section */}
-                <div className="space-y-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                        <span className="w-1 h-8 bg-gradient-to-b from-fuchsia-500 to-pink-500 rounded-full"></span>
-                        Monitoramento PIR
-                    </h2>
-                    
-                    <div className="relative overflow-hidden rounded-2xl border border-blue-500/30 backdrop-blur-xl bg-gradient-to-br from-slate-800/40 to-blue-900/40 p-6 md:p-8 shadow-2xl hover:shadow-glow-lg transition-all duration-300 group">
-                        {/* Animated background gradient */}
-                        <div className="absolute inset-0 bg-gradient-mesh opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        
-                        {/* Content */}
-                        <div className="relative z-10">
-                            <MonitoramentoPIR/>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Estatísticas Rápidas */}
-                <div className="space-y-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
-                        <span className="w-1 h-8 bg-gradient-to-b from-cyan-500 to-blue-500 rounded-full"></span>
-                        Estatísticas do Sistema
-                    </h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Card 1 - Status Geral */}
-                        <div className="group relative overflow-hidden rounded-xl border border-cyan-500/30 backdrop-blur-xl bg-gradient-to-br from-cyan-950/40 to-blue-900/30 p-6 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-glow-cyan">
-                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-4">
-                                    <p className="text-slate-300 text-sm font-medium">Status Geral</p>
-                                    <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse-soft shadow-lg shadow-cyan-400/50"></div>
-                                </div>
-                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Online</h3>
-                                <p className="text-cyan-400 text-xs font-semibold">Sistema operacional</p>
-                            </div>
-                        </div>
-
-                        {/* Card 2 - Dispositivos */}
-                        <div className="group relative overflow-hidden rounded-xl border border-blue-500/30 backdrop-blur-xl bg-gradient-to-br from-blue-950/40 to-slate-900/30 p-6 hover:border-blue-400/50 transition-all duration-300 hover:shadow-glow-blue">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-4">
-                                    <p className="text-slate-300 text-sm font-medium">Dispositivos Conectados</p>
-                                    <span className="text-2xl">📡</span>
-                                </div>
-                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">{data.length}</h3>
-                                <p className="text-blue-400 text-xs font-semibold">Sensores ativos</p>
-                            </div>
-                        </div>
-
-                        {/* Card 3 - Uptime */}
-                        <div className="group relative overflow-hidden rounded-xl border border-fuchsia-500/30 backdrop-blur-xl bg-gradient-to-br from-fuchsia-950/40 to-pink-900/30 p-6 hover:border-fuchsia-400/50 transition-all duration-300 hover:shadow-glow-fuchsia">
-                            <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-4">
-                                    <p className="text-slate-300 text-sm font-medium">Uptime</p>
-                                    <span className="text-2xl">⏱️</span>
-                                </div>
-                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">99.9%</h3>
-                                <p className="text-fuchsia-400 text-xs font-semibold">Disponibilidade</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Footer Info */}
-                <div className="mt-12 pt-8 border-t border-blue-500/20">
-                    <p className="text-slate-400 text-sm text-center">
-                        Dashboard atualizado em tempo real • Próxima atualização em alguns segundos
-                    </p>
+                    <div className="hidden md:block text-6xl opacity-20">📊</div>
                 </div>
             </div>
-        </section>
-    )
+
+            {/* KPI Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Active Devices */}
+                <div className="fluent-card">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-gray-600">Active Devices</h3>
+                        <div className="p-2 bg-green-100 rounded-lg">
+                            <Wifi className="w-5 h-5 text-green-600" />
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">{data.length}</p>
+                    <p className="text-xs text-gray-500 mt-2">Devices online</p>
+                </div>
+
+                {/* Temperature */}
+                <div className="fluent-card">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-gray-600">Temperature</h3>
+                        <div className="p-2 bg-orange-100 rounded-lg">
+                            <Thermometer className="w-5 h-5 text-orange-600" />
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">
+                        {data_temp.length > 0 ? data_temp[data_temp.length - 1].valor?.toFixed(1) : '0'}°C
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">Current reading</p>
+                </div>
+
+                {/* Humidity */}
+                <div className="fluent-card">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-gray-600">Humidity</h3>
+                        <div className="p-2 bg-blue-100 rounded-lg">
+                            <Zap className="w-5 h-5 text-blue-600" />
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">
+                        {data_humid.length > 0 ? data_humid[data_humid.length - 1].valor?.toFixed(1) : '0'}%
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2">Current reading</p>
+                </div>
+
+                {/* PIR Events */}
+                <div className="fluent-card">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-gray-600">PIR Events</h3>
+                        <div className="p-2 bg-purple-100 rounded-lg">
+                            <TrendingUp className="w-5 h-5 text-purple-600" />
+                        </div>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-900">{data_pir.length}</p>
+                    <p className="text-xs text-gray-500 mt-2">Detected today</p>
+                </div>
+            </div>
+
+            {/* Sensor Cards Grid */}
+            <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Sensor Readings</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {data_temp.length > 0 && (
+                        <Card themeColor="vermelho" title="Temperature Sensor" values={formataDadosGraficos(data_temp)} bestValue={50}/>
+                    )}
+                    {data_humid.length > 0 && (
+                        <Card themeColor="azul" title="Humidity Sensor" values={formataDadosGraficos(data_humid)} bestValue={100}/>
+                    )}
+                    {data_sound.length > 0 && (
+                        <Card themeColor="cyan" title="Sound Sensor" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
+                    )}
+                    {data_pir.length > 0 && (
+                        <Card themeColor="fuchsia" title="PIR Sensor" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
+                    )}
+                </div>
+            </div>
+
+            {/* PIR Monitoring Section */}
+            <div>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">PIR Monitoring</h2>
+                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
+                        View All
+                    </button>
+                </div>
+                <div className="fluent-card">
+                    <MonitoramentoPIR values={data_pir} />
+                </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+                <div className="space-y-3">
+                    {data.slice(-5).map((item, index) => (
+                        <div key={index} className="fluent-card flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <div>
+                                    <p className="font-medium text-gray-900">{item.sensor}</p>
+                                    <p className="text-xs text-gray-500">{item.device_id}</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <p className="font-semibold text-gray-900">{item.valor?.toFixed(2) || 'N/A'}</p>
+                                <p className="text-xs text-gray-500">Just now</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 }
