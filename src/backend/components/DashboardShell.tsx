@@ -5,12 +5,12 @@ import Sidebar from "@/backend/components/Headers";
 import Notifications from "@/backend/components/notifications";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Bell, Search, User, Settings } from "lucide-react";
+import { Bell, Search, Settings } from "lucide-react";
 import getValues from "@/backend/data/useTextValues";
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
     const [openMenu, setOpenMenu] = useState(false);
-    const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
+    const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [notificCount, setNotificCount] = useState(0);
     const { data: session, status } = useSession();
 
@@ -18,7 +18,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         const fetchNotific = async () => {
             try {
                 const arrayData = await getValues();
-                const notific = arrayData.filter((item: any) => item.device_id === "ESP32_PIR_01");
+                const notific = arrayData.filter(
+                    (item: any) => item.device_id === "ESP32_PIR_01"
+                );
                 setNotificCount(notific.length);
             } catch (error) {
                 console.error("Error fetching notifications:", error);
@@ -28,112 +30,128 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     }, []);
 
     return (
-        <div className="flex h-screen bg-gray-50">
+        <div className="flex h-screen bg-background overflow-hidden">
             {/* Sidebar */}
             <Sidebar openMenu={openMenu} setOpenMenu={setOpenMenu} />
 
             {/* Main Content Area */}
-            <div className={`flex-1 flex flex-col h-screen transition-all duration-300 ease-in-out ${openMenu ? "ml-64" : "ml-20"}`}>
-                
-                {/* Header */}
-                <header className="sticky top-0 z-40 border-b border-gray-200 bg-white shadow-sm">
-                    <div className="grid grid-cols-12 gap-4 px-6 md:px-8 py-4 md:py-5">
-                        
-                        {/* Left Section - Title */}
-                        <div className="col-span-6 flex items-center gap-4">
-                            <div className="hidden sm:flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
-                                    <span className="text-white font-bold text-lg">📊</span>
+            <div
+                className={`flex-1 flex flex-col h-screen transition-all duration-300 ease-in-out ${
+                    openMenu ? "ml-64" : "ml-16"
+                }`}
+            >
+                {/* ─── Header (Fluent Command Bar) ─── */}
+                <header className="sticky top-0 z-40 h-12 bg-card border-b border-border flex items-center px-4">
+                    <div className="flex items-center justify-between w-full">
+                        {/* Left — Logo & Title */}
+                        <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
+                                    <svg
+                                        className="w-4 h-4 text-primary-foreground"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        strokeWidth={2.5}
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M3 3v18h18M7 16l4-6 4 4 4-8"
+                                        />
+                                    </svg>
                                 </div>
-                                <div>
-                                    <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-                                        Dashboard
-                                    </h1>
-                                    <p className="text-xs text-gray-500">NEX Academy</p>
-                                </div>
-                            </div>
-                            <div className="sm:hidden">
-                                <h1 className="text-lg font-bold text-gray-900">Dashboard</h1>
+                                <h1 className="text-sm font-semibold text-foreground">
+                                    Dashboard Pro ESP32
+                                </h1>
                             </div>
                         </div>
 
-                        {/* Center Section - Search */}
-                        <div className="col-span-3 hidden md:flex items-center">
-                            <div className="relative w-full group">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                        {/* Center — Search */}
+                        <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+                            <div className="relative w-full">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                                 <input
                                     type="text"
-                                    placeholder="Search..."
-                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 placeholder-gray-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                                    placeholder="Buscar..."
+                                    className="w-full pl-9 pr-4 py-1.5 text-sm rounded-md bg-muted/50 border border-transparent text-foreground placeholder:text-muted-foreground outline-none focus:bg-card focus:border-primary transition-all"
                                 />
                             </div>
                         </div>
 
-                        {/* Right Section - Actions */}
-                        <div className="col-span-6 md:col-span-3 flex items-center justify-end gap-3 md:gap-4">
-                            
-                            {/* Notifications Button */}
-                            <button 
-                                onClick={() => setNotificationsOpen(true)} 
-                                className="relative group flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-all duration-200 cursor-pointer"
-                                title="Notifications"
+                        {/* Right — Actions */}
+                        <div className="flex items-center gap-1">
+                            {/* Notifications */}
+                            <button
+                                onClick={() => setNotificationsOpen(true)}
+                                className="relative flex items-center gap-2 px-3 py-1.5 rounded-md hover-subtle text-foreground transition-all"
+                                title="Notificações"
                             >
-                                <Bell className="w-5 h-5 text-gray-600 group-hover:text-blue-500 transition-colors" />
-                                <span className="hidden md:inline font-medium text-gray-700 text-sm">Notifications</span>
+                                <Bell className="w-4 h-4" />
+                                <span className="hidden lg:inline text-xs font-medium">
+                                    Alertas
+                                </span>
                                 {notificCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full shadow-sm">
+                                    <span className="absolute top-0.5 right-0.5 min-w-[16px] h-4 flex items-center justify-center px-1 bg-error text-primary-foreground text-[10px] font-semibold rounded-full">
                                         {notificCount}
                                     </span>
                                 )}
                             </button>
 
-                            {/* Settings Button */}
-                            <Link 
+                            {/* Settings */}
+                            <Link
                                 href="/account/settings"
-                                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-all duration-200"
-                                title="Settings"
+                                className="hidden sm:flex items-center px-3 py-1.5 rounded-md hover-subtle text-foreground transition-all"
+                                title="Configurações"
                             >
-                                <Settings className="w-5 h-5 text-gray-600 hover:text-blue-500 transition-colors" />
-                                <span className="hidden md:inline font-medium text-gray-700 text-sm">Settings</span>
+                                <Settings className="w-4 h-4" />
                             </Link>
 
-                            {/* User Profile Section */}
-                            <div className="flex items-center gap-2 md:gap-3 px-3 md:px-4 py-2 md:py-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-all duration-200 cursor-pointer group">
-                                
-                                {/* Avatar */}
-                                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center shadow-sm flex-shrink-0">
-                                    <span className="text-white font-bold text-sm">
-                                        {session?.user?.email ? session.user.email.charAt(0).toUpperCase() : "U"}
+                            {/* Divider */}
+                            <div className="w-px h-5 bg-border mx-1" />
+
+                            {/* User */}
+                            <Link
+                                href="/account/profile"
+                                className="flex items-center gap-2 px-2 py-1.5 rounded-md hover-subtle transition-all"
+                            >
+                                <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                    <span className="text-primary-foreground text-xs font-semibold">
+                                        {session?.user?.email
+                                            ? session.user.email
+                                                  .charAt(0)
+                                                  .toUpperCase()
+                                            : "U"}
                                     </span>
                                 </div>
-
-                                {/* User Info */}
-                                <div className="hidden md:flex flex-col text-left min-w-0">
+                                <div className="hidden lg:block">
                                     {status === "loading" && (
-                                        <span className="text-xs font-medium text-gray-500 animate-pulse">Loading...</span>
+                                        <span className="text-xs text-muted-foreground">
+                                            Carregando...
+                                        </span>
                                     )}
                                     {status === "unauthenticated" && (
-                                        <Link href="/account/login" className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors">
-                                            Sign In
-                                        </Link>
+                                        <span className="text-xs font-medium text-primary">
+                                            Entrar
+                                        </span>
                                     )}
                                     {status === "authenticated" && session && (
-                                        <>
-                                            <span className="text-xs text-gray-500">Signed in as:</span>
-                                            <Link href="/account/profile" className="text-sm font-medium text-gray-900 hover:text-blue-600 truncate transition-colors">
-                                                {session.user?.email}
-                                            </Link>
-                                        </>
+                                        <span className="text-xs font-medium text-foreground">
+                                            {session.user?.email}
+                                        </span>
                                     )}
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </header>
 
-                {/* Main Content */}
-                <main className="flex-1 overflow-y-auto bg-gray-50">
-                    <Notifications notificationsOpen={notificationsOpen} setNotificationsOpen={setNotificationsOpen} />
+                {/* ─── Main Content ─── */}
+                <main className="flex-1 overflow-y-auto bg-background">
+                    <Notifications
+                        notificationsOpen={notificationsOpen}
+                        setNotificationsOpen={setNotificationsOpen}
+                    />
                     {children}
                 </main>
             </div>

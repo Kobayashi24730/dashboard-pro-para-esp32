@@ -4,7 +4,13 @@ import Card from "@/backend/components/Card";
 import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
 import getValues from "@/backend/data/useTextValues";
 import { useState, useEffect } from "react";
-import { Users, Zap, Wifi, Thermometer, TrendingUp, Calendar } from "lucide-react";
+import {
+    Wifi,
+    Thermometer,
+    Droplets,
+    TrendingUp,
+    Activity,
+} from "lucide-react";
 
 interface SensorData {
     device_id: string;
@@ -13,6 +19,29 @@ interface SensorData {
     valor?: number;
     name?: string;
 }
+
+/* ── KPI card config ── */
+const kpiIcons = {
+    devices: Wifi,
+    temp: Thermometer,
+    humid: Droplets,
+    pir: TrendingUp,
+};
+
+const kpiStyles = {
+    devices: {
+        icon: "text-success bg-success/10",
+    },
+    temp: {
+        icon: "text-warning bg-warning/10",
+    },
+    humid: {
+        icon: "text-info bg-info/10",
+    },
+    pir: {
+        icon: "text-purple-600 bg-purple-100",
+    },
+};
 
 export default function Dashboard() {
     const [data, setData] = useState<SensorData[]>([]);
@@ -32,146 +61,193 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    // Filter data by sensor type
-    const data_temp = data.filter((item: any) => item.sensor === "Temperatura");
-    const data_humid = data.filter((item: any) => item.sensor === "Umidade");
-    const data_sound = data.filter((item: any) => item.sensor === "Som");
-    const data_pir = data.filter((item: any) => item.sensor === "PIR");
+    const data_temp = data.filter((i) => i.sensor === "Temperatura");
+    const data_humid = data.filter((i) => i.sensor === "Umidade");
+    const data_sound = data.filter((i) => i.sensor === "Som");
+    const data_pir = data.filter((i) => i.sensor === "PIR");
 
-    const formataDadosGraficos = (dados: SensorData[]) => {
-        return dados.slice(-10).map((item) => ({
-            ...item,
-            valor: item.valor || 0,
-        }));
-    };
+    const chartData = (d: SensorData[]) =>
+        d.slice(-10).map((item) => ({ ...item, valor: item.valor || 0 }));
 
+    /* ── Loading ── */
     if (loading) {
         return (
             <div className="flex items-center justify-center h-full">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading dashboard...</p>
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm text-muted-foreground">
+                        Carregando dashboard...
+                    </p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 md:p-8 space-y-8">
-            {/* Header Banner */}
-            <div className="bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 rounded-xl p-8 md:p-12 text-white shadow-md">
+        <div className="p-6 space-y-6 animate-fade-in">
+            {/* ── Hero Banner ── */}
+            <div className="fluent-card p-6 bg-primary text-primary-foreground border-0">
                 <div className="flex items-start justify-between">
                     <div>
-                        <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to Dashboard</h1>
-                        <p className="text-blue-100 text-lg">Monitor your ESP32 sensors in real-time</p>
+                        <div className="flex items-center gap-2 mb-2">
+                            <Activity className="w-4 h-4" />
+                            <span className="text-xs font-semibold uppercase tracking-wider opacity-80">
+                                Monitoramento ao vivo
+                            </span>
+                        </div>
+                        <h1 className="text-2xl font-semibold mb-1">
+                            Dashboard ESP32
+                        </h1>
+                        <p className="text-sm opacity-80 max-w-lg">
+                            Visualize e gerencie seus sensores em tempo real.
+                            Dados atualizados automaticamente.
+                        </p>
                     </div>
-                    <div className="hidden md:block text-6xl opacity-20">📊</div>
+                    <div className="hidden md:flex w-12 h-12 rounded-lg bg-primary-foreground/10 items-center justify-center">
+                        <Activity className="w-6 h-6 opacity-60" />
+                    </div>
                 </div>
             </div>
 
-            {/* KPI Cards */}
+            {/* ── KPI Cards ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* Active Devices */}
-                <div className="fluent-card">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-semibold text-gray-600">Active Devices</h3>
-                        <div className="p-2 bg-green-100 rounded-lg">
-                            <Wifi className="w-5 h-5 text-green-600" />
+                {([
+                    {
+                        key: "devices",
+                        label: "Dispositivos Ativos",
+                        value: data.length,
+                        sub: "Online agora",
+                    },
+                    {
+                        key: "temp",
+                        label: "Temperatura",
+                        value: `${data_temp.length > 0 ? data_temp[data_temp.length - 1].valor?.toFixed(1) : "0"}°C`,
+                        sub: "Leitura atual",
+                    },
+                    {
+                        key: "humid",
+                        label: "Umidade",
+                        value: `${data_humid.length > 0 ? data_humid[data_humid.length - 1].valor?.toFixed(1) : "0"}%`,
+                        sub: "Leitura atual",
+                    },
+                    {
+                        key: "pir",
+                        label: "Eventos PIR",
+                        value: data_pir.length,
+                        sub: "Detectados hoje",
+                    },
+                ] as const).map((kpi) => {
+                    const Icon = kpiIcons[kpi.key];
+                    const style = kpiStyles[kpi.key];
+                    return (
+                        <div key={kpi.key} className="fluent-card p-4">
+                            <div className="flex items-center justify-between mb-3">
+                                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                    {kpi.label}
+                                </span>
+                                <div className={`w-8 h-8 rounded-md flex items-center justify-center ${style.icon}`}>
+                                    <Icon className="w-4 h-4" />
+                                </div>
+                            </div>
+                            <p className="text-2xl font-semibold text-foreground">
+                                {kpi.value}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                                {kpi.sub}
+                            </p>
                         </div>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900">{data.length}</p>
-                    <p className="text-xs text-gray-500 mt-2">Devices online</p>
-                </div>
-
-                {/* Temperature */}
-                <div className="fluent-card">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-semibold text-gray-600">Temperature</h3>
-                        <div className="p-2 bg-orange-100 rounded-lg">
-                            <Thermometer className="w-5 h-5 text-orange-600" />
-                        </div>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900">
-                        {data_temp.length > 0 ? data_temp[data_temp.length - 1].valor?.toFixed(1) : '0'}°C
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">Current reading</p>
-                </div>
-
-                {/* Humidity */}
-                <div className="fluent-card">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-semibold text-gray-600">Humidity</h3>
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                            <Zap className="w-5 h-5 text-blue-600" />
-                        </div>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900">
-                        {data_humid.length > 0 ? data_humid[data_humid.length - 1].valor?.toFixed(1) : '0'}%
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">Current reading</p>
-                </div>
-
-                {/* PIR Events */}
-                <div className="fluent-card">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-sm font-semibold text-gray-600">PIR Events</h3>
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                            <TrendingUp className="w-5 h-5 text-purple-600" />
-                        </div>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-900">{data_pir.length}</p>
-                    <p className="text-xs text-gray-500 mt-2">Detected today</p>
-                </div>
+                    );
+                })}
             </div>
 
-            {/* Sensor Cards Grid */}
+            {/* ── Sensor Charts ── */}
             <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Sensor Readings</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <span className="w-1 h-4 rounded-full bg-primary" />
+                    Leitura dos Sensores
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {data_temp.length > 0 && (
-                        <Card themeColor="vermelho" title="Temperature Sensor" values={formataDadosGraficos(data_temp)} bestValue={50}/>
+                        <Card
+                            themeColor="vermelho"
+                            title="Temperatura"
+                            values={chartData(data_temp)}
+                            bestValue={50}
+                        />
                     )}
                     {data_humid.length > 0 && (
-                        <Card themeColor="azul" title="Humidity Sensor" values={formataDadosGraficos(data_humid)} bestValue={100}/>
+                        <Card
+                            themeColor="azul"
+                            title="Umidade"
+                            values={chartData(data_humid)}
+                            bestValue={100}
+                        />
                     )}
                     {data_sound.length > 0 && (
-                        <Card themeColor="cyan" title="Sound Sensor" values={formataDadosGraficos(data_sound)} bestValue={1000}/>
+                        <Card
+                            themeColor="cyan"
+                            title="Som"
+                            values={chartData(data_sound)}
+                            bestValue={1000}
+                        />
                     )}
                     {data_pir.length > 0 && (
-                        <Card themeColor="fuchsia" title="PIR Sensor" values={formataDadosGraficos(data_pir)} bestValue={1000}/>
+                        <Card
+                            themeColor="fuchsia"
+                            title="PIR"
+                            values={chartData(data_pir)}
+                            bestValue={1000}
+                        />
                     )}
                 </div>
             </div>
 
-            {/* PIR Monitoring Section */}
+            {/* ── PIR Monitoring ── */}
             <div>
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">PIR Monitoring</h2>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium">
-                        View All
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                        <span className="w-1 h-4 rounded-full bg-purple-600" />
+                        Monitoramento PIR
+                    </h2>
+                    <button className="px-3 py-1.5 text-xs font-semibold rounded-md bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                        Ver todos
                     </button>
                 </div>
-                <div className="fluent-card">
+                <div className="fluent-card p-4">
                     <MonitoramentoPIR values={data_pir} />
                 </div>
             </div>
 
-            {/* Recent Activity */}
+            {/* ── Recent Activity ── */}
             <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
-                <div className="space-y-3">
+                <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <span className="w-1 h-4 rounded-full bg-info" />
+                    Atividade Recente
+                </h2>
+                <div className="space-y-2">
                     {data.slice(-5).map((item, index) => (
-                        <div key={index} className="fluent-card flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <div
+                            key={index}
+                            className="fluent-card flex items-center justify-between p-3"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-2 h-2 rounded-full bg-success" />
                                 <div>
-                                    <p className="font-medium text-gray-900">{item.sensor}</p>
-                                    <p className="text-xs text-gray-500">{item.device_id}</p>
+                                    <p className="text-sm font-medium text-foreground">
+                                        {item.sensor}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground font-mono">
+                                        {item.device_id}
+                                    </p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="font-semibold text-gray-900">{item.valor?.toFixed(2) || 'N/A'}</p>
-                                <p className="text-xs text-gray-500">Just now</p>
+                                <p className="text-sm font-semibold text-foreground tabular-nums">
+                                    {item.valor?.toFixed(2) ?? "N/A"}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                    Agora
+                                </p>
                             </div>
                         </div>
                     ))}

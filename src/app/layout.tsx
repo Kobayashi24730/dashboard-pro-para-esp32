@@ -14,23 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-    title: "Meu App Inteligente",
-    description: "Monitoramento de dispositivos em tempo real",
+    title: "Dashboard Pro ESP32",
+    description: "Monitoramento de dispositivos ESP32 em tempo real",
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-        <body className="h-screen w-screen bg-slate-950 text-white overflow-hidden antialiased">
-        <AuthProvider>
-            {/* O Shell consome os dados de sessão e gerencia os menus */}
-            <DashboardShell>{children}</DashboardShell>
-        </AuthProvider>
-        </body>
+        <html
+            lang="pt-BR"
+            className={`${geistSans.variable} ${geistMono.variable}`}
+        >
+            <body className="h-screen w-screen bg-background text-foreground overflow-hidden antialiased">
+                <AuthProvider>
+                    <DashboardShell>{children}</DashboardShell>
+                </AuthProvider>
+            </body>
         </html>
     );
 }

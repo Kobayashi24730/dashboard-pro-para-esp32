@@ -1,333 +1,333 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* ==================== MICROSOFT FLUENT DESIGN THEME ==================== */
-:root {
-  /* ==================== COLOR PALETTE - MICROSOFT FLUENT LIGHT ==================== */
-  /* Primary Colors */
-  --color-primary: #f3f3f3;
-  --color-primary-light: #fafafa;
-  --color-primary-dark: #e8e8e8;
-  
-  /* Secondary Colors */
-  --color-secondary: #ffffff;
-  --color-secondary-light: #fafafa;
-  --color-secondary-dark: #f0f0f0;
-  
-  /* Accent Colors */
-  --color-accent-green: #a4d65e;
-  --color-accent-blue: #b4d7ff;
-  --color-accent-purple: #d4b5ff;
-  --color-accent-orange: #ffd9a8;
-  
-  /* Neutral Colors */
-  --color-text-primary: #201f1e;
-  --color-text-secondary: #605e5c;
-  --color-text-tertiary: #8a8886;
-  --color-border: #d2d0ce;
-  --color-divider: #e1dfdd;
-  
-  /* Status Colors */
+/* =====================================================================
+   MICROSOFT FLUENT DESIGN SYSTEM — Tailwind CSS v4
+   Dashboard Pro ESP32 — Light theme, Fluent Design
+   ===================================================================== */
+
+@theme inline {
+  /* ---------- Fonts ---------- */
+  --font-sans: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", "Cascadia Mono", "Consolas", monospace;
+
+  /* ---------- Fluent Design Color Tokens ---------- */
+  --color-background: #fafafa;
+  --color-foreground: #201f1e;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #201f1e;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #201f1e;
+
+  --color-primary: #0078d4;
+  --color-primary-foreground: #ffffff;
+  --color-primary-hover: #106ebe;
+  --color-primary-active: #005a9e;
+
+  --color-secondary: #f3f2f1;
+  --color-secondary-foreground: #201f1e;
+
+  --color-muted: #f3f2f1;
+  --color-muted-foreground: #605e5c;
+
+  --color-accent: #0078d4;
+  --color-accent-foreground: #ffffff;
+
+  --color-destructive: #d13438;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #e1dfdd;
+  --color-input: #e1dfdd;
+  --color-ring: #0078d4;
+
+  /* Sidebar */
+  --color-sidebar: #fafafa;
+  --color-sidebar-foreground: #201f1e;
+  --color-sidebar-primary: #0078d4;
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-accent: #f3f2f1;
+  --color-sidebar-accent-foreground: #201f1e;
+  --color-sidebar-border: #e1dfdd;
+  --color-sidebar-ring: #0078d4;
+
+  /* Semantic Status (Microsoft colors) */
   --color-success: #107c10;
   --color-warning: #ffb900;
   --color-error: #d13438;
   --color-info: #0078d4;
-  
-  /* ==================== SPACING ==================== */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 16px;
-  --spacing-xl: 24px;
-  --spacing-2xl: 32px;
-  
-  /* ==================== TYPOGRAPHY ==================== */
-  --text-xs: 12px;
-  --text-sm: 13px;
-  --text-base: 14px;
-  --text-lg: 16px;
-  --text-xl: 18px;
-  --text-2xl: 24px;
-  --text-3xl: 32px;
-  
-  /* ==================== SHADOWS ==================== */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+  /* Neutral palette */
+  --color-neutral-10: #faf9f8;
+  --color-neutral-20: #f3f2f1;
+  --color-neutral-30: #edebe9;
+  --color-neutral-40: #e1dfdd;
+  --color-neutral-60: #a19f9d;
+  --color-neutral-80: #605e5c;
+  --color-neutral-90: #323130;
+  --color-neutral-100: #201f1e;
+
+  /* Chart palette (vibrant but professional) */
+  --color-chart-1: #0078d4;
+  --color-chart-2: #107c10;
+  --color-chart-3: #ffb900;
+  --color-chart-4: #d13438;
+  --color-chart-5: #8764b8;
+
+  /* Radius (Fluent: subtle, not exaggerated) */
+  --radius: 0.375rem; /* 6px */
+
+  /* Spacing */
+  --spacing-sidebar: 16rem;
+  --spacing-header: 3rem;
+
+  /* Shadows (Fluent elevation: subtle, layered) */
+  --shadow-elevation1: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
+    0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
+  --shadow-elevation2: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132),
+    0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
+  --shadow-elevation4: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+    0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+
+  /* Keyframes */
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-up: slide-up 0.25s ease-out;
+  --animate-slide-down: slide-down 0.2s ease-out;
+  --animate-scale-in: scale-in 0.15s ease-out;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
 }
 
-/* ==================== GLOBAL STYLES ==================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* =====================================================================
+   BASE LAYER — Resets & Global Styles
+   ===================================================================== */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-neutral-100);
+  }
+
+  /* Typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    color: var(--color-neutral-100);
+  }
+
+  /* Scrollbar (Fluent style: thin, subtle) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+
+  /* Form defaults (Fluent inputs) */
+  input,
+  textarea,
+  select {
+    @apply bg-card border-border text-foreground;
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    border: 1px solid var(--color-border);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  /* Button base */
+  button {
+    cursor: pointer;
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* =====================================================================
+   UTILITY CLASSES — Fluent Design Patterns
+   ===================================================================== */
+@layer utilities {
+  /* Fluent Card (elevated surface) */
+  .fluent-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius) + 2px);
+    box-shadow: var(--shadow-elevation1);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .fluent-card:hover {
+    box-shadow: var(--shadow-elevation2);
+    border-color: var(--color-neutral-40);
+  }
 
-body {
-  background-color: #f5f5f5;
-  color: var(--color-text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: var(--text-base);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* Acrylic (translucent background with blur) */
+  .acrylic {
+    backdrop-filter: blur(20px) saturate(120%);
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-border);
+  }
 
-/* ==================== TYPOGRAPHY ==================== */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-text-primary);
-}
+  .acrylic-subtle {
+    backdrop-filter: blur(12px);
+    background: rgba(250, 249, 248, 0.95);
+  }
 
-h1 {
-  font-size: var(--text-3xl);
-}
-
-h2 {
-  font-size: var(--text-2xl);
-}
-
-h3 {
-  font-size: var(--text-xl);
-}
-
-p {
-  color: var(--color-text-secondary);
-  margin-bottom: 0.5rem;
-}
-
-a {
-  color: var(--color-info);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: #005a9e;
-}
-
-/* ==================== FORM ELEMENTS ==================== */
-input, textarea, select {
-  background-color: var(--color-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: var(--text-base);
-  color: var(--color-text-primary);
-  transition: all 0.2s ease;
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--color-info);
-  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 4px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-/* ==================== ANIMATIONS ==================== */
-@keyframes fade-in {
-  from {
+  /* Reveal (hover highlight effect) */
+  .reveal {
+    position: relative;
+    overflow: hidden;
+  }
+  .reveal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(0, 120, 212, 0.04),
+      transparent 40%
+    );
     opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
   }
-  to {
+  .reveal:hover::before {
     opacity: 1;
   }
-}
 
-@keyframes slide-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  /* Subtle hover (Fluent secondary hover) */
+  .hover-subtle {
+    transition: background-color 0.15s ease;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .hover-subtle:hover {
+    background-color: var(--color-neutral-20);
   }
-}
 
-@keyframes slide-in-down {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+  /* Text styles */
+  .text-body {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-neutral-100);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .text-caption {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--color-neutral-80);
   }
-}
-
-@keyframes pulse-soft {
-  0%, 100% {
-    opacity: 1;
+  .text-subtitle {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--color-neutral-100);
   }
-  50% {
-    opacity: 0.7;
+  .text-title {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600;
+    color: var(--color-neutral-100);
   }
-}
-
-@keyframes hover-scale {
-  0% {
-    transform: scale(1);
+  .text-display {
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--color-neutral-100);
   }
-  100% {
-    transform: scale(1.02);
+
+  /* Truncate */
+  .text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-}
 
-/* ==================== UTILITY ANIMATIONS ==================== */
-.fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-.slide-in-up {
-  animation: slide-in-up 0.3s ease-out;
-}
-
-.slide-in-down {
-  animation: slide-in-down 0.3s ease-out;
-}
-
-.pulse-soft {
-  animation: pulse-soft 2s ease-in-out infinite;
-}
-
-.hover-scale {
-  transition: transform 0.2s ease;
-}
-
-.hover-scale:hover {
-  animation: hover-scale 0.2s ease forwards;
-}
-
-/* ==================== FLUENT CARD STYLE ==================== */
-.fluent-card {
-  background-color: white;
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  padding: 1.5rem;
-  transition: all 0.2s ease;
-}
-
-.fluent-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* ==================== SCROLLBAR STYLING ==================== */
-/* Webkit browsers */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-/* Firefox */
-* {
-  scrollbar-color: #c1c1c1 #f1f1f1;
-  scrollbar-width: thin;
-}
-
-/* ==================== UTILITY CLASSES ==================== */
-.transition-smooth {
-  transition: all 0.3s ease-in-out;
-}
-
-.text-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.glass-effect {
-  backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.glass-effect-dark {
-  backdrop-filter: blur(12px);
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.shadow-soft {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-.shadow-medium {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.shadow-large {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-}
-
-.shadow-fluent {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.2s ease;
-}
-
-.shadow-fluent:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gradient-text {
-  background: linear-gradient(to right, #3b82f6, #10b981);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-green {
-  background: linear-gradient(to right, #10b981, #059669);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.border-subtle {
-  border: 1px solid #e5e7eb;
-}
-
-.rounded-fluent {
-  border-radius: 0.5rem;
-}
-
-.rounded-fluent-lg {
-  border-radius: 0.75rem;
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--color-border);
+    width: 100%;
+  }
 }

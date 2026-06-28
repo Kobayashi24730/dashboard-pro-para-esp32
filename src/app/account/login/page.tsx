@@ -26,7 +26,6 @@ export default function Auth() {
                     email,
                     password,
                 });
-
                 if (result?.error) {
                     setError("Credenciais inválidas. Verifique seu e-mail e senha.");
                 } else {
@@ -39,19 +38,14 @@ export default function Auth() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
                 });
-
                 const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.message || 'Erro ao registrar usuário.');
-                }
+                if (!response.ok) throw new Error(data.message || 'Erro ao registrar usuário.');
 
                 await signIn('credentials', {
                     redirect: false,
                     email,
                     password,
                 });
-
                 router.refresh();
                 router.push('/dashboard');
             }
@@ -63,154 +57,148 @@ export default function Auth() {
     };
 
     return (
-        <section className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 text-slate-100 relative overflow-hidden">
-            
-            {/* Animated background elements */}
-            <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse-soft"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 animate-pulse-soft"></div>
-
-            {/* Main Card */}
-            <div className="w-full max-w-md relative z-10">
-                
-                {/* Card Container */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/60 backdrop-blur-xl border border-slate-700/50 shadow-2xl p-8 rounded-2xl space-y-6 hover:shadow-glow-lg transition-all duration-300">
-                    
+        <section className="flex items-center justify-center min-h-screen bg-background">
+            <div className="w-full max-w-sm mx-4">
+                <div className="fluent-card p-6 space-y-5">
                     {/* Header */}
                     <div className="space-y-2 text-center">
-                        <div className="flex justify-center mb-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                                <span className="text-white font-bold text-xl">📊</span>
+                        <div className="flex justify-center">
+                            <div className="w-10 h-10 rounded bg-primary flex items-center justify-center">
+                                <svg className="w-5 h-5 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16l4-6 4 4 4-8" />
+                                </svg>
                             </div>
                         </div>
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                        <h1 className="text-title text-center">
                             {auth === 'login' ? 'Bem-vindo' : 'Criar Conta'}
                         </h1>
-                        <p className="text-sm text-slate-400">
-                            {auth === 'login' 
-                                ? 'Acesse sua conta para continuar' 
+                        <p className="text-caption text-center">
+                            {auth === 'login'
+                                ? 'Acesse sua conta para continuar'
                                 : 'Preencha os dados para começar'}
                         </p>
                     </div>
 
-                    {/* Error Alert */}
+                    {/* Error */}
                     {error && (
-                        <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm p-4 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-down duration-300">
-                            <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                        <div className="flex items-start gap-2 p-3 rounded-md bg-error/10 border border-error/20 text-error text-xs animate-slide-down">
+                            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                             <span>{error}</span>
                         </div>
                     )}
 
                     {/* Form */}
-                    <form className="space-y-5" onSubmit={handleSubmit}>
-                        
-                        {/* Email Input */}
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wide">Email</label>
+                    <form className="space-y-4" onSubmit={handleSubmit}>
+                        {/* Email */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-foreground">
+                                Email
+                            </label>
                             <div className="relative group">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <input
                                     type="email"
                                     placeholder="seu@email.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-xl border border-slate-700/50 bg-slate-950/50 pl-10 pr-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 hover:border-slate-600/50"
+                                    className="w-full rounded-md border border-border bg-card pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:shadow-[0_0_0_1px_var(--color-primary)] transition-all"
                                     required
                                     disabled={loading}
                                 />
                             </div>
                         </div>
 
-                        {/* Password Input */}
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wide">Senha</label>
+                        {/* Password */}
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-foreground">
+                                Senha
+                            </label>
                             <div className="relative group">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                 <input
-                                    type={showPassword ? "text" : "password"}
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full rounded-xl border border-slate-700/50 bg-slate-950/50 pl-10 pr-12 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 hover:border-slate-600/50"
+                                    className="w-full rounded-md border border-border bg-card pl-10 pr-11 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:shadow-[0_0_0_1px_var(--color-primary)] transition-all"
                                     required
                                     disabled={loading}
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-400 transition-colors"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                                     disabled={loading}
                                 >
-                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
                         </div>
 
-                        {/* Terms Checkbox (Register only) */}
+                        {/* Terms (register) */}
                         {auth === 'register' && (
-                            <div className="flex items-start gap-3 pt-2">
+                            <div className="flex items-start gap-2 pt-1">
                                 <input
                                     type="checkbox"
-                                    id="checkbox"
+                                    id="terms"
                                     required
-                                    className="w-4 h-4 mt-1 rounded border-slate-700 bg-slate-950 text-indigo-600 focus:ring-indigo-500/20 focus:ring-offset-slate-900 cursor-pointer"
+                                    className="w-4 h-4 mt-0.5 rounded border-border bg-card text-primary focus:ring-primary cursor-pointer"
                                 />
-                                <label htmlFor="checkbox" className="text-xs text-slate-400 select-none cursor-pointer hover:text-slate-300 transition-colors">
-                                    Concordo com os <span className="text-indigo-400 hover:text-indigo-300">termos de uso</span> e <span className="text-indigo-400 hover:text-indigo-300">política de privacidade</span>
+                                <label
+                                    htmlFor="terms"
+                                    className="text-xs text-muted-foreground select-none cursor-pointer hover:text-foreground transition-colors"
+                                >
+                                    Concordo com os{' '}
+                                    <span className="text-primary hover:underline">termos de uso</span>
+                                    {' '}e{' '}
+                                    <span className="text-primary hover:underline">política de privacidade</span>
                                 </label>
                             </div>
                         )}
 
-                        {/* Submit Button */}
+                        {/* Submit */}
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full mt-6 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 p-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/30 transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none group"
+                            className="w-full mt-3 rounded-md bg-primary hover:bg-primary-hover py-2 text-sm font-semibold text-primary-foreground transition-colors disabled:opacity-50 disabled:pointer-events-none"
                         >
-                            <span className="flex items-center justify-center gap-2">
-                                {loading ? (
-                                    <>
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                        Processando...
-                                    </>
-                                ) : (
-                                    auth === 'login' ? 'Entrar' : 'Cadastrar'
-                                )}
-                            </span>
+                            {loading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                                    Processando...
+                                </span>
+                            ) : (
+                                auth === 'login' ? 'Entrar' : 'Cadastrar'
+                            )}
                         </button>
                     </form>
 
                     {/* Divider */}
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-slate-700/50"></div>
+                            <div className="w-full border-t border-border" />
                         </div>
-                        <div className="relative flex justify-center text-xs">
-                            <span className="px-2 bg-gradient-to-br from-slate-900/80 to-slate-800/60 text-slate-400">ou</span>
+                        <div className="relative flex justify-center">
+                            <span className="px-3 text-xs text-muted-foreground bg-card">ou</span>
                         </div>
                     </div>
 
-                    {/* Toggle Auth Mode */}
-                    <div className="text-center space-y-3">
-                        <p className="text-sm text-slate-400">
-                            {auth === 'login' ? 'Não tem uma conta?' : 'Já possui uma conta?'}
-                        </p>
-                        <button
-                            type="button"
-                            className="w-full px-4 py-3 rounded-xl border border-slate-700/50 bg-slate-800/30 hover:bg-slate-800/50 text-slate-300 hover:text-white font-medium transition-all"
-                            onClick={() => {
-                                setAuth(auth === 'login' ? 'register' : 'login');
-                                setError(null);
-                                setShowPassword(false);
-                            }}
-                        >
-                            {auth === 'login' ? 'Criar conta' : 'Fazer login'}
-                        </button>
-                    </div>
+                    {/* Toggle */}
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setAuth(auth === 'login' ? 'register' : 'login');
+                            setError(null);
+                            setShowPassword(false);
+                        }}
+                        className="w-full px-4 py-2 rounded-md border border-border bg-card hover:bg-muted text-foreground text-sm font-semibold transition-colors"
+                    >
+                        {auth === 'login' ? 'Criar conta' : 'Fazer login'}
+                    </button>
                 </div>
 
-                {/* Footer */}
-                <p className="text-center text-xs text-slate-500 mt-6">
-                    Dashboard Pro ESP32 • Seguro e Confiável
+                <p className="text-caption text-center mt-4">
+                    Dashboard Pro ESP32 &middot; Seguro e Confiável
                 </p>
             </div>
         </section>
