@@ -15,11 +15,18 @@ model User {
   createdAt DateTime @default(now())
 }
 
-model SensorData {
-  id         String   @id @default(uuid())
+model sensor_data {
+  id         String   @id @default(cuid())
+
   device_id  String
   sensor     String
+
   estado     Boolean
   valor      Float?
-  created_at DateTime @default(now())
+
+  createdAt  DateTime @default(now())
+
+  @@index([sensor])
+  @@index([device_id])
+  @@map("sensor_data")
 }

@@ -14,8 +14,8 @@ export async function POST(request: NextRequest){
         data: {
             device_id: ultimoEstado.device_id,
             sensor: ultimoEstado.sensor,
-            estado: ultimoEstado.estado,
-            valor: ultimoEstado.valor
+            estado: Boolean(ultimoEstado.estado),
+            valor: Number(ultimoEstado.valor)
         }
     });
     return NextResponse.json({ success: true });
