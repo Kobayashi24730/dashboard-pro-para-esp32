@@ -19,15 +19,12 @@ interface SensorData {
     valor?: number;
     name?: string;
 }
-
-/* ── KPI card config ── */
 const kpiIcons = {
     devices: Wifi,
     temp: Thermometer,
     humid: Droplets,
     pir: TrendingUp,
 };
-
 const kpiStyles = {
     devices: {
         icon: "text-success bg-success/10",
@@ -61,9 +58,9 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    const data_temp = data.filter((i) => i.sensor === "Temperatura");
-    const data_humid = data.filter((i) => i.sensor === "Umidade");
-    const data_sound = data.filter((i) => i.sensor === "Som");
+    const data_temp = data.filter((i) => i.device_id === "ESP32_TEMP_01");
+    const data_humid = data.filter((i) => i.device_id === "ESP32_HUMID_01");
+    const data_sound = data.filter((i) => i.sensor === "SOUND");
     const data_pir = data.filter((i) => i.sensor === "PIR");
 
     const chartData = (d: SensorData[]) =>
@@ -109,7 +106,6 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* ── KPI Cards ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {([
                     {
@@ -160,7 +156,6 @@ export default function Dashboard() {
                 })}
             </div>
 
-            {/* ── Sensor Charts ── */}
             <div>
                 <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                     <span className="w-1 h-4 rounded-full bg-primary" />
@@ -202,7 +197,6 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* ── PIR Monitoring ── */}
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
@@ -218,7 +212,6 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* ── Recent Activity ── */}
             <div>
                 <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                     <span className="w-1 h-4 rounded-full bg-info" />

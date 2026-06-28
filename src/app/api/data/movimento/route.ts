@@ -1,18 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Database from "better-sqlite3";
-import path from "path";
-
-const pathDB = path.join(process.cwd(), 'backend', 'identifier.sqlite');
-const db = new Database(pathDB);
-db.exec(`
-CREATE TABLE IF NOT EXISTS sensor_data (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    device_id TEXT NOT NULL,
-    sensor TEXT NOT NULL,
-    estado INTEGER NOT NULL,
-    valor REAL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP)
-`);
+import { prisma } from "@/lib/prisma";
 
 let ultimoEstado = {
     device_id: "ESP32_PIR_01",
@@ -23,11 +10,22 @@ let ultimoEstado = {
 
 export async function POST(request: NextRequest){
     ultimoEstado = await request.json();
-    db.prepare(`INSERT INTO sensor_data (device_id, sensor, estado, valor) VALUES (?, ?, ?, ?)`).run([ultimoEstado.device_id, ultimoEstado.sensor, ultimoEstado.estado ? 1 : 0, ultimoEstado.valor]);
+    const sensor = await prisma.sensorData.create({
+        data: {
+            device_id: ultimoEstado.device_id,
+            sensor: ultimoEstado.sensor,
+            estado: ultimoEstado.estado,
+            valor: ultimoEstado.valor
+        }
+    });
     return NextResponse.json({ success: true });
 }
 
 export async function GET() {
-    const rows = db.prepare(`SELECT * FROM sensor_data ORDER BY created_at DESC LIMIT 50`).all();
+    const rows = await prisma.sensorData.findMany({
+        orderBy: {
+            created_at: "desc"
+        }
+    });
     return NextResponse.json(rows);
 }

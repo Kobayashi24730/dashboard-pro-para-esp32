@@ -24,22 +24,12 @@ export default function Card({ themeColor = 'azul', title, values = [], bestValu
 
     const chartData = (values || []).map((value, index) => ({
         name: `${index + 1}`,
-        valor: value.valor != null ? Number(value.valor) : Number(value.estado),
+        valor: Number.isFinite(Number(value.valor)) ? Number(value.valor) : Number(value.estado ?? 0),
     }));
 
     const maxValue = Math.max(...chartData.map((d) => d.valor), bestValue);
     const currentValue = chartData.length > 0 ? chartData[chartData.length - 1].valor : 0;
-    const pctChange =
-        chartData.length > 1
-            ? Number(
-                  (
-                      ((chartData[chartData.length - 1].valor - chartData[0].valor) /
-                          chartData[0].valor) *
-                      100
-                  ).toFixed(1)
-              )
-            : 0;
-
+    const pctChange = chartData.length > 1 ? Number((((chartData[chartData.length - 1].valor - chartData[0].valor) / chartData[0].valor) * 100).toFixed(1)) : 0;
     return (
         <div className="fluent-card p-4 overflow-hidden">
             {/* Header */}

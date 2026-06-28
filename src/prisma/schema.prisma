@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  nome      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model SensorData {
+  id         String   @id @default(uuid())
+  device_id  String
+  sensor     String
+  estado     Boolean
+  valor      Float?
+  created_at DateTime @default(now())
+}
