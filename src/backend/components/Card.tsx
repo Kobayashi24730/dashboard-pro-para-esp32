@@ -58,7 +58,6 @@ export default function Card({ themeColor = 'azul', title, values = [], bestValu
                 </div>
             </div>
 
-            {/* Big number */}
             <div className="flex items-baseline gap-2 mb-3">
                 <span className="text-2xl font-semibold text-foreground tabular-nums">
                     {currentValue.toFixed(0)}
@@ -73,7 +72,6 @@ export default function Card({ themeColor = 'azul', title, values = [], bestValu
                 </span>
             </div>
 
-            {/* Chart */}
             <div className="w-full h-28">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
@@ -111,7 +109,6 @@ export default function Card({ themeColor = 'azul', title, values = [], bestValu
                 </ResponsiveContainer>
             </div>
 
-            {/* Footer */}
             <div className="mt-3 pt-3 border-t border-border flex justify-between text-xs">
                 {[
                     { label: 'Max', val: maxValue },
