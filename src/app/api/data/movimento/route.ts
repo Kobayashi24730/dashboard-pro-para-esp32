@@ -10,7 +10,7 @@ let ultimoEstado = {
 
 export async function POST(request: NextRequest){
     ultimoEstado = await request.json();
-    const sensor = await prisma.SensorData.create({
+    const sensor = await prisma.sensorData.create({
         data: {
             device_id: ultimoEstado.device_id,
             sensor: ultimoEstado.sensor,
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest){
 }
 
 export async function GET() {
-    const rows = await prisma.SensorData.findMany({
+    const rows = await prisma.sensorData.findMany({
         orderBy: {
             createdAt: "desc"
         }
