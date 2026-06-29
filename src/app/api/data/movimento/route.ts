@@ -24,7 +24,7 @@ export async function POST(request: NextRequest){
 export async function GET() {
     const rows = await prisma.sensorData.findMany({
         orderBy: {
-            created_at: "desc"
+            createdAt: "desc"
         }
     });
     return NextResponse.json(rows);
