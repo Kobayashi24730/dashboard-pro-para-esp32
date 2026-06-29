@@ -21,7 +21,5 @@ model SensorData {
   sensor     String
   estado     Boolean
   valor      Float?
-  createdAt  DateTime @default(now()) @map("created_at")
-
-  @@map("sensor_data")
+  createdAt  DateTime @default(now())
 }
