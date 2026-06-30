@@ -10,7 +10,15 @@ let ultimoEstado = {
 
 export async function POST(request: NextRequest){
     ultimoEstado = await request.json();
-    const sensor = await prisma.sensorData.create({
+    const sensor = await prisma.sensorData
+
+
+
+
+
+
+
+        .create({
         data: {
             device_id: ultimoEstado.device_id,
             sensor: ultimoEstado.sensor,
