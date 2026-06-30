@@ -10,12 +10,12 @@ export const authOptions = {
         CredentialsProvider({
             name: "credentials",
             credentials: {
-                email: { label: "Email", type: "Email" },
-                password: { label: "Senha", type: "password"}
+                email: { label: "Email", type: "Email"},
+                password: {label: "Senha", type: "password"}
             },
             async authorize(credentials){
-                if (!credentials?.email || !credentials?.password) return null;
-                return { id: "1",email: credentials.email, name: "Usuario" }
+                if(!credentials?.email || !credentials.email) return null;
+                return { id: "1", email: credentials.email, name: "Usuario"}
             }
         })
     ],
