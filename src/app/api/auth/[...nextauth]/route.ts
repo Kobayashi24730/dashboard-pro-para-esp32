@@ -3,6 +3,7 @@ import type { Session } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/prisma";
 
 export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET || "your-secret-key-change-in-production-12345",
@@ -14,8 +15,20 @@ export const authOptions = {
                 password: {label: "Senha", type: "password"}
             },
             async authorize(credentials){
-                if(!credentials?.email || !credentials.email) return null;
-                return { id: "1", email: credentials.email, name: "Usuario"}
+                if(!credentials?.email || !credentials?.email) return null;
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials.email
+                    }
+                });
+                if (!user) return null;
+                const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+                if (!isPasswordValid) return null;
+                return {
+                    id: user.id,
+                    nome: user.nome,
+                    email: user.email
+                }
             }
         })
     ],
