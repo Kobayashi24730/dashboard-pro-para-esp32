@@ -53,9 +53,9 @@ export default function Profile() {
                             <h2 className="text-subtitle">{name || 'Usuário'}</h2>
                             <p className="text-caption mt-0.5">{email}</p>
                         </div>
-                        <div className="w-full px-3 py-1.5 rounded-md bg-success/10 border border-success/20">
-                            <p className="text-xs font-semibold text-success flex items-center justify-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-soft" />
+                        <div className={`w-full px-3 py-1.5 rounded-md border ${email ? `bg-success/10 border-success/20` : `bg-error/10 border-error/20` }`}>
+                            <p className={`text-xs font-semibold ${email ? 'text-success' : 'text-error'} flex items-center justify-center gap-1.5`}>
+                                <span className={`w - 1.5 h-1.5 rounded-full ${email ? 'bg-success' : 'bg-error'} animate-pulse-soft`} />
                                 {email ? 'Conta Ativa' : 'Conta Desativada'}
                             </p>
                         </div>
@@ -155,9 +155,9 @@ export default function Profile() {
             {/* Logout */}
             <div className="fluent-card p-5 flex items-center justify-between">
                 <div>
-                    <h3 className="text-subtitle">Sair da Conta</h3>
+                    <h3 className="text-subtitle">{email ? "Sair da Conta" : "Fazer Login"}</h3>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                        Você será desconectado de todos os dispositivos
+                        {email ? "Você será desconectado de todos os dispositivos" : "Você será conectado a todos os dispositivos"}
                     </p>
                 </div>
                 <button
@@ -165,9 +165,13 @@ export default function Profile() {
                     className="flex items-center gap-2 px-4 py-2 rounded-md bg-error/10 text-error border border-error/20 text-xs font-semibold hover:bg-error hover:text-error-foreground transition-colors"
                 >
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    {email ? "Logout" : "Login"}
                 </button>
             </div>
         </div>
     );
 }
+
+
+
+
