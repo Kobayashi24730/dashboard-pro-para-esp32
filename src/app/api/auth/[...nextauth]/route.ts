@@ -21,9 +21,15 @@ export const authOptions = {
                         email: credentials.email
                     }
                 });
-                if (!user) return null;
+                if (!user) {
+                    console.log("Sem usuario");
+                    return null;
+                }
                 const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-                if (!isPasswordValid) return null;
+                if (!isPasswordValid) {
+                    console.log("Senha invalida!");
+                    return null;
+                }
                 return {
                     id: user.id,
                     nome: user.nome,
