@@ -33,7 +33,7 @@ export default function Auth() {
                     router.push('/dashboard');
                 }
             } else {
-                const response = await fetch('/api/user/register', {
+                const response = await fetch('/api/user/settings', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),

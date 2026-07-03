@@ -14,6 +14,13 @@ export default function Profile() {
     const handleSave = async () => {
         setLoading(true);
         try {
+            const response = await fetch("/api/user/settings", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, name })
+            });
+            const data = await response.json();
+            if (!response) throw new Error("Erro ao salvar configurações.");
             await new Promise((r) => setTimeout(r, 1000));
             setSuccess(true);
             setTimeout(() => setSuccess(false), 3000);

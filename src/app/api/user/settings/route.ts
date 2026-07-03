@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
@@ -45,5 +47,26 @@ export async function GET(request: Request) {
         });
     } catch(err) {
         return NextResponse.json({ message: "Erro ao autenticar usuário" }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.email) {
+            return NextResponse.json({ message: "Usuário não autenticado" }, { status: 401 });
+        }
+        const { name } = await request.json();
+        const data = await prisma.user.update({
+            where: {
+                email: session.user.email
+            }, data: {
+                nome: name
+            }
+        });
+        return NextResponse.json({ message: "Usuário atualizado com sucesso!" }, { status: 200 });
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json({ message: "Erro ao atualizar usuário" }, { status: 500 });
     }
 }
