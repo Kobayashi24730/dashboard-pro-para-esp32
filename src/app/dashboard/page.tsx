@@ -58,14 +58,22 @@ export default function Dashboard() {
         fetchData();
     }, []);
 
-    const data_temp = data.filter((i) => i.device_id === "ESP32_TEMP_01");
-    const data_humid = data.filter((i) => i.device_id === "ESP32_HUMID_01");
-    const data_sound = data.filter((i) => i.sensor === "SOUND");
-    const data_pir = data.filter((i) => i.sensor === "PIR");
+    let data_temp: any[] = [];
+    let data_humid: any[] = [];
+    let data_sound: any[] = [];
+    let data_pir: any[] = [];
+    let chartData: SensorData[];
 
-    const chartData = (d: SensorData[]) =>
-        d.slice(-10).map((item) => ({ ...item, valor: item.valor || 0 }));
-
+    useEffect(() => {
+        function getConstValues() {
+            data_temp = data.filter((i) => i.device_id === "ESP32_TEMP_01");
+            data_humid = data.filter((i) => i.device_id === "ESP32_HUMID_01");
+            data_sound = data.filter((i) => i.sensor === "SOUND");data_pir = data.filter((i) => i.sensor === "PIR");
+            chartData = (d: SensorData[]) =>
+                d.slice(-10).map((item) => ({ ...item, valor: item.valor || 0 }));
+        }
+        getConstValues();
+    }, []);
     /* ── Loading ── */
     if (loading) {
         return (
@@ -110,19 +118,19 @@ export default function Dashboard() {
                 {([
                     {
                         key: "devices",
-                        label: "Dispositivos Ativos",
+                        label: "Chamadas de dispositivos",
                         value: data.length,
                         sub: "Online agora",
                     },
                     {
                         key: "temp",
-                        label: "Temperatura",
+                        label: "Tremor",
                         value: `${data_temp.length > 0 ? data_temp[data_temp.length - 1].valor?.toFixed(1) : "0"}°C`,
                         sub: "Leitura atual",
                     },
                     {
                         key: "humid",
-                        label: "Umidade",
+                        label: "Ultrasonico",
                         value: `${data_humid.length > 0 ? data_humid[data_humid.length - 1].valor?.toFixed(1) : "0"}%`,
                         sub: "Leitura atual",
                     },
