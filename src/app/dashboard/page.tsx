@@ -15,15 +15,15 @@ import {
 } from "lucide-react";
 
 interface SensorData {
+    id?: number;
     device_id: string;
     sensor: string;
-    estado: boolean;
-    valor?: number;
-    name?: string;
+    estado: number | boolean;
+    valor?: number | string | null;
     created_at?: string;
 }
 
-/* ── KPI card config ── */
+/* ── KPI config ── */
 const kpiIcons = {
     devices: Wifi,
     temp: Thermometer,
@@ -32,19 +32,15 @@ const kpiIcons = {
 };
 
 const kpiStyles = {
-    devices: {
-        icon: "text-success bg-success/10",
-    },
-    temp: {
-        icon: "text-warning bg-warning/10",
-    },
-    humid: {
-        icon: "text-info bg-info/10",
-    },
-    pir: {
-        icon: "text-purple-600 bg-purple-100",
-    },
+    devices: { icon: "text-success bg-success/10" },
+    temp: { icon: "text-warning bg-warning/10" },
+    humid: { icon: "text-info bg-info/10" },
+    pir: { icon: "text-purple-600 bg-purple-100" },
 };
+
+/* ── Filter helpers (based on device_id from dados.json) ── */
+const filterByDevice = (data: SensorData[], deviceId: string) =>
+    data.filter((i) => i.device_id === deviceId);
 
 export default function Dashboard() {
     const [data, setData] = useState<SensorData[]>([]);
@@ -73,20 +69,27 @@ export default function Dashboard() {
         return () => clearInterval(interval);
     }, [fetchData]);
 
-    // Filtrar dados por sensor
-    const data_temp = data.filter((i) => i.sensor === "Temperatura");
-    const data_humid = data.filter((i) => i.sensor === "Umidade");
-    const data_sound = data.filter((i) => i.sensor === "Som");
-    const data_pir = data.filter((i) => i.sensor === "PIR");
+    // Filtrar dados por device_id (conforme estrutura real dos dados)
+    const data_temp = filterByDevice(data, "ESP32_TEMP_01");
+    const data_humid = filterByDevice(data, "ESP32_HUMID_01");
+    const data_sound = filterByDevice(data, "ESP32_SOUND_01");
+    const data_pir = filterByDevice(data, "ESP32_PIR_01");
 
-    // Calcular dispositivos únicos
+    // Dispositivos únicos
     const uniqueDevices = new Set(data.map((i) => i.device_id)).size;
 
-    // Formatador de timestamp
+    // Chart data formatter
+    const chartData = (d: SensorData[]) =>
+        d.slice(-10).map((item) => ({
+            ...item,
+            valor: typeof item.valor === "number" ? item.valor : 0,
+        }));
+
+    // Format timestamp
     const formatTime = (dateStr?: string) => {
         if (!dateStr) return "Agora";
         try {
-            const date = new Date(dateStr);
+            const date = new Date(dateStr.replace(" ", "T"));
             const now = new Date();
             const diffMs = now.getTime() - date.getTime();
             const diffMins = Math.floor(diffMs / 60000);
@@ -99,9 +102,6 @@ export default function Dashboard() {
             return "Agora";
         }
     };
-
-    const chartData = (d: SensorData[]) =>
-        d.slice(-10).map((item) => ({ ...item, valor: item.valor || 0 }));
 
     /* ── Loading ── */
     if (loading) {
@@ -180,7 +180,7 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            {/* ── Alert banner (se houver erro mas ainda temos dados) ── */}
+            {/* ── Alert banner ── */}
             {error && data.length > 0 && (
                 <div className="fluent-card p-4 bg-warning/10 border-warning/20 flex items-center gap-3">
                     <AlertCircle className="w-5 h-5 text-warning flex-shrink-0" />
@@ -225,13 +225,13 @@ export default function Dashboard() {
                             {
                                 key: "temp",
                                 label: "Temperatura",
-                                value: `${data_temp.length > 0 ? data_temp[data_temp.length - 1].valor?.toFixed(1) : "0"}°C`,
+                                value: `${data_temp.length > 0 ? data_temp[data_temp.length - 1].valor : "0"}°C`,
                                 sub: "Leitura atual",
                             },
                             {
                                 key: "humid",
                                 label: "Umidade",
-                                value: `${data_humid.length > 0 ? data_humid[data_humid.length - 1].valor?.toFixed(1) : "0"}%`,
+                                value: `${data_humid.length > 0 ? data_humid[data_humid.length - 1].valor : "0"}%`,
                                 sub: "Leitura atual",
                             },
                             {
@@ -292,7 +292,7 @@ export default function Dashboard() {
                                     themeColor="cyan"
                                     title="Som"
                                     values={chartData(data_sound)}
-                                    bestValue={1000}
+                                    bestValue={1500}
                                 />
                             )}
                             {data_pir.length > 0 && (
@@ -300,7 +300,7 @@ export default function Dashboard() {
                                     themeColor="fuchsia"
                                     title="PIR"
                                     values={chartData(data_pir)}
-                                    bestValue={1000}
+                                    bestValue={10}
                                 />
                             )}
                         </div>
@@ -329,7 +329,7 @@ export default function Dashboard() {
                         <div className="space-y-2">
                             {data.slice(-5).reverse().map((item, index) => (
                                 <div
-                                    key={index}
+                                    key={item.id || index}
                                     className="fluent-card flex items-center justify-between p-3"
                                 >
                                     <div className="flex items-center gap-3">
@@ -345,7 +345,7 @@ export default function Dashboard() {
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm font-semibold text-foreground tabular-nums">
-                                            {item.valor?.toFixed(2) ?? "N/A"}
+                                            {item.valor ?? "N/A"}
                                         </p>
                                         <p className="text-xs text-muted-foreground">
                                             {formatTime(item.created_at)}
