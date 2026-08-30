@@ -5,94 +5,33 @@ import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
 import getValues from "@/backend/data/useTextValues";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
-    Wifi,
-    Thermometer,
-    Droplets,
-    TrendingUp,
-    Activity,
-    RefreshCw,
-    AlertCircle,
+  Wifi,
+  TrendingUp,
+  Activity,
+  RefreshCw,
+  AlertCircle,
+  Vibrate, 
+  Waves,   
 } from "lucide-react";
-
-interface SensorData {
-    id?: number;
-    device_id: string;
-    sensor: string;
-    estado: number | boolean;
-    valor?: number | string | null;
-    created_at?: string;
-}
+import { formatTime } from "@/lib/formatTime";
 
 const kpiIcons = {
     devices: Wifi,
-    temp: Thermometer,
-    humid: Droplets,
+    ultra: Waves,
+    vibr: Vibrate,
     pir: TrendingUp,
 };
 
 const kpiStyles = {
     devices: { icon: "text-success bg-success/10" },
-    temp: { icon: "text-warning bg-warning/10" },
-    humid: { icon: "text-info bg-info/10" },
+    ultra: { icon: "text-warning bg-warning/10" },
+    vibr: { icon: "text-info bg-info/10" },
     pir: { icon: "text-purple-600 bg-purple-100" },
 };
 
 export default function Dashboard() {
-    const [data, setData] = useState<SensorData[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
-    const fetchData = useCallback(async () => {
-        try {
-            setError(null);
-            const arrayData = await getValues();
-            setData(arrayData);
-            setLastUpdate(new Date());
-        } catch (err) {
-            console.error("Error fetching data:", err);
-            setError("Falha ao carregar dados. Verifique sua conexão.");
-        } finally {
-            setLoading(false);
-        }
-    }, []);
 
-    useEffect(() => {
-        fetchData();
-        const interval = setInterval(fetchData, 30000);
-        return () => clearInterval(interval);
-    }, [fetchData]);
-
-    // 💡 Variáveis calculadas dinamicamente a cada renderização (evita bugs de estado e duplicações)
-    const data_temp = useMemo(() => data.filter((i) => i.device_id === "ESP32_TEMP_01" || i.sensor === "TEMPERATURE"), [data]);
-    const data_humid = useMemo(() => data.filter((i) => i.device_id === "ESP32_HUMID_01" || i.sensor === "HUMIDITY"), [data]);
-    const data_sound = useMemo(() => data.filter((i) => i.device_id === "ESP32_SOUND_01" || i.sensor === "SOUND"), [data]);
-    const data_pir = useMemo(() => data.filter((i) => i.device_id === "ESP32_PIR_01" || i.sensor === "PIR"), [data]);
-
-    const uniqueDevices = useMemo(() => new Set(data.map((i) => i.device_id)).size, [data]);
-
-    const chartData = (d: SensorData[]) =>
-        d.slice(-10).map((item) => ({
-            ...item,
-            valor: typeof item.valor === "number" ? item.valor : Number(item.valor) || 0,
-        }));
-
-    const formatTime = (dateStr?: string) => {
-        if (!dateStr) return "Agora";
-        try {
-            const date = new Date(dateStr.replace(" ", "T"));
-            const now = new Date();
-            const diffMs = now.getTime() - date.getTime();
-            const diffMins = Math.floor(diffMs / 60000);
-
-            if (diffMins < 1) return "Agora";
-            if (diffMins < 60) return `${diffMins}min atrás`;
-            if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h atrás`;
-            return date.toLocaleDateString("pt-BR");
-        } catch {
-            return "Agora";
-        }
-    };
 
     /* ── Loading ── */
     if (loading) {
@@ -214,14 +153,14 @@ export default function Dashboard() {
                                 sub: `${data.length} leituras registradas`,
                             },
                             {
-                                key: "temp",
-                                label: "Temperatura",
+                                key: "ultra",
+                                label: "Sensor ultrasonico HC",
                                 value: `${data_temp.length > 0 ? (Number(data_temp[data_temp.length - 1].valor)?.toFixed(1) ?? "0") : "0"}°C`,
                                 sub: "Leitura atual",
                             },
                             {
-                                key: "humid",
-                                label: "Umidade",
+                                key: "vibr",
+                                label: "vibração",
                                 value: `${data_humid.length > 0 ? (Number(data_humid[data_humid.length - 1].valor)?.toFixed(1) ?? "0") : "0"}%`,
                                 sub: "Leitura atual",
                             },
@@ -265,7 +204,7 @@ export default function Dashboard() {
                             {data_temp.length > 0 && (
                                 <Card
                                     themeColor="vermelho"
-                                    title="Temperatura"
+                                    title="Ultrasonico"
                                     values={chartData(data_temp)}
                                     bestValue={50}
                                 />
