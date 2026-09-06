@@ -11,24 +11,28 @@ export default function useContextData() {
     const [error, setError] = useState<string | null>(null);
     const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
+
     const getValues = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://dashboard-pro-para-esp32.onrender.com/api/data/movimento', {
+            const response = await fetch('/api/data/movimento', {
                 cache: "no-store"
             });
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
+            const result: SensorData[] = await response.json();
             setError(null);
             setLastUpdate(new Date());
-            setData(await response.json());
+            setData(result);
 
             return await response.json();
         } catch (error) {
             console.warn("Erro ao buscar dados:", error);
             setError("Falha ao carregar dados. Verifique sua conexão.");
-            return json;
+            const fallbackData = json as unknown as SensorData[];
+            setData(fallbackData);
+            return fallbackData;
         } finally {
             setLoading(false);
         }
@@ -45,7 +49,7 @@ export default function useContextData() {
     const chartData = (d: SensorData[]) =>
         d.slice(-10).map((item) => ({
             ...item,
-            valor: typeof item.valor === "number" ? item.valor : Number(item.valor) || 0,
+            valor: typeof item.value === "number" ? item.value : Number(item.value) || 0,
         }));
 
     return (

@@ -11,13 +11,19 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                 <thead>
                     <tr className="bg-muted/50 border-b border-border">
                         <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            Título
+                            Dispositivo
                         </th>
                         <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            Mensagem
+                            Horário
                         </th>
                         <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                             Estado
+                        </th>
+                        <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            ultima leitura
+                        </th>
+                        <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            Ultima atualização
                         </th>
                         <th className="px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">
                             Ação
@@ -31,10 +37,10 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                             className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors"
                         >
                             <td className="px-5 py-3.5 font-medium text-foreground">
-                                {value.device_id ? "PIR" : "Operacional"}
+                                {value.device_id ? `PIR (${value.device_id})` : "Operacional"}
                             </td>
                             <td className="px-5 py-3.5 text-muted-foreground">
-                                {value.estado ? "Ativo" : "Desativado"}
+                                {value.timestamp}
                             </td>
                             <td className="px-5 py-3.5">
                                 <span
@@ -53,6 +59,12 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                                     />
                                     {value.estado ? "Ativo" : "Desativado"}
                                 </span>
+                            </td>
+                            <td className="px-5 py-3.5 text-muted-foreground">
+                                {value.value}
+                            </td>
+                            <td className="px-5 py-3.5 text-muted-foreground">
+                                {value.UltimoUpdate}
                             </td>
                             <td className="px-5 py-3.5 text-right">
                                 <button className="px-3 py-1.5 rounded-md text-xs font-semibold bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">

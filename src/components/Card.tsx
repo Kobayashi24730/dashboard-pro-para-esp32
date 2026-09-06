@@ -6,7 +6,7 @@ import { TrendingUp } from "lucide-react";
 interface DateProps {
     themeColor?: 'verde' | 'roxo' | 'azul' | 'vermelho' | 'cyan' | 'fuchsia';
     title: string;
-    values?: { device_id: string; sensor: string; estado: number | boolean; valor?: number; name?: string }[];
+    values?: { device_id: string; sensor: string; estado: number | boolean; value?: number; name?: string }[];
     bestValue?: number;
 }
 
@@ -24,7 +24,7 @@ export default function Card({ themeColor = 'azul', title, values = [], bestValu
 
     const chartData = (values || []).map((value, index) => ({
         name: `${index + 1}`,
-        valor: Number.isFinite(Number(value.valor)) ? Number(value.valor) : Number(value.estado ?? 0),
+        valor: Number.isFinite(Number(value.value)) ? Number(value.value) : Number(value.estado ?? 0),
     }));
 
     const maxValue = Math.max(...chartData.map((d) => d.valor), bestValue);

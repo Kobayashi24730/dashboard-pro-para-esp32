@@ -7,8 +7,10 @@ export interface TextFormatValues {
 export interface SensorData {
     id?: number;
     device_id: string;
+    timestamp: string;
     sensor: string;
     estado: number | boolean;
-    valor?: number | string | null;
+    value?: number | string | null;
+    UltimoUpdate: string;
     created_at?: string;
 }

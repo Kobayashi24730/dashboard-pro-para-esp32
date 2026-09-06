@@ -1,37 +1,21 @@
 'use client';
 
-import Card from "@/backend/components/Card";
-import MonitoramentoPIR from "@/backend/components/MonitoramnetoPIR";
-import getValues from "@/backend/data/useTextValues";
-import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  Wifi,
-  TrendingUp,
-  Activity,
-  RefreshCw,
-  AlertCircle,
-  Vibrate, 
-  Waves,   
-} from "lucide-react";
-import { formatTime } from "@/lib/formatTime";
+import MonitoramentoPIR from "@/components/MonitoramnetoPIR";
+import useContextData from "@/hooks/useContextData";
+import { useEffect, useState } from "react";
+import { Activity, RefreshCw, AlertCircle } from "lucide-react";
+import RecentActivity from "@/components/RecentActivity";
+import LayoutContext from '@/components/layoutContext';
+import ModalOpen from "@/components/ModalOpen";
 
-const kpiIcons = {
-    devices: Wifi,
-    ultra: Waves,
-    vibr: Vibrate,
-    pir: TrendingUp,
-};
-
-const kpiStyles = {
-    devices: { icon: "text-success bg-success/10" },
-    ultra: { icon: "text-warning bg-warning/10" },
-    vibr: { icon: "text-info bg-info/10" },
-    pir: { icon: "text-purple-600 bg-purple-100" },
-};
 
 export default function Dashboard() {
+    const { getValues, data, loading, error, lastUpdate, data_pir } = useContextData();
+    const [isModalOpen, isSetModalOpen] = useState(false);
 
-
+    useEffect(() => {
+        getValues();
+    }, []);
 
     /* ── Loading ── */
     if (loading) {
@@ -56,7 +40,7 @@ export default function Dashboard() {
                     <h3 className="text-lg font-semibold">Erro ao carregar dados</h3>
                     <p className="text-sm text-muted-foreground">{error}</p>
                     <button
-                        onClick={fetchData}
+                        onClick={getValues}
                         className="px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
                     >
                         Tentar novamente
@@ -72,7 +56,7 @@ export default function Dashboard() {
             <div className="fluent-card p-6 bg-primary text-primary-foreground border-0 rounded-xl shadow-sm">
                 <div className="flex items-start justify-between">
                     <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="text-stone-900 flex items-center gap-2 mb-2">
                             <Activity className="w-4 h-4" />
                             <span className="text-xs font-semibold uppercase tracking-wider opacity-80">
                                 Monitoramento ao vivo
@@ -81,12 +65,12 @@ export default function Dashboard() {
                         <h1 className="text-2xl font-semibold mb-1">
                             Dashboard ESP32
                         </h1>
-                        <p className="text-sm opacity-80 max-w-lg">
+                        <p className="text-stone-800 opacity-80 max-w-lg">
                             Visualize e gerencie seus sensores em tempo real.
                             Dados atualizados automaticamente a cada 30 segundos.
                         </p>
                         {lastUpdate && (
-                            <p className="text-xs opacity-60 mt-2">
+                            <p className="text-stone-800 opacity-60 mt-2">
                                 Última atualização:{" "}
                                 {lastUpdate.toLocaleTimeString("pt-BR")}
                             </p>
@@ -94,7 +78,7 @@ export default function Dashboard() {
                     </div>
                     <div className="hidden md:flex items-start gap-3">
                         <button
-                            onClick={fetchData}
+                            onClick={getValues}
                             disabled={loading}
                             className="p-2 rounded-md bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors disabled:opacity-50"
                             title="Atualizar dados"
@@ -121,7 +105,7 @@ export default function Dashboard() {
                         <p className="text-xs text-muted-foreground">
                             Exibindo dados em cache.{" "}
                             <button
-                                onClick={fetchData}
+                                onClick={getValues}
                                 className="text-primary hover:underline font-semibold"
                             >
                                 Tentar novamente
@@ -144,96 +128,8 @@ export default function Dashboard() {
             ) : (
                 <>
                     {/* ── KPI Cards ── */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {([
-                            {
-                                key: "devices",
-                                label: "Dispositivos Ativos",
-                                value: uniqueDevices,
-                                sub: `${data.length} leituras registradas`,
-                            },
-                            {
-                                key: "ultra",
-                                label: "Sensor ultrasonico HC",
-                                value: `${data_temp.length > 0 ? (Number(data_temp[data_temp.length - 1].valor)?.toFixed(1) ?? "0") : "0"}°C`,
-                                sub: "Leitura atual",
-                            },
-                            {
-                                key: "vibr",
-                                label: "vibração",
-                                value: `${data_humid.length > 0 ? (Number(data_humid[data_humid.length - 1].valor)?.toFixed(1) ?? "0") : "0"}%`,
-                                sub: "Leitura atual",
-                            },
-                            {
-                                key: "pir",
-                                label: "Eventos PIR",
-                                value: data_pir.length,
-                                sub: "Detectados hoje",
-                            },
-                        ] as const).map((kpi) => {
-                            const Icon = kpiIcons[kpi.key];
-                            const style = kpiStyles[kpi.key];
-                            return (
-                                <div key={kpi.key} className="fluent-card p-4 bg-white border rounded-xl shadow-sm">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                                            {kpi.label}
-                                        </span>
-                                        <div className={`w-8 h-8 rounded-md flex items-center justify-center ${style.icon}`}>
-                                            <Icon className="w-4 h-4" />
-                                        </div>
-                                    </div>
-                                    <p className="text-2xl font-bold text-foreground">
-                                        {kpi.value}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        {kpi.sub}
-                                    </p>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* ── Sensor Charts ── */}
-                    <div className="space-y-4">
-                        <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                            <span className="w-1 h-4 rounded-full bg-primary" />
-                            Leitura dos Sensores (Tempo Real)
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {data_temp.length > 0 && (
-                                <Card
-                                    themeColor="vermelho"
-                                    title="Ultrasonico"
-                                    values={chartData(data_temp)}
-                                    bestValue={50}
-                                />
-                            )}
-                            {data_humid.length > 0 && (
-                                <Card
-                                    themeColor="azul"
-                                    title="Umidade"
-                                    values={chartData(data_humid)}
-                                    bestValue={100}
-                                />
-                            )}
-                            {data_sound.length > 0 && (
-                                <Card
-                                    themeColor="cyan"
-                                    title="Som"
-                                    values={chartData(data_sound)}
-                                    bestValue={1000}
-                                />
-                            )}
-                            {data_pir.length > 0 && (
-                                <Card
-                                    themeColor="fuchsia"
-                                    title="PIR"
-                                    values={chartData(data_pir)}
-                                    bestValue={1000}
-                                />
-                            )}
-                        </div>
+                    <div className="">
+                        <LayoutContext/>
                     </div>
 
                     {/* ── PIR Monitoring ── */}
@@ -243,7 +139,7 @@ export default function Dashboard() {
                                 <span className="w-1 h-4 rounded-full bg-purple-600" />
                                 Monitoramento PIR
                             </h2>
-                            <button className="px-3 py-1.5 text-xs font-semibold rounded-md bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                            <button onClick={() => isSetModalOpen(true)} className="px-3 py-1.5 text-xs font-semibold rounded-md bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
                                 Ver todos
                             </button>
                         </div>
@@ -252,39 +148,17 @@ export default function Dashboard() {
                         </div>
                     </div>
 
+                    {/* ── Monitoring Modal ── */}
+                    <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)}/>
+
                     {/* ── Recent Activity ── */}
                     <div className="space-y-4">
                         <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                             <span className="w-1 h-4 rounded-full bg-info" />
                             Atividade Recente
                         </h2>
-                        <div className="space-y-2">
-                            {data.slice(-5).reverse().map((item, index) => (
-                                <div
-                                    key={item.id || index}
-                                    className="fluent-card flex items-center justify-between p-3 bg-white border rounded-xl shadow-sm"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 rounded-full bg-success" />
-                                        <div>
-                                            <p className="text-sm font-medium text-foreground">
-                                                {item.sensor}
-                                            </p>
-                                            <p className="text-xs text-muted-foreground font-mono">
-                                                {item.device_id}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-semibold text-foreground tabular-nums">
-                                            {typeof item.valor === "number" ? item.valor.toFixed(2) : (item.valor ?? "N/A")}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {formatTime(item.created_at)}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="fluent-card p-4 bg-white border rounded-xl shadow-sm">
+                            <RecentActivity data={data} />
                         </div>
                     </div>
                 </>

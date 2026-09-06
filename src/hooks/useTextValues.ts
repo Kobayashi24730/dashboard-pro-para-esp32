@@ -8,7 +8,7 @@ export interface TextFormatValues {
 
 export async function getValues() {
     try {
-        const response = await fetch('https://dashboard-pro-para-esp32.onrender.com/api/data/movimento', {
+        const response = await fetch('/api/data/movimento', {
             cache: "no-store"
         });
 

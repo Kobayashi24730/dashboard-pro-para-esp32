@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import Sidebar from "@/backend/components/Headers";
-import Notifications from "@/backend/components/notifications";
+import Sidebar from "@/components/Headers";
+import Notifications from "@/components/notifications";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Bell, Search, Settings } from "lucide-react";
-import getValues from "@/backend/data/useTextValues";
+import getValues from "@/hooks/useTextValues";
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
     const [openMenu, setOpenMenu] = useState(false);
@@ -64,18 +64,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
                                 <h1 className="text-sm font-semibold text-foreground">
                                     Dashboard Pro ESP32
                                 </h1>
-                            </div>
-                        </div>
-
-                        {/* Center — Search */}
-                        <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
-                            <div className="relative w-full">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                                <input
-                                    type="text"
-                                    placeholder="Buscar..."
-                                    className="w-full pl-9 pr-4 py-1.5 text-sm rounded-md bg-muted/50 border border-transparent text-foreground placeholder:text-muted-foreground outline-none focus:bg-card focus:border-primary transition-all"
-                                />
                             </div>
                         </div>
 

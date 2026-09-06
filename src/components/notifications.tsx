@@ -1,6 +1,6 @@
 'use client';
 
-import getValues from "@/backend/data/useTextValues";
+import getValues from "@/hooks/useTextValues";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
