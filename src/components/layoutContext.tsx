@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import useContextData from "@/hooks/useContextData";
 import Card from "@/components/Card";
 import { Wifi, TrendingUp, Vibrate, Waves } from "lucide-react";
+import { CardValueItem } from "@/types/types";
 
 const kpiIcons = {
     devices: Wifi,
@@ -19,12 +20,27 @@ const kpiStyles = {
     pir: { icon: "text-purple-600 bg-purple-100" },
 };
 
+
 export default function LayoutContext() {
     const { getValues, data, chartData, data_ultrasonic, data_pir, data_som, data_umid, uniqueDevices } = useContextData();
 
     useEffect(() => {
         getValues();
     }, []);
+    const sanitizeChartData = (sensorList: any[]) => {
+        return sensorList.map((item) => {
+            let numericValue = 0;
+            if (typeof item.value === "number"){
+                numericValue = item.value;
+            } else if (typeof item.value === "string"){
+                numericValue = parseFloat(item.value) || 0;
+            }
+            return {
+                ...item,
+                value: numericValue
+            };
+        });
+    };
 
     const kpiData = [
         {
@@ -91,7 +107,7 @@ export default function LayoutContext() {
                         <Card
                             themeColor="vermelho"
                             title="Ultrasonico"
-                            values={chartData(data_ultrasonic)}
+                            values={chartData(sanitizeChartData(data_ultrasonic)) as CardValueItem[]}
                             bestValue={50}
                         />
                     )}
@@ -99,7 +115,7 @@ export default function LayoutContext() {
                         <Card
                             themeColor="azul"
                             title="Umidade"
-                            values={chartData(data_umid)}
+                            values={chartData(sanitizeChartData(data_umid)) as CardValueItem[]}
                             bestValue={100}
                         />
                     )}
@@ -107,7 +123,7 @@ export default function LayoutContext() {
                         <Card
                             themeColor="cyan"
                             title="Som"
-                            values={chartData(data_som)}
+                            values={chartData(sanitizeChartData(data_som)) as CardValueItem[]}
                             bestValue={1000}
                         />
                     )}
@@ -115,7 +131,7 @@ export default function LayoutContext() {
                         <Card
                             themeColor="fuchsia"
                             title="PIR"
-                            values={chartData(data_pir)}
+                            values={chartData(sanitizeChartData(data_pir)) as CardValueItem[]}
                             bestValue={1000}
                         />
                     )}

@@ -14,3 +14,11 @@ export interface SensorData {
     UltimoUpdate: string;
     created_at?: string;
 }
+
+export type CardValueItem = {
+    device_id: string;
+    sensor: string;
+    estado: number | boolean;
+    value?: number;
+    name?: string;
+};
