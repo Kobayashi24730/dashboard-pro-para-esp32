@@ -26,7 +26,7 @@ export default function useContextData() {
             setLastUpdate(new Date());
             setData(result);
 
-            return await response.json();
+            return result;
         } catch (error) {
             console.warn("Erro ao buscar dados:", error);
             setError("Falha ao carregar dados. Verifique sua conexão.");

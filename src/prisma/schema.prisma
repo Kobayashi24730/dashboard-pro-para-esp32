@@ -20,6 +20,8 @@ model SensorData {
   device_id  String
   sensor     String
   estado     Boolean
-  valor      Float?
+  timestamp  String
+  UltimoUpdate String
+  value      Float?
   createdAt  DateTime @default(now())
 }

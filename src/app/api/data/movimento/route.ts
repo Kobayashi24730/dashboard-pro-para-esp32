@@ -5,7 +5,7 @@ let ultimoEstado = {
     device_id: "ESP32_PIR_01",
     sensor: "PIR",
     estado: false,
-    valor: null
+    value: null
 }
 
 export async function POST(request: NextRequest){
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest){
             device_id: ultimoEstado.device_id,
             sensor: ultimoEstado.sensor,
             estado: Boolean(ultimoEstado.estado),
-            valor: Number(ultimoEstado.valor)
+            value: Number(ultimoEstado.value)
         }
     });
     return NextResponse.json({ success: true });
