@@ -1,10 +1,15 @@
 'use client';
 
+import { useState } from "react";
+import ModalOpen  from "@/components/ModalOpen";
+
 interface DateProps {
     values?: any[];
 }
 
 export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
+    const [isModalOpen, isSetModalOpen] = useState<true | false>(false);
+    const [currentValue, setCurrentValue] = useState({});
     return (
         <div className="w-full overflow-hidden rounded-lg border border-border bg-card">
             <table className="w-full border-collapse text-left text-sm">
@@ -67,12 +72,13 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                                 {value.UltimoUpdate}
                             </td>
                             <td className="px-5 py-3.5 text-right">
-                                <button className="px-3 py-1.5 rounded-md text-xs font-semibold bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                                <button onClick={() => {isSetModalOpen(true); setCurrentValue(value)}} className="px-3 py-1.5 rounded-md text-xs font-semibold bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
                                     Ver
                                 </button>
                             </td>
                         </tr>
                     ))}
+                    <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)} values={currentValue} bestValue={1000}/>
                     {values.length === 0 && (
                         <tr>
                             <td

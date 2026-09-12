@@ -22,3 +22,23 @@ export type CardValueItem = {
     value?: number;
     name?: string;
 };
+
+
+export type Status = "Normal" | "Warning" | "Critical";
+
+export type Theme = {
+  bgCard: string;
+  badgeBg: string;
+  badgeText: string;
+  strokeColor: string;
+  dotColor: string;
+  iconBg: string;
+  iconColor: string;
+};
+
+export interface DetalhesPirProps {
+    isOpen: boolean
+    onClose: () => void
+    values: any
+    bestValue?: number
+}

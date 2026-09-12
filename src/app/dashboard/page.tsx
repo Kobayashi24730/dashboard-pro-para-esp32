@@ -149,7 +149,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* ── Monitoring Modal ── */}
-                    <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)}/>
+                    <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)} values={data_pir} bestValue={1000}/>
 
                     {/* ── Recent Activity ── */}
                     <div className="space-y-4">

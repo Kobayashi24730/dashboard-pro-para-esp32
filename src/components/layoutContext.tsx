@@ -27,6 +27,7 @@ export default function LayoutContext() {
     useEffect(() => {
         getValues();
     }, []);
+
     const sanitizeChartData = (sensorList: any[]) => {
         return sensorList.map((item) => {
             let numericValue = 0;
@@ -52,13 +53,13 @@ export default function LayoutContext() {
         {
             key: "ultra",
             label: "Sensor ultrasonico HC",
-            value: `${data_ultrasonic.length > 0 ? (Number(data_ultrasonic[data_ultrasonic.length - 1].value)?.toFixed(1) ?? "0") : "0"}cm`,
+            value: `${data_ultrasonic.length > 0 ? (Number(data_ultrasonic[data_ultrasonic.length - 1]?.value)?.toFixed(1) ?? "0") : "0"}cm`,
             sub: "Leitura atual",
         },
         {
             key: "vibr",
             label: "vibração",
-            value: `${data_som.length > 0 ? (Number(data_som[data_som.length - 1].value)?.toFixed(1) ?? "0") : "0"}g`,
+            value: `${data_som.length > 0 ? (Number(data_som[data_som.length - 1]?.value)?.toFixed(1) ?? "0") : "0"}g`,
             sub: "Leitura atual",
         },
         {
