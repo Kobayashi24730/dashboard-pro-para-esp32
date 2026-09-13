@@ -9,38 +9,32 @@ import {
     Save,
     AlertCircle,
 } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
 
 const data = [
     {
         id: 1,
+        category: 'geral',
         name: "Geral",
         description: "Configurações gerais da sua conta",
         icon: "⚙️",
-        inputs: {
-            name: 'name',
-            email: 'email',
-            language: 'language',
-        },
+        inputs: ['name', 'email', 'language'],
     },
     {
         id: 2,
+        category: 'seguranca',
         name: "Segurança",
         description: "Gerencie a segurança da sua conta",
         icon: "🔒",
-        inputs: {
-            password: 'password',
-            confirm_password: 'confirm_password',
-        },
+        inputs: ['password', 'confirm_password'],
     },
     {
         id: 3,
+        category: 'notificacoes',
         name: "Notificações",
         description: "Controle suas preferências de notificações",
         icon: "🔔",
-        inputs: {
-            email_notifications: 'email_notifications',
-            push_notifications: 'push_notifications',
-        },
+        inputs: ['email_notifications', 'push_notifications'],
     },
 ];
 
@@ -55,24 +49,40 @@ const catIcons: Record<string, React.ElementType> = {
 
 export default function Settings() {
     const [selectCategory, setSelectCategory] = useState('geral');
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [idioma, setIdioma] = useState('pt-BR');
+    const [senha, setSenha] = useState('');
+    const [confirmSenha, setConfirmSenha] = useState('');
+    const [emailNotif, setEmailNotif] = useState(true);
+    const [pushNotif, setPushNotif] = useState(true);
+    const {
+        nome,
+        setNome,
+        email,
+        setEmail,
+        loading,
+        success,
+        handleSave
+    } = useProfile();
 
-    const filtered = data.filter((item) => {
-        const n = item.name.toLowerCase();
-        const d = item.description.toLowerCase();
-        const c = selectCategory.toLowerCase();
-        return n.includes(c) || d.includes(c);
-    });
+    const filtered = data.filter((item) => item.category === selectCategory);
+    const getInputValue = (key: string) => {
+        switch (key) {
+            case 'name': return nome;
+            case 'email': return email;
+            case 'language': return idioma;
+            case 'password': return senha;
+            case 'confirm_password': return confirmSenha;
+            default: return '';
+        }
+    };
 
-    const handleSave = async () => {
-        setLoading(true);
-        try {
-            await new Promise((r) => setTimeout(r, 1000));
-            setSuccess(true);
-            setTimeout(() => setSuccess(false), 3000);
-        } finally {
-            setLoading(false);
+    const handleInputChange = (key: string, value: string) => {
+        switch (key) {
+            case 'name': setNome(value); break;
+            case 'email': setEmail(value); break;
+            case 'language': setIdioma(value); break;
+            case 'password': setSenha(value); break;
+            case 'confirm_password': setConfirmSenha(value); break;
         }
     };
 
@@ -86,7 +96,7 @@ export default function Settings() {
                 </p>
             </div>
 
-            {/* Success */}
+            {/* Notification */}
             {success && (
                 <div className="flex items-center gap-2 p-3 rounded-md bg-success/10 border border-success/20 text-success text-xs animate-slide-down">
                     <AlertCircle className="w-4 h-4 flex-shrink-0" />
@@ -136,16 +146,22 @@ export default function Settings() {
 
                             {/* Fields */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {Object.keys(item.inputs).map((key) => (
+                                {item.inputs.map((key) => (
                                     <div key={key} className="space-y-1.5">
-                                        <label className="text-xs font-semibold text-foreground">
+                                        <label className="text-xs font-semibold text-foreground capitalize">
                                             {key.replace(/_/g, ' ')}
                                         </label>
+                                        
                                         {key.includes('notification') ? (
                                             <div className="flex items-center gap-2 p-3 rounded-md bg-muted/50 border border-border">
                                                 <input
                                                     type="checkbox"
                                                     id={`${item.id}-${key}`}
+                                                    checked={key === 'email_notifications' ? emailNotif : pushNotif}
+                                                    onChange={(e) => {
+                                                        if (key === 'email_notifications') setEmailNotif(e.target.checked);
+                                                        if (key === 'push_notifications') setPushNotif(e.target.checked);
+                                                    }}
                                                     className="w-4 h-4 rounded border-border bg-card text-primary focus:ring-primary cursor-pointer"
                                                 />
                                                 <label
@@ -164,6 +180,8 @@ export default function Settings() {
                                                           ? 'email'
                                                           : 'text'
                                                 }
+                                                value={getInputValue(key)}
+                                                onChange={(e) => handleInputChange(key, e.target.value)}
                                                 placeholder={`Digite seu ${key.replace(/_/g, ' ')}`}
                                                 className="w-full p-2.5 rounded-md border border-border bg-card text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:shadow-[0_0_0_1px_var(--color-primary)] transition-all"
                                             />
@@ -197,13 +215,11 @@ export default function Settings() {
                         </div>
                     ))
                 ) : (
-                    <div className="text-center py-10 fluent-card">
-                        <AlertCircle className="w-10 h-10 text-muted-foreground/50 mx-auto mb-2" />
-                        <p className="text-sm font-medium text-foreground">
-                            Nenhuma configuração encontrada
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Tente selecionar outra categoria
+                    <div className="fluent-card p-6 text-center space-y-3">
+                        <HelpCircle className="w-10 h-10 text-primary mx-auto" />
+                        <h3 className="text-subtitle">Precisa de suporte?</h3>
+                        <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                            Caso tenha dúvidas sobre como utilizar a plataforma ou precise de assistência técnica, consulte nossa documentação oficial.
                         </p>
                     </div>
                 )}
@@ -226,5 +242,5 @@ export default function Settings() {
                 </div>
             </div>
         </div>
-    );
+    );   
 }

@@ -6,14 +6,14 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
     try {
-        const { email, password } = await request.json();
+        const { email, password, nome } = await request.json();
         if (!email || !password) {
             return NextResponse.json({ message: "Campos obrigatórios ausentes" }, { status: 400 });
         }
         const hashPassword = await bcrypt.hash(password, 10);
-        const response = await prisma.user.create({
+        await prisma.user.create({
             data: {
-                nome: "Usuario",
+                nome: nome,
                 email: email,
                 password: hashPassword
             }
@@ -26,9 +26,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const { searchParams } = new URL(request.url);
-        const email = searchParams.get("email");
-        const password = searchParams.get("password");
+        const { email, password } = await request.json();
         if (!email || !password) {
             return NextResponse.json({ message: "Campos obrigatórios ausentes"}, { status: 400 });
         }
@@ -56,15 +54,29 @@ export async function PUT(request: Request) {
         if (!session?.user?.email) {
             return NextResponse.json({ message: "Usuário não autenticado" }, { status: 401 });
         }
-        const { name } = await request.json();
-        const data = await prisma.user.update({
+        const { nome, email } = await request.json();
+        if (email && email !== session.user.email) {
+            const emailExists = await prisma.user.findUnique({where: {email}});
+            if (emailExists) {
+                return NextResponse.json({ message: "E-mail ja cadastrado" }, { status: 400 });
+            }
+        }
+        const updatedUser = await prisma.user.update({
             where: {
                 email: session.user.email
             }, data: {
-                nome: name
+                nome: nome,
+                ...(email && {email})
+
             }
         });
-        return NextResponse.json({ message: "Usuário atualizado com sucesso!" }, { status: 200 });
+        return NextResponse.json({ 
+            message: "Usuário atualizado com sucesso!",
+            user: {
+                nome: updatedUser.nome,
+                email: updatedUser.email
+            }
+        }, { status: 200 });
     } catch (err) {
         console.error(err);
         return NextResponse.json({ message: "Erro ao atualizar usuário" }, { status: 500 });

@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, AlertCircle, Eye, EyeOff, User } from "lucide-react";
+import { normalizeMetadataPageToRoute } from "next/dist/lib/metadata/get-metadata-route";
 
 export default function Auth() {
     const [auth, setAuth] = useState<'login' | 'register'>('login');
     const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -36,13 +38,14 @@ export default function Auth() {
                 const response = await fetch('/api/user/settings', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ email, password, nome }),
                 });
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.message || 'Erro ao registrar usuário.');
 
                 await signIn('credentials', {
                     redirect: false,
+                    nome,
                     email,
                     password,
                 });
@@ -89,6 +92,27 @@ export default function Auth() {
 
                     {/* Form */}
                     <form className="space-y-4" onSubmit={handleSubmit}>
+                        {/* Nome */}
+                        {auth === 'register' && (
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-foreground">
+                                    Nome
+                                </label>
+                                <div className="relative group">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                                    <input
+                                        type="text"
+                                        placeholder="Informe seu Nome"
+                                        value={nome}
+                                        onChange={(e) => setNome(e.target.value)}
+                                        className="w-full rounded-md border border-border bg-card pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:shadow-[0_0_0_1px_var(--color-primary)] transition-all"
+                                        required
+                                        disabled={loading}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        
                         {/* Email */}
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-foreground">

@@ -78,7 +78,7 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                             </td>
                         </tr>
                     ))}
-                    <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)} values={currentValue} bestValue={1000}/>
+                    
                     {values.length === 0 && (
                         <tr>
                             <td
@@ -91,6 +91,8 @@ export default function MonitoramentoPIR({ values = [] }: DateProps = {}) {
                     )}
                 </tbody>
             </table>
+
+            <ModalOpen isOpen={isModalOpen} onClose={() => isSetModalOpen(false)} values={currentValue} bestValue={1000}/>
         </div>
     );
 }

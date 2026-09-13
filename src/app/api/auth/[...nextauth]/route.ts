@@ -49,10 +49,18 @@ export const authOptions: AuthOptions = {
   },
   session: { strategy: "jwt" },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session, }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.email = user.email;
+      }
+      if (trigger === "update" && session) {
+        const newName = session.name || session.nome || session.user?.name || session.user?.nome;
+        const newEmail = session.email || session.user?.email;
+
+        if (newName) token.name = newName;
+        if (newEmail) token.email = newEmail;
       }
       return token;
     },
