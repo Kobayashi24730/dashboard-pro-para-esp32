@@ -1,237 +1,220 @@
 # Dashboard Pro ESP32
 
-Plataforma web para monitoramento em tempo real de sensores conectados a microcontroladores ESP32. Desenvolvido como projeto da **NEX Academy**.
+Plataforma web em **Next.js 16 + React 19 + TypeScript** para monitoramento em tempo quase real de dispositivos **ESP32**. Recebe leituras de sensores via HTTP POST, armazena em **SQLite** (Prisma + `better-sqlite3`) e apresenta os dados em cartões e gráficos interativos (Recharts) sob uma interface inspirada no **Microsoft Fluent Design**.
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black)
-![React](https://img.shields.io/badge/React-19-61dafb)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06b6d4)
-![License](https://img.shields.io/badge/license-MIT-green)
+Projeto desenvolvido no âmbito da **NEX Academy** e implantado em [`dashboard-pro-para-esp32.onrender.com`](https://dashboard-pro-para-esp32.onrender.com).
+
+O firmware que alimenta este dashboard está no repositório complementar [`platformio-wokwi-cpp-esp32`](https://github.com/Kobayashi24730/platformio-wokwi-cpp-esp32).
 
 ---
 
-## Visao Geral
+## Sumário
 
-O Dashboard Pro ESP32 fornece uma interface web moderna para visualizar, rastrear e gerenciar dados de sensores de multiplos dispositivos ESP32 implantados em campo. A interface segue o **Microsoft Fluent Design System** com tema claro, tipografia Segoe UI e sombras elevadas.
-
-### Sensores Monitorados
-
-| Sensor | Device ID | Descricao |
-|--------|-----------|-----------|
-| Temperatura | `ESP32_TEMP_01` | Temperatura em graus Celsius (DHT11) |
-| Umidade | `ESP32_HUMID_01` | Umidade relativa em % (DHT11) |
-| Som | `ESP32_SOUND_01` | Nivel de ruido ambiente |
-| PIR (Movimento) | `ESP32_PIR_01` | Deteccao de movimento/intrusao |
-| Ultrassonico | `ESP32_ULTRA_01` | Medicao de distancia |
-| WiFi | `ESP32_WiFi_01` | Forca do sinal WiFi (dBm) |
-| Uptime | `ESP32_UPTIME_01` | Tempo de atividade do dispositivo |
-| Memoria | `ESP32_memori_01` | Memoria livre no dispositivo |
-| Tempo de Resposta | `ESP32_TepResposta_01` | Latencia da API |
+- [Visão geral](#visão-geral)
+- [Stack](#stack)
+- [Arquitetura](#arquitetura)
+- [Sensores suportados](#sensores-suportados)
+- [Endpoint da API](#endpoint-da-api)
+- [Como rodar localmente](#como-rodar-localmente)
+- [Scripts do npm](#scripts-do-npm)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Deploy](#deploy)
+- [Contribuindo](#contribuindo)
+- [Licença](#licença)
 
 ---
 
-## Tech Stack
+## Visão geral
 
-| Camada | Tecnologia |
-|--------|------------|
-| Framework | Next.js 16 (App Router) |
-| Linguagem | TypeScript 5 |
-| UI | React 19 |
-| Estilizacao | Tailwind CSS v4 + Microsoft Fluent Design System |
-| Componentes | shadcn/ui v4 (Radix UI) |
-| Graficos | Recharts 3 (Area charts) |
-| Autenticacao | NextAuth v4 (credentials, JWT, bcrypt) |
-| Banco de dados | SQLite via `better-sqlite3` |
-| Icones | Lucide React |
-| Toast | Sonner |
-| Fontes | Segoe UI Variable / Geist |
-| Deploy | Render (`dashboard-pro-para-esp32.onrender.com`) |
+- **Landing page** (`/`) com apresentação do produto.
+- **Dashboard** (`/dashboard`) com cartões por sensor e gráficos Recharts.
+- **Contas** (`/account/*`) com registro, login e perfil (NextAuth v4 + JWT + bcrypt).
+- **API** (`/api/*`) para ingestão de leituras e autenticação.
+- **Central de Ajuda** (`/help`) com FAQ pesquisável.
 
 ---
 
-## Estrutura do Projeto
+## Stack
 
-```
-dashboard-pro-para-esp32/
-├── src/
-│   ├── app/                          # Paginas e rotas (Next.js App Router)
-│   │   ├── page.tsx                  # Landing page
-│   │   ├── layout.tsx                # Layout root
-│   │   ├── globals.css               # Design system (Tailwind v4 + Fluent)
-│   │   ├── dashboard/
-│   │   │   └── page.tsx              # Dashboard principal
-│   │   ├── account/
-│   │   │   ├── login/page.tsx        # Login / Registro
-│   │   │   ├── profile/page.tsx      # Perfil do usuario
-│   │   │   └── settings/page.tsx     # Configuracoes
-│   │   ├── help/
-│   │   │   └── page.tsx              # Central de ajuda / FAQ
-│   │   └── api/
-│   │       ├── auth/[...nextauth]/   # NextAuth (sessao/JWT)
-│   │       ├── data/movimento/       # API de sensores (GET/POST)
-│   │       └── register/             # Registro de usuarios
-│   ├── backend/
-│   │   ├── components/
-│   │   │   ├── DashboardShell.tsx    # Shell (header + sidebar)
-│   │   │   ├── Headers.tsx           # Sidebar
-│   │   │   ├── Card.tsx              # Card de sensor com grafico
-│   │   │   ├── MonitoramnetoPIR.tsx  # Tabela de eventos PIR
-│   │   │   ├── notifications.tsx     # Painel de notificacoes
-│   │   │   ├── AuthProvider.tsx      # SessionProvider (NextAuth)
-│   │   │   └── ui/                   # Componentes shadcn
-│   │   └── data/
-│   │       ├── useTextValues.ts      # Hook de busca de dados
-│   │       └── dados.json            # Dados de fallback
-│   └── lib/
-│       └── utils.ts                  # Utility cn()
-├── tailwind.config.ts
-└── package.json
-```
-
----
-
-## Rotas da Aplicacao
-
-| Rota | Descricao |
-|------|-----------|
-| `/` | Landing page com CTAs para Dashboard e Login |
-| `/dashboard` | Dashboard principal com KPIs, graficos e tabela PIR |
-| `/account/login` | Formulario de login/registro |
-| `/account/profile` | Gerenciamento de perfil do usuario |
-| `/account/settings` | Configuracoes (Geral, Seguranca, Notificacoes) |
-| `/help` | Central de ajuda com FAQ pesquisavel |
-
----
-
-## Endpoints da API
-
-| Metodo | Endpoint | Descricao |
-|--------|----------|-----------|
-| `GET` | `/api/data/movimento` | Retorna ultimas 50 leituras de sensores |
-| `POST` | `/api/data/movimento` | Insere nova leitura `{ device_id, sensor, estado, valor }` |
-| `POST` | `/api/register` | Registra usuario `{ email, password }` |
-| `GET/POST` | `/api/auth/[...nextauth]` | Sessao NextAuth |
-
-### Esquema do Banco de Dados
-
-```sql
-CREATE TABLE sensor_data (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    device_id TEXT NOT NULL,
-    sensor TEXT NOT NULL,
-    estado INTEGER NOT NULL,
-    valor REAL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
----
-
-## Como Executar
-
-### Pre-requisitos
-
-- Node.js 18+
-- npm, yarn ou pnpm
-
-### Instalacao
-
-```bash
-# Clone o repositorio
-git clone https://github.com/Kobayashi24730/dashboard-pro-para-esp32.git
-cd dashboard-pro-para-esp32/src
-
-# Instale as dependencias
-npm install
-
-# Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-Acesse [http://localhost:3000](http://localhost:3000).
-
-### Build para Producao
-
-```bash
-npm run build
-npm start
-```
-
-### Scripts Disponiveis
-
-| Script | Comando |
-|--------|---------|
-| `npm run dev` | Servidor de desenvolvimento |
-| `npm run build` | Build de producao |
-| `npm start` | Servidor de producao |
-| `npm run lint` | ESLint |
-
----
-
-## Design System
-
-O projeto utiliza **Microsoft Fluent Design System** como base visual:
-
-- **Cores primarias**: Azul Microsoft `#0078d4`, Branco `#ffffff`, Cinza `#fafafa`
-- **Status**: Sucesso `#107c10`, Alerta `#ffb900`, Erro `#d13438`
-- **Tipografia**: Segoe UI Variable, pesos 400/600
-- **Sombras**: 3 niveis de elevacao (elevation1, elevation2, elevation4)
-- **Componentes**: Cards com bordas sutis, hover com reveal effect, inputs com focus ring
-- **Todos os tokens** definidos via `@theme inline` no `globals.css` (Tailwind v4)
+| Camada        | Tecnologia                                                   |
+|---------------|--------------------------------------------------------------|
+| Framework     | Next.js 16 (App Router)                                      |
+| UI            | React 19, TypeScript 5                                       |
+| Estilo        | Tailwind CSS v4, tokens Fluent Design, `tw-animate-css`      |
+| Componentes   | shadcn/ui v4 sobre Radix UI                                  |
+| Ícones        | lucide-react                                                 |
+| Gráficos      | Recharts 3                                                   |
+| Auth          | NextAuth v4, `bcryptjs`, JWT                                 |
+| Banco         | SQLite via `better-sqlite3`, Prisma 6                        |
+| Realtime      | `socket.io` / `ws` (preparado para push futuro)              |
+| Toasts        | Sonner                                                       |
+| Deploy        | Render                                                       |
 
 ---
 
 ## Arquitetura
 
 ```
-┌─────────────────────┐
-│  Dispositivos ESP32  │ ── HTTP POST ──┐
-└─────────────────────┘                  │
-                                         v
-                              ┌──────────────────────┐
-                              │  API Remota (Render)  │
-                              │  /api/data/movimento  │
-                              │  SQLite + better-sqlite3│
-                              └──────────┬───────────┘
-                                         │ fetch (via rewrite)
-                                         v
-                              ┌──────────────────────┐
-                              │  Next.js Frontend    │
-                              │  DashboardShell      │
-                              │  ├─ Sidebar          │
-                              │  ├─ Header           │
-                              │  └─ Pages            │
-                              └──────────────────────┘
++-------------------+       HTTPS POST        +--------------------------+
+|  ESP32 (Wokwi ou  | ----------------------> |  Next.js API             |
+|  hardware real)   |    JSON de leitura      |  /api/data/movimento     |
++-------------------+                         +-----------+--------------+
+                                                          |
+                                                          v
+                                              +--------------------------+
+                                              |  Prisma + SQLite         |
+                                              |  identifier.sqlite       |
+                                              +-----------+--------------+
+                                                          |
+                                                          v
+                                              +--------------------------+
+                                              |  Next.js UI (React 19)   |
+                                              |  Recharts + Fluent UI    |
+                                              +--------------------------+
+```
+
+---
+
+## Sensores suportados
+
+Os `device_id` e `sensor` abaixo seguem exatamente o firmware de referência. Cada combinação única é tratada como uma série independente.
+
+| `device_id`             | `sensor`     | `value`                       |
+|-------------------------|--------------|-------------------------------|
+| `ESP32_WiFi_01`         | `WiFi`       | RSSI em dBm                   |
+| `ESP32_UPTIME_01`       | `UPTIME`     | Segundos desde o boot         |
+| `ESP32_memori_01`       | `memori`     | Heap livre em bytes           |
+| `ESP32_PIR_01`          | `PIR`        | `1.0` / `0.0` (evento)        |
+| `ESP32_SOUND_01`        | `SOUND`      | Leitura ADC bruta (0–4095)    |
+| `ESP32_ULTRASONIC_01`   | `ULTRASONIC` | Distância em cm               |
+| `ESP32_TEMP_01`         | `DHT22`      | Temperatura em °C             |
+| `ESP32_HUMID_01`        | `HUMIDITY`   | Umidade relativa em %         |
+
+---
+
+## Endpoint da API
+
+**`POST /api/data/movimento`**
+
+Cabeçalho: `Content-Type: application/json`
+
+```json
+{
+  "device_id": "ESP32_PIR_01",
+  "sensor": "PIR",
+  "estado": true,
+  "value": 1.00,
+  "timestamp": "2026-09-13T20:00:00.000Z"
+}
+```
+
+Respostas: `200 OK` / `201 Created` em sucesso. Erros retornam status HTTP apropriado com mensagem JSON.
+
+---
+
+## Como rodar localmente
+
+### Pré-requisitos
+
+- Node.js 20+
+- npm 10+
+
+### Passos
+
+```bash
+git clone https://github.com/Kobayashi24730/dashboard-pro-para-esp32.git
+cd dashboard-pro-para-esp32/src
+
+npm install
+npx prisma generate
+npm run dev
+```
+
+Acesse [http://localhost:3000](http://localhost:3000). O banco local `identifier.sqlite` já vem no repositório e é usado por padrão.
+
+Para simular um POST manualmente:
+
+```bash
+curl -X POST http://localhost:3000/api/data/movimento \
+  -H "Content-Type: application/json" \
+  -d '{
+        "device_id":"ESP32_TEMP_01",
+        "sensor":"DHT22",
+        "estado":true,
+        "value":23.45,
+        "timestamp":"2026-09-13T20:00:00.000Z"
+      }'
+```
+
+---
+
+## Scripts do npm
+
+Definidos em `src/package.json`:
+
+| Comando         | O que faz                                     |
+|-----------------|-----------------------------------------------|
+| `npm run dev`   | Sobe o Next em modo desenvolvimento           |
+| `npm run build` | Executa `prisma generate` e faz o build       |
+| `npm start`     | Roda o build de produção                      |
+| `npm run lint`  | Executa o ESLint                              |
+
+---
+
+## Estrutura do projeto
+
+```
+.
+├── prisma/                    # schema.prisma e migrações
+├── src/
+│   ├── app/
+│   │   ├── account/           # login, registro, perfil
+│   │   ├── api/               # rotas API (auth, ingestão de dados)
+│   │   ├── dashboard/         # painel principal
+│   │   ├── help/              # FAQ pesquisável
+│   │   ├── layout.tsx
+│   │   ├── page.tsx           # landing page
+│   │   └── globals.css
+│   ├── components/            # DashboardShell, cartões de sensor, etc.
+│   ├── hooks/
+│   ├── lib/
+│   ├── public/
+│   ├── types/
+│   └── package.json
+├── identifier.sqlite          # banco SQLite local
+├── tailwind.config.ts
+├── LICENSE
+└── README.md
 ```
 
 ---
 
 ## Deploy
 
-O projeto esta configurado para deploy na **Render**:
+O projeto está hospedado no **Render** em [`dashboard-pro-para-esp32.onrender.com`](https://dashboard-pro-para-esp32.onrender.com). O build de produção é acionado pelo `npm run build` (que já gera o Prisma Client) e servido por `npm start`. Rewrites do Next.js roteiam chamadas `/api/*` para os handlers do App Router.
 
-- **Frontend/API**: `https://dashboard-pro-para-esp32.onrender.com`
-- O `next.config.ts` faz rewrite de `/api/data/movimento` para o servidor de producao
+Para replicar o deploy:
 
----
+1. Conecte o fork ao Render como *Web Service*.
+2. Build Command: `npm install && npm run build`
+3. Start Command: `npm start`
+4. Root directory: `src/`
 
-## Variaveis de Ambiente
-
-```env
-NEXTAUTH_SECRET=seu-secret-aqui
-NEXTAUTH_URL=http://localhost:3000
-```
+> Para produção real, considere trocar o SQLite por um banco gerenciado (Postgres/PlanetScale) — o Render descarta o filesystem entre deploys.
 
 ---
 
-## Autor
+## Contribuindo
 
-**Kobayashi24730** — [GitHub](https://github.com/Kobayashi24730)
+1. Faça um fork.
+2. Crie uma branch (`git checkout -b feat/minha-feature`).
+3. Commit (`git commit -m "feat: descrição curta"`).
+4. Push e abra um Pull Request.
 
-Projeto desenvolvido como parte da **NEX Academy**.
+Bugs e sugestões vão em [Issues](https://github.com/Kobayashi24730/dashboard-pro-para-esp32/issues).
 
 ---
 
-## Licenca
+## Licença
 
-MIT
+Distribuído sob a licença **MIT**. Veja o arquivo [`LICENSE`](./LICENSE) para o texto completo.
